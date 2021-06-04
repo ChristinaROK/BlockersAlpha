@@ -8,18 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */; };
-		74E63AAC26692A39008ABB40 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AAB26692A39008ABB40 /* ContentView.swift */; };
+		74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AAB26692A39008ABB40 /* UIMain.swift */; };
 		74E63AAE26692A3B008ABB40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74E63AAD26692A3B008ABB40 /* Assets.xcassets */; };
 		74E63AB126692A3B008ABB40 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74E63AB026692A3B008ABB40 /* Preview Assets.xcassets */; };
+		74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63ABE26693220008ABB40 /* ModelBlocker.swift */; };
+		74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AC2266936AB008ABB40 /* UIDetail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		74E63AA626692A39008ABB40 /* BlockersAlphaNoData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockersAlphaNoData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockersAlphaNoDataApp.swift; sourceTree = "<group>"; };
-		74E63AAB26692A39008ABB40 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		74E63AAB26692A39008ABB40 /* UIMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMain.swift; sourceTree = "<group>"; };
 		74E63AAD26692A3B008ABB40 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74E63AB026692A3B008ABB40 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		74E63AB226692A3B008ABB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		74E63ABE26693220008ABB40 /* ModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBlocker.swift; sourceTree = "<group>"; };
+		74E63AC2266936AB008ABB40 /* UIDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDetail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +57,9 @@
 			isa = PBXGroup;
 			children = (
 				74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */,
-				74E63AAB26692A39008ABB40 /* ContentView.swift */,
+				74E63AAB26692A39008ABB40 /* UIMain.swift */,
+				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
+				74E63ABE26693220008ABB40 /* ModelBlocker.swift */,
 				74E63AAD26692A3B008ABB40 /* Assets.xcassets */,
 				74E63AB226692A3B008ABB40 /* Info.plist */,
 				74E63AAF26692A3B008ABB40 /* Preview Content */,
@@ -138,7 +144,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74E63AAC26692A39008ABB40 /* ContentView.swift in Sources */,
+				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
+				74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */,
+				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,
 				74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,7 @@ import SwiftUI
 struct BlockersAlphaNoDataApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            UIMain()
         }
     }
 }
