@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74E3E5BD266B59A500BF4DDE /* UIAddBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UIAddBlocker.swift */; };
+		74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */; };
+		74E3E5D7266B74AB00BF4DDE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5D6266B74AB00BF4DDE /* Utils.swift */; };
 		74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */; };
 		74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AAB26692A39008ABB40 /* UIMain.swift */; };
 		74E63AAE26692A3B008ABB40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74E63AAD26692A3B008ABB40 /* Assets.xcassets */; };
@@ -16,6 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		74E3E5BC266B59A500BF4DDE /* UIAddBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAddBlocker.swift; sourceTree = "<group>"; };
+		74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeposit.swift; sourceTree = "<group>"; };
+		74E3E5D6266B74AB00BF4DDE /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		74E63AA626692A39008ABB40 /* BlockersAlphaNoData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockersAlphaNoData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockersAlphaNoDataApp.swift; sourceTree = "<group>"; };
 		74E63AAB26692A39008ABB40 /* UIMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMain.swift; sourceTree = "<group>"; };
@@ -58,7 +64,10 @@
 			children = (
 				74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */,
 				74E63AAB26692A39008ABB40 /* UIMain.swift */,
+				74E3E5D6266B74AB00BF4DDE /* Utils.swift */,
 				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
+				74E3E5BC266B59A500BF4DDE /* UIAddBlocker.swift */,
+				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
 				74E63ABE26693220008ABB40 /* ModelBlocker.swift */,
 				74E63AAD26692A3B008ABB40 /* Assets.xcassets */,
 				74E63AB226692A3B008ABB40 /* Info.plist */,
@@ -144,8 +153,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */,
 				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
 				74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */,
+				74E3E5D7266B74AB00BF4DDE /* Utils.swift in Sources */,
+				74E3E5BD266B59A500BF4DDE /* UIAddBlocker.swift in Sources */,
 				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,
 				74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */,
 			);
