@@ -35,51 +35,55 @@ struct UIMain: View {
             
             NavigationView{
                 VStack{
-                    // TODO: List와 NavigationLink 사이의 공간을 없애고 동일한 ui로 만들기
-                    List(blockers, id: \.id) { blocker in
-                        NavigationLink(
-                            destination: UIDetail(blocker: blocker),
-                            label: {
-                                BlockerIndividual(blocker: blocker)
+                    //TODO: List와 NavigationLink 사이의 공간을 없애고 동일한 ui로 만들기위해서는 아래 navigationlink가 위의 list로 들어와야 함
+                    Form {
+                        Section {
+                            List(blockers, id: \.id) { blocker in
+                                NavigationLink(
+                                    destination: UIDetail(blocker: blocker),
+                                    label: {
+                                        BlockerIndividual(blocker: blocker)
+                                    }
+                                )
                             }
-                        )
+                            
+                            NavigationLink(
+                                destination: UIAddBlocker(),
+                                label: {
+                                    CustomSFImage(imageName: "person.fill.badge.plus",
+                                                  width: 50,
+                                                  height: 50,
+                                                  corner: 0)
+                                        .padding(.leading, 120)
+                                }
+                            )
+                        }
                     }
                     
                     NavigationLink(
-                        destination: UIAddBlocker(),
+                        destination: UIDeposit(),
                         label: {
-                            CustomSFImage(imageName: "person.fill.badge.plus",
-                                          width: 80,
-                                          height: 80,
-                                          corner: 0)
+                            CustomSFImage(imageName: "dollarsign.square.fill",
+                                          width: 90,
+                                          height: 70,
+                                          corner: 5)
                         }
                     )
                 }
             }
             
-            HStack(spacing:20) {
-                // TODO: NavigationLink를 중간으로, Image를 가장 오른쪽으로 정렬
-                
-                NavigationLink(
-                    destination: UIDeposit(),
-                    label: {
-                        CustomSFImage(imageName: "dollarsign.square.fill",
-                                      width: 50,
-                                      height: 50,
-                                      corner: 0)
-                    }
-                )
-                
+            HStack {
                 CustomSFImage(imageName: "gearshape.fill",
                               width: 30,
                               height: 30,
                               corner: 0)
+                    .padding(.leading, 300)
             }
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct UIMain_Previews: PreviewProvider {
     static var previews: some View {
         UIMain()
     }
@@ -90,7 +94,7 @@ struct BlockerIndividual: View {
     var blocker : Blocker
     
     var body: some View {
-        HStack (spacing: 30) {
+        HStack (spacing: 20) {
             CustomAssetsImage(imageName: blocker.image,
                               width: 100,
                               height: 80,

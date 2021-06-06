@@ -27,5 +27,11 @@ struct BlockerList {
                 image: "shop-blocker",
                 dDay: "d-14",
                 balance: 50000)
+        
+//        Blocker(name: "?",
+//                image: "add-blocker",
+//                dDay: "?",
+//                balance: 0),
+
     ]
 }

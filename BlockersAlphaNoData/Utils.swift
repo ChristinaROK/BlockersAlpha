@@ -4,6 +4,7 @@
 //
 //  Created by ssj on 2021/06/05.
 //
+// Collection of customized structs which contains more than 2 modifiers
 
 import SwiftUI
 
@@ -62,3 +63,5 @@ struct Utils_Previews: PreviewProvider {
         CustomText(text: "Today", size: 20, weight: .bold, design: .serif, color: .black)
     }
 }
+
+
