@@ -13,29 +13,9 @@ struct UIMain: View {
     var blockers: [Blocker] = BlockerList.mainBlockerList
     
     var body: some View {
-        VStack {
-            HStack(spacing: 200) {
-                HStack{
-                    CustomText(text: "Today",
-                               size: 20,
-                               weight: .bold,
-                               design: .serif,
-                               color: .black)
-                    
-                    Toggle("today", isOn: $istoday)
-                        .labelsHidden()
-                }
-                
-                
-                CustomSFImage(imageName: "person.fill",
-                              width: 40,
-                              height: 50,
-                              corner: 0)
-            }
-            
-            NavigationView{
+        NavigationView {
+            VStack {
                 VStack{
-                    //TODO: List와 NavigationLink 사이의 공간을 없애고 동일한 ui로 만들기위해서는 아래 navigationlink가 위의 list로 들어와야 함
                     Form {
                         Section {
                             List(blockers, id: \.id) { blocker in
@@ -65,21 +45,44 @@ struct UIMain: View {
                         label: {
                             CustomSFImage(imageName: "dollarsign.square.fill",
                                           width: 90,
-                                          height: 70,
+                                          height: 50,
                                           corner: 5)
                         }
                     )
                 }
+                .offset(x: 0, y: -60)
+                
+                HStack {
+                    CustomSFImage(imageName: "gearshape.fill",
+                                  width: 30,
+                                  height: 30,
+                                  corner: 0)
+                        .padding(.leading, 300)
+                }
             }
-            
-            HStack {
-                CustomSFImage(imageName: "gearshape.fill",
-                              width: 30,
-                              height: 30,
-                              corner: 0)
-                    .padding(.leading, 300)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    HStack(spacing: 200) {
+                        HStack{
+                            CustomText(text: "Today",
+                                       size: 20,
+                                       weight: .bold,
+                                       design: .serif,
+                                       color: .black)
+                            
+                            Toggle("today", isOn: $istoday)
+                                .labelsHidden()
+                        }
+                        
+                        CustomSFImage(imageName: "person.fill",
+                                      width: 40,
+                                      height: 50,
+                                      corner: 0)
+                    }
+                }
             }
         }
+        .accentColor(Color(.label))
     }
 }
 
