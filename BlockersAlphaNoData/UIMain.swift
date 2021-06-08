@@ -40,6 +40,7 @@ struct UIMain: View {
                         }
                     }
                     
+                    // TODO : change to floating button
                     NavigationLink(
                         destination: UIDeposit(),
                         label: {
