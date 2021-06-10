@@ -15,75 +15,98 @@ struct UIMain: View {
     var body: some View {
         NavigationView {
             VStack {
-                VStack{
-                    Form {
-                        Section {
-                            List(blockers, id: \.id) { blocker in
+                ZStack {
+                    VStack{
+                        Form {
+                            Section {
+                                List(blockers, id: \.id) { blocker in
+                                    NavigationLink(
+                                        destination: UIDetail(blocker: blocker),
+                                        label: {
+                                            BlockerIndividual(blocker: blocker)
+                                        }
+                                    )
+                                }
+                                
                                 NavigationLink(
-                                    destination: UIDetail(blocker: blocker),
+                                    destination: UIAddBlocker(),
                                     label: {
-                                        BlockerIndividual(blocker: blocker)
+                                        CustomSFImage(imageName: "person.fill.badge.plus",
+                                                      width: 50,
+                                                      height: 50,
+                                                      corner: 0)
+                                            .padding(.leading, 120)
                                     }
                                 )
                             }
-                            
-                            NavigationLink(
-                                destination: UIAddBlocker(),
-                                label: {
-                                    CustomSFImage(imageName: "person.fill.badge.plus",
-                                                  width: 50,
-                                                  height: 50,
-                                                  corner: 0)
-                                        .padding(.leading, 120)
-                                }
-                            )
                         }
+                        // OLD VERSION
+                        //                    NavigationLink(
+                        //                        destination: UIDeposit(),
+                        //                        label: {
+                        //                            CustomSFImage(imageName: "dollarsign.square.fill",
+                        //                                          width: 90,
+                        //                                          height: 50,
+                        //                                          corner: 5)
+                        //                        }
+                        //                    )
                     }
+                    .offset(x: 0, y: 10)
                     
-                    // TODO : change to floating button
-                    NavigationLink(
-                        destination: UIDeposit(),
-                        label: {
-                            CustomSFImage(imageName: "dollarsign.square.fill",
-                                          width: 90,
-                                          height: 50,
-                                          corner: 5)
-                        }
-                    )
-                }
-                .offset(x: 0, y: -60)
-                
-                HStack {
-                    CustomSFImage(imageName: "gearshape.fill",
-                                  width: 30,
-                                  height: 30,
-                                  corner: 0)
-                        .padding(.leading, 300)
-                }
-            }
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    HStack(spacing: 200) {
-                        HStack{
-                            CustomText(text: "Today",
-                                       size: 20,
-                                       weight: .bold,
-                                       design: .serif,
-                                       color: .black)
-                            
-                            Toggle("today", isOn: $istoday)
-                                .labelsHidden()
-                        }
+                    
+                    VStack {
+                        Spacer()
                         
-                        CustomSFImage(imageName: "person.fill",
-                                      width: 40,
-                                      height: 50,
+                        CustomSFImage(imageName: "gearshape.fill",
+                                      width: 30,
+                                      height: 30,
                                       corner: 0)
+                            .padding(.leading, 300)
+                    }
+                }
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarLeading) {
+                        HStack(spacing: 200) {
+                            HStack{
+                                CustomText(text: "Today",
+                                           size: 20,
+                                           weight: .bold,
+                                           design: .serif,
+                                           color: .black)
+                                
+                                Toggle("today", isOn: $istoday)
+                                    .labelsHidden()
+                            }
+                            
+                            CustomSFImage(imageName: "person.fill",
+                                          width: 40,
+                                          height: 50,
+                                          corner: 0)
+                        }
+                    }
+                }
+                
+                VStack {
+                    Spacer()
+                    HStack {
+                        NavigationLink(
+                            destination: UIDeposit(),
+                            label: {
+                                CustomSFImage(imageName: "dollarsign.square.fill",
+                                              width: 90,
+                                              height: 50,
+                                              corner: 5)
+                            }
+                        )
+                        .background(Color.blue)
+                        .cornerRadius(38.5)
+                        .padding()
+                        .shadow(color: Color.black, radius: 3, x: 3, y: 3)
                     }
                 }
             }
+            .accentColor(Color(.label))
         }
-        .accentColor(Color(.label))
     }
 }
 
