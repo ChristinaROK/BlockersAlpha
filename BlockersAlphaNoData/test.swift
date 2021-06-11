@@ -82,9 +82,9 @@ struct SheetView: View {
         Button("Press to dismiss") {
             presentationMode.wrappedValue.dismiss()
         }
-        .font(.title)
-        .padding()
-        .background(Color.black)
+//        .font(.title)
+//        .padding()
+//        .background(Color.black)
     }
 }
 
@@ -104,8 +104,8 @@ struct SheetContentView: View {
 
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-        //ContentView()
+        ContentView()
         //PaddingTest()
-        SheetContentView()
+//        SheetContentView()
     }
 }

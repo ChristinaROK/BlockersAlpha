@@ -14,56 +14,7 @@ struct UIMain: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                ZStack {
-                    VStack{
-                        Form {
-                            Section {
-                                List(blockers, id: \.id) { blocker in
-                                    NavigationLink(
-                                        destination: UIDetail(blocker: blocker),
-                                        label: {
-                                            BlockerIndividual(blocker: blocker)
-                                        }
-                                    )
-                                }
-                                
-                                NavigationLink(
-                                    destination: UIAddBlocker(),
-                                    label: {
-                                        CustomSFImage(imageName: "person.fill.badge.plus",
-                                                      width: 50,
-                                                      height: 50,
-                                                      corner: 0)
-                                            .padding(.leading, 120)
-                                    }
-                                )
-                            }
-                        }
-                        // OLD VERSION
-                        //                    NavigationLink(
-                        //                        destination: UIDeposit(),
-                        //                        label: {
-                        //                            CustomSFImage(imageName: "dollarsign.square.fill",
-                        //                                          width: 90,
-                        //                                          height: 50,
-                        //                                          corner: 5)
-                        //                        }
-                        //                    )
-                    }
-                    .offset(x: 0, y: 10)
-                    
-                    
-                    VStack {
-                        Spacer()
-                        
-                        CustomSFImage(imageName: "gearshape.fill",
-                                      width: 30,
-                                      height: 30,
-                                      corner: 0)
-                            .padding(.leading, 300)
-                    }
-                }
+            ChildView(istoday: $istoday, blockers: blockers)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         HStack(spacing: 200) {
@@ -85,34 +36,80 @@ struct UIMain: View {
                         }
                     }
                 }
-                
-                VStack {
-                    Spacer()
-                    HStack {
-                        NavigationLink(
-                            destination: UIDeposit(),
-                            label: {
-                                CustomSFImage(imageName: "dollarsign.square.fill",
-                                              width: 90,
-                                              height: 50,
-                                              corner: 5)
-                            }
-                        )
-                        .background(Color.blue)
-                        .cornerRadius(38.5)
-                        .padding()
-                        .shadow(color: Color.black, radius: 3, x: 3, y: 3)
-                    }
-                }
-            }
-            .accentColor(Color(.label))
         }
     }
 }
 
-struct UIMain_Previews: PreviewProvider {
-    static var previews: some View {
-        UIMain()
+struct ChildView: View {
+    
+    @Binding var istoday : Bool
+    var blockers : [Blocker]
+    
+    var body: some View {
+        VStack {
+            ZStack {
+                VStack{
+                    Form {
+                        Section {
+                            List(blockers, id: \.id) { blocker in
+                                NavigationLink(
+                                    destination: UIDetail(blocker: blocker),
+                                    label: {
+                                        BlockerIndividual(blocker: blocker)
+                                    }
+                                )
+                            }
+                            
+                            NavigationLink(
+                                destination: UIAddBlocker(),
+                                label: {
+                                    CustomSFImage(imageName: "person.fill.badge.plus",
+                                                  width: 50,
+                                                  height: 50,
+                                                  corner: 0)
+                                        .padding(.leading, 120)
+                                }
+                            )
+                        }
+                    }
+                }
+                .offset(x: 0, y: 10)
+                
+                // TODO: 환경 설정을 화면 맨 아래로 옮기기
+                VStack {
+                    Spacer()
+                    
+                    CustomSFImage(imageName: "gearshape.fill",
+                                  width: 30,
+                                  height: 30,
+                                  corner: 0)
+                        .padding(.leading, 300)
+                }
+            }
+//            .background(Color.orange.edgesIgnoringSafeArea(.all)) // background color1
+            
+            VStack {
+                Spacer()
+                HStack {
+                    NavigationLink(
+                        destination: UIDeposit(),
+                        label: {
+                            CustomSFImage(imageName: "dollarsign.square.fill",
+                                          width: 90,
+                                          height: 50,
+                                          corner: 5)
+                        }
+                    )
+                    .cornerRadius(38.5)
+                    .padding()
+                    .shadow(color: Color.black, radius: 3, x: 3, y: 3)
+                }
+            }
+        }
+        .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.green]),
+                                   startPoint: .topTrailing,
+                                           endPoint: .bottomLeading)) // background color2
+        .accentColor(Color(.label))
     }
 }
 
@@ -146,5 +143,11 @@ struct BlockerIndividual: View {
                        design: .serif,
                        color: .black)
         }
+    }
+}
+
+struct UIMain_Previews: PreviewProvider {
+    static var previews: some View {
+        UIMain()
     }
 }
