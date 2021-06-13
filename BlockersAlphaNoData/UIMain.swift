@@ -10,6 +10,7 @@ import SwiftUI
 struct UIMain: View {
     
     @State private var istoday = false
+    @State private var showingDetailSheet = false
     var blockers: [Blocker] = BlockerList.mainBlockerList
     
     var body: some View {
@@ -29,10 +30,16 @@ struct UIMain: View {
                                     .labelsHidden()
                             }
                             
-                            CustomSFImage(imageName: "person.fill",
-                                          width: 40,
-                                          height: 50,
-                                          corner: 0)
+                            Button {
+                                showingDetailSheet.toggle()
+                            } label: {
+                                CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
+                                    .padding(.trailing, 20)
+                            }
+                            .sheet(isPresented: $showingDetailSheet, content: {
+                                UILevel()
+                                }
+                            )
                         }
                     }
                 }
