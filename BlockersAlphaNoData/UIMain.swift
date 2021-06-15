@@ -11,11 +11,13 @@ struct UIMain: View {
     
     @State private var istoday = false
     @State private var showingDetailSheet = false
+    @State private var showingConfigSheet = false
+    
     var blockers: [Blocker] = BlockerList.mainBlockerList
     
     var body: some View {
         NavigationView {
-            ChildView(istoday: $istoday, blockers: blockers)
+            ChildView(istoday: $istoday, showingConfigSheet: $showingConfigSheet, blockers: blockers)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         HStack(spacing: 200) {
@@ -50,6 +52,7 @@ struct UIMain: View {
 struct ChildView: View {
     
     @Binding var istoday : Bool
+    @Binding var showingConfigSheet: Bool
     var blockers : [Blocker]
     
     var body: some View {
@@ -86,11 +89,19 @@ struct ChildView: View {
                 VStack {
                     Spacer()
                     
-                    CustomSFImage(imageName: "gearshape.fill",
-                                  width: 30,
-                                  height: 30,
-                                  corner: 0)
-                        .padding(.leading, 300)
+                    Button{
+                        showingConfigSheet.toggle()
+                    } label: {
+                        CustomSFImage(imageName: "gearshape.fill",
+                                      width: 30,
+                                      height: 30,
+                                      corner: 0)
+                            .padding(.leading, 300)
+                    }
+                    .sheet(isPresented: $showingConfigSheet, content: {
+                        UILevel()
+                    })
+
                 }
             }
 //            .background(Color.orange.edgesIgnoringSafeArea(.all)) // background color1
