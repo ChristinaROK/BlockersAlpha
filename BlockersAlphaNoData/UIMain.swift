@@ -40,7 +40,7 @@ struct UIMain: View {
                             }
                             .sheet(isPresented: $showingDetailSheet, content: {
                                 UILevel()
-                                }
+                            }
                             )
                         }
                     }
@@ -101,10 +101,10 @@ struct ChildView: View {
                     .sheet(isPresented: $showingConfigSheet, content: {
                         UILevel()
                     })
-
+                    
                 }
             }
-//            .background(Color.orange.edgesIgnoringSafeArea(.all)) // background color1
+            //            .background(Color.orange.edgesIgnoringSafeArea(.all)) // background color1
             
             VStack {
                 Spacer()
@@ -124,9 +124,9 @@ struct ChildView: View {
                 }
             }
         }
-        .background(LinearGradient(gradient: Gradient(colors: [Color.orange, Color.green]),
+        .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.orange]),
                                    startPoint: .topTrailing,
-                                           endPoint: .bottomLeading)) // background color2
+                                   endPoint: .bottomLeading)) // background color2
         .accentColor(Color(.label))
     }
 }
