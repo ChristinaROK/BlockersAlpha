@@ -58,29 +58,27 @@ struct ChildView: View {
     var body: some View {
         VStack {
             ZStack {
-                VStack{
-                    Form {
-                        Section {
-                            List(blockers, id: \.id) { blocker in
-                                NavigationLink(
-                                    destination: UIDetail(blocker: blocker),
-                                    label: {
-                                        BlockerIndividual(blocker: blocker)
-                                    }
-                                )
-                            }
-                            
+                Form {
+                    Section {
+                        List(blockers, id: \.id) { blocker in
                             NavigationLink(
-                                destination: UIAddBlocker(),
+                                destination: UIDetail(blocker: blocker),
                                 label: {
-                                    CustomSFImage(imageName: "person.fill.badge.plus",
-                                                  width: 50,
-                                                  height: 50,
-                                                  corner: 0)
-                                        .padding(.leading, 120)
+                                    BlockerIndividual(blocker: blocker)
                                 }
                             )
                         }
+                        
+                        NavigationLink(
+                            destination: UIAddBlocker(),
+                            label: {
+                                CustomSFImage(imageName: "person.fill.badge.plus",
+                                              width: 50,
+                                              height: 50,
+                                              corner: 0)
+                                    .padding(.leading, 120)
+                            }
+                        )
                     }
                 }
                 .offset(x: 0, y: 10)
