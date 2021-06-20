@@ -11,7 +11,25 @@ import SwiftUI
 struct UIAddBlocker: View {
     
     var body: some View {
-        Text("Add Blockers")
+        NavigationView {
+            VStack {
+                CustomText(text: "예산을 지켜줄 블로커를 선택해 주세요", size: 20, weight: .semibold, design: .default, color: .white)
+                    .padding(.all, 20)
+                    .background(Color.green.opacity(0.8))
+                
+                CustomSFImage(imageName: "person.fill.questionmark", width: 145, height: 135, corner: 0)
+                    .padding(.all, 70)
+                
+                NavigationLink(
+                    destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
+                    label: {
+                        CustomText(text: "블로커 선택하기", size: 15, weight: .semibold, design: .default, color: .white)
+                            .padding(.all, 10)
+                            .background(Color.green.opacity(0.8))
+                    })
+                
+            }
+        }
     }
 }
 

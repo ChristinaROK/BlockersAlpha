@@ -10,14 +10,14 @@ import SwiftUI
 struct UIMain: View {
     
     @State private var istoday = false
-    @State private var showingDetailSheet = false
+    @State private var showingDepositSheet = false
     @State private var showingConfigSheet = false
     
     var blockers: [Blocker] = BlockerList.mainBlockerList
     
     var body: some View {
         NavigationView {
-            ChildView(istoday: $istoday, showingConfigSheet: $showingConfigSheet, blockers: blockers)
+            ChildView(istoday: $istoday, showingConfigSheet: $showingConfigSheet, showingDepositSheet: $showingDepositSheet, blockers: blockers)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         HStack(spacing: 200) {
@@ -32,16 +32,12 @@ struct UIMain: View {
                                     .labelsHidden()
                             }
                             
-                            Button {
-                                showingDetailSheet.toggle()
-                            } label: {
-                                CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
-                                    .padding(.trailing, 20)
-                            }
-                            .sheet(isPresented: $showingDetailSheet, content: {
-                                UILevel()
-                            }
-                            )
+                            NavigationLink(
+                                destination: UIBlockerLevel(),
+                                label: {
+                                    CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
+                                        .padding(.trailing, 20)
+                                })
                         }
                     }
                 }
@@ -53,6 +49,7 @@ struct ChildView: View {
     
     @Binding var istoday : Bool
     @Binding var showingConfigSheet: Bool
+    @Binding var showingDepositSheet: Bool
     var blockers : [Blocker]
     
     var body: some View {
@@ -97,7 +94,7 @@ struct ChildView: View {
                             .padding(.leading, 300)
                     }
                     .sheet(isPresented: $showingConfigSheet, content: {
-                        UILevel()
+                        UIConfig()
                     })
                     
                 }
@@ -107,22 +104,23 @@ struct ChildView: View {
             VStack {
                 Spacer()
                 HStack {
-                    NavigationLink(
-                        destination: UIDeposit(),
+                    Button{showingDepositSheet.toggle()}
                         label: {
                             CustomSFImage(imageName: "dollarsign.square.fill",
                                           width: 90,
                                           height: 50,
                                           corner: 5)
+                                .cornerRadius(38.5)
+                                .padding()
+                                .shadow(color: Color.black, radius: 3, x: 3, y: 3)
                         }
-                    )
-                    .cornerRadius(38.5)
-                    .padding()
-                    .shadow(color: Color.black, radius: 3, x: 3, y: 3)
+                        .sheet(isPresented: $showingDepositSheet, content: {
+                            UIDeposit()
+                        })
                 }
             }
         }
-        .background(LinearGradient(gradient: Gradient(colors: [Color.green, Color.orange]),
+        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.orange]),
                                    startPoint: .topTrailing,
                                    endPoint: .bottomLeading)) // background color2
         .accentColor(Color(.label))

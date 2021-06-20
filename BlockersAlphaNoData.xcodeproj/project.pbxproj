@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		74B3E9FF2676032800E500D5 /* UILevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UILevel.swift */; };
+		74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UIConfig.swift */; };
 		74B75AB9266CB60000ADD85B /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B75AB8266CB60000ADD85B /* test.swift */; };
+		74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */; };
 		74E3E5BD266B59A500BF4DDE /* UIAddBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UIAddBlocker.swift */; };
 		74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */; };
 		74E3E5D7266B74AB00BF4DDE /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5D6266B74AB00BF4DDE /* Utils.swift */; };
@@ -21,8 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		74B3E9FE2676032800E500D5 /* UILevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILevel.swift; sourceTree = "<group>"; };
+		74B3E9FE2676032800E500D5 /* UIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfig.swift; sourceTree = "<group>"; };
 		74B75AB8266CB60000ADD85B /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+		74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockerLevel.swift; sourceTree = "<group>"; };
 		74E3E5BC266B59A500BF4DDE /* UIAddBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAddBlocker.swift; sourceTree = "<group>"; };
 		74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeposit.swift; sourceTree = "<group>"; };
 		74E3E5D6266B74AB00BF4DDE /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -68,7 +70,8 @@
 			children = (
 				74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */,
 				74E63AAB26692A39008ABB40 /* UIMain.swift */,
-				74B3E9FE2676032800E500D5 /* UILevel.swift */,
+				74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */,
+				74B3E9FE2676032800E500D5 /* UIConfig.swift */,
 				74B75AB8266CB60000ADD85B /* test.swift */,
 				74E3E5D6266B74AB00BF4DDE /* Utils.swift */,
 				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
@@ -159,11 +162,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74B3E9FF2676032800E500D5 /* UILevel.swift in Sources */,
+				74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */,
 				74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */,
 				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
 				74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */,
 				74E3E5D7266B74AB00BF4DDE /* Utils.swift in Sources */,
+				74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */,
 				74E3E5BD266B59A500BF4DDE /* UIAddBlocker.swift in Sources */,
 				74B75AB9266CB60000ADD85B /* test.swift in Sources */,
 				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,

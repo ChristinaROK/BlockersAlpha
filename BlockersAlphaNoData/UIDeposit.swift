@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct UIDeposit: View {
+    @Environment(\.presentationMode) var presentationMode
     
     let stateOptions: [String] = [
         "수입", "지출"
@@ -18,7 +19,6 @@ struct UIDeposit: View {
     @State private var memo = ""
     @State private var isSave = false
     
-    
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor.systemGreen
         
@@ -28,12 +28,11 @@ struct UIDeposit: View {
         UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
     }
     
-    
     var body: some View {
+        
         NavigationView {
-            
             VStack {
-                //  TODO: 현재 static value를 blocker model 받는 value로 교체
+                //  TODO: 1) 현재 static value를 blocker model 받는 value로 교체 2) blocker model의 모든 블로커를 스와이핑해 바꿀 수 있도록 변경
                 VStack {
                     CustomText(text: "blocker name", size: 20, weight: .bold, design: .default, color: .black)
                     CustomAssetsImage(imageName: "add-blocker", width: 200, height: 100, corner: 0.2)
@@ -73,10 +72,22 @@ struct UIDeposit: View {
                     }
                 }
             }
-            
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        
+                        CustomSFImage(imageName: "xmark.circle", width: 30, height: 30, corner: 0)
+                        
+                    }
+                }
+            }
         }
+        
     }
 }
+
 
 struct UIDeposit_Previews: PreviewProvider {
     static var previews: some View {
