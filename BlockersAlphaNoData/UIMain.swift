@@ -67,7 +67,7 @@ struct ChildView: View {
                         }
                         
                         NavigationLink(
-                            destination: UIAddBlocker(),
+                            destination: UIAddBlocker1(),
                             label: {
                                 CustomSFImage(imageName: "person.fill.badge.plus",
                                               width: 50,

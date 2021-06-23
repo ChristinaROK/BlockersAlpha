@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct UIAddBlocker: View {
+struct UIAddBlocker1: View {
     
     var body: some View {
         NavigationView {
@@ -17,8 +17,23 @@ struct UIAddBlocker: View {
                     .padding(.all, 20)
                     .background(Color.green.opacity(0.8))
                 
-                CustomSFImage(imageName: "person.fill.questionmark", width: 145, height: 135, corner: 0)
-                    .padding(.all, 70)
+                VStack {
+                    HStack {
+                        CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
+                            .padding(.all, 70)
+                        
+                        CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
+                            .padding(.all, 70)
+                    }
+                    
+                    HStack {
+                        CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
+                            .padding(.all, 70)
+                        
+                        CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
+                            .padding(.all, 70)
+                    }
+                }
                 
                 NavigationLink(
                     destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
@@ -27,7 +42,6 @@ struct UIAddBlocker: View {
                             .padding(.all, 10)
                             .background(Color.green.opacity(0.8))
                     })
-                
             }
         }
     }
@@ -35,6 +49,6 @@ struct UIAddBlocker: View {
 
 struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
-        UIAddBlocker()
+        UIAddBlocker1()
     }
 }
