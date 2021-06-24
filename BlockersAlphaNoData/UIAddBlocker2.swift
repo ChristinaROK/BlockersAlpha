@@ -17,17 +17,17 @@ struct UIAddBlocker2: View {
             
             ZStack {
                 // # TODO: replace text to shape with specified size
-                Text("                                                            ")
-                    .padding(.all, 20)
-                    .background(Color.green)
-                    .opacity(0.4)
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(Color.green)
+                    .frame(width: 350, height: 50, alignment: .center)
+                    .opacity(0.6)
                 
                 TextField("Blocker Name: ", text: $name)
                     .offset(x: 50, y: 0)
             }
             
             NavigationLink(
-                destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
+                destination: UIAddBlocker3(),
                 label: {
                     CustomText(text: "다음", size: 15, weight: .semibold, design: .default, color: .white)
                         .padding(.all, 10)

@@ -36,7 +36,7 @@ struct UIAddBlocker1: View {
                 }
                 
                 NavigationLink(
-                    destination: /*@START_MENU_TOKEN@*/Text("Destination")/*@END_MENU_TOKEN@*/,
+                    destination: UIAddBlocker2(),
                     label: {
                         CustomText(text: "블로커 선택하기", size: 15, weight: .semibold, design: .default, color: .white)
                             .padding(.all, 10)
