@@ -13,11 +13,12 @@ struct UIMain: View {
     @State private var showingDepositSheet = false
     @State private var showingConfigSheet = false
     
-    var blockers: [Blocker] = BlockerList.mainBlockerList
+    @State var blockers: [Blocker] = BlockerList.mainBlockerList
     
     var body: some View {
         NavigationView {
             ChildView(istoday: $istoday, showingConfigSheet: $showingConfigSheet, showingDepositSheet: $showingDepositSheet, blockers: blockers)
+            // TODO: toolbar 보이도록 변경
             //                .toolbar {
             //                    ToolbarItemGroup(placement: .navigationBarLeading) {
             //                        HStack(spacing: 200) {
@@ -50,47 +51,43 @@ struct ChildView: View {
     @Binding var istoday : Bool
     @Binding var showingConfigSheet: Bool
     @Binding var showingDepositSheet: Bool
-    var blockers : [Blocker]
+    @State var blockers : [Blocker]
     
     var body: some View {
-        VStack {
-            List {
-                ForEach(blockers, id: \.id) { blocker in
+        ZStack {
+            BackgroundColor(leadColor: Color.blue, trailColor: Color.orange)
+            
+            VStack{
+                // TODO: list height 늘리기
+                List {
+                    ForEach(blockers, id: \.id) { blocker in
+                        NavigationLink(
+                            destination: UIDetail(blocker: blocker),
+                            label: {
+                                BlockerIndividual(blocker: blocker)
+                            }
+                        )
+                    }
+                    .onDelete(perform: delete)
+                    .onMove(perform: move)
+                    //.listRowBackground(Color.green) // list background color
+                    
                     NavigationLink(
-                        destination: UIDetail(blocker: blocker),
+                        destination: UIAddBlocker1(),
                         label: {
-                            BlockerIndividual(blocker: blocker)
+                            CustomSFImage(imageName: "person.fill.badge.plus",
+                                          width: 50,
+                                          height: 50,
+                                          corner: 0)
+                                .padding(.leading, 120)
                         }
                     )
                 }
-                .onDelete(perform: { indexSet in
-                    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/
-                })
-                .onMove(perform: { indices, newOffset in
-                    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/
-                })
-                //.listRowBackground(Color.green) // list background color
-                
-                NavigationLink(
-                    destination: UIAddBlocker1(),
-                    label: {
-                        CustomSFImage(imageName: "person.fill.badge.plus",
-                                      width: 50,
-                                      height: 50,
-                                      corner: 0)
-                            .padding(.leading, 120)
-                    }
-                )
-            }
-            .listStyle(GroupedListStyle())
-            .toolbar {
-                EditButton()
-            }
-            .offset(x: 0, y: 10)
-            
-            
-            VStack {
-                Spacer()
+                .listStyle(GroupedListStyle())
+                .toolbar {
+                    EditButton()
+                }
+                .offset(x: 0, y: 20)
                 
                 Button{
                     showingConfigSheet.toggle()
@@ -104,32 +101,35 @@ struct ChildView: View {
                 .sheet(isPresented: $showingConfigSheet, content: {
                     UIConfig()
                 })
-            }
-            
-            VStack {
-                Spacer()
+                .offset(x: -5, y: 300)
                 
-                Button{showingDepositSheet.toggle()}
-                    label: {
-                        CustomSFImage(imageName: "dollarsign.square.fill",
-                                      width: 120,
-                                      height: 65,
-                                      corner: 5)
-                            .cornerRadius(38.5)
-                            .padding()
-                            .shadow(color: Color.black, radius: 3, x: 3, y: 3)
-                    }
-                    .sheet(isPresented: $showingDepositSheet, content: {
-                        UIDeposit()
-                    })
-                
+                VStack {
+                    Spacer()
+                    
+                    Button{showingDepositSheet.toggle()}
+                        label: {
+                            CustomSFImage(imageName: "dollarsign.square.fill",
+                                          width: 120,
+                                          height: 65,
+                                          corner: 5)
+                                .cornerRadius(38.5)
+                                .padding()
+                                .shadow(color: Color.black, radius: 3, x: 3, y: 3)
+                        }
+                        .sheet(isPresented: $showingDepositSheet, content: {
+                            UIDeposit()
+                        })
+                }
             }
         }
-        //        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.orange]),
-        //                                   startPoint: .topTrailing,
-        //                                   endPoint: .bottomLeading))
-        //        .accentColor(Color(.label))
-        
+    }
+    
+    func delete(indexSet: IndexSet) {
+        blockers.remove(atOffsets: indexSet)
+    }
+    
+    func move(indices: IndexSet, newOffset: Int) {
+        blockers.move(fromOffsets: indices, toOffset: newOffset)
     }
 }
 
@@ -163,6 +163,19 @@ struct BlockerIndividual: View {
                        design: .serif,
                        color: .black)
         }
+    }
+}
+
+struct BackgroundColor: View {
+    
+    @State var leadColor: Color
+    @State var trailColor: Color
+    
+    var body: some View {
+        LinearGradient(gradient: Gradient(colors: [leadColor, trailColor]),
+                       startPoint: .topTrailing,
+                       endPoint: .bottomLeading)
+            .edgesIgnoringSafeArea(.bottom)
     }
 }
 

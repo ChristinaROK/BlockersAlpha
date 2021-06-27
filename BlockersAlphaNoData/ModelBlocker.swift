@@ -17,7 +17,7 @@ struct Blocker: Identifiable {
 
 struct BlockerList {
     
-    static let mainBlockerList = [
+    static var mainBlockerList = [
         Blocker(name: "Eat",
                 image: "eat-blocker",
                 dDay: "d-14",
@@ -26,12 +26,12 @@ struct BlockerList {
         Blocker(name: "Shop",
                 image: "shop-blocker",
                 dDay: "d-14",
-                balance: 50000)
+                balance: 50000),
         
-//        Blocker(name: "?",
-//                image: "add-blocker",
-//                dDay: "?",
-//                balance: 0),
+        Blocker(name: "?",
+                image: "add-blocker",
+                dDay: "?",
+                balance: 0),
 
     ]
 }
