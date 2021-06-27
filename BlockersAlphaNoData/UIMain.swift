@@ -18,29 +18,29 @@ struct UIMain: View {
     var body: some View {
         NavigationView {
             ChildView(istoday: $istoday, showingConfigSheet: $showingConfigSheet, showingDepositSheet: $showingDepositSheet, blockers: blockers)
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarLeading) {
-                        HStack(spacing: 200) {
-                            HStack{
-                                CustomText(text: "Today",
-                                           size: 20,
-                                           weight: .bold,
-                                           design: .serif,
-                                           color: .black)
-                                
-                                Toggle("today", isOn: $istoday)
-                                    .labelsHidden()
-                            }
-                            
-                            NavigationLink(
-                                destination: UIBlockerLevel(),
-                                label: {
-                                    CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
-                                        .padding(.trailing, 20)
-                                })
-                        }
-                    }
-                }
+            //                .toolbar {
+            //                    ToolbarItemGroup(placement: .navigationBarLeading) {
+            //                        HStack(spacing: 200) {
+            //                            HStack{
+            //                                CustomText(text: "Today",
+            //                                           size: 20,
+            //                                           weight: .bold,
+            //                                           design: .default,
+            //                                           color: .black)
+            //
+            //                                Toggle("today", isOn: $istoday)
+            //                                    .labelsHidden()
+            //                            }
+            //
+            //                            NavigationLink(
+            //                                destination: UIBlockerLevel(),
+            //                                label: {
+            //                                    CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
+            //                                        .padding(.trailing, 20)
+            //                                })
+            //                        }
+            //                    }
+            //                }
         }
     }
 }
@@ -54,76 +54,82 @@ struct ChildView: View {
     
     var body: some View {
         VStack {
-            ZStack {
-                Form {
-                    Section {
-                        List(blockers, id: \.id) { blocker in
-                            NavigationLink(
-                                destination: UIDetail(blocker: blocker),
-                                label: {
-                                    BlockerIndividual(blocker: blocker)
-                                }
-                            )
+            List {
+                ForEach(blockers, id: \.id) { blocker in
+                    NavigationLink(
+                        destination: UIDetail(blocker: blocker),
+                        label: {
+                            BlockerIndividual(blocker: blocker)
                         }
-                        
-                        NavigationLink(
-                            destination: UIAddBlocker1(),
-                            label: {
-                                CustomSFImage(imageName: "person.fill.badge.plus",
-                                              width: 50,
-                                              height: 50,
-                                              corner: 0)
-                                    .padding(.leading, 120)
-                            }
-                        )
-                    }
+                    )
                 }
-                .offset(x: 0, y: 10)
+                .onDelete(perform: { indexSet in
+                    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/
+                })
+                .onMove(perform: { indices, newOffset in
+                    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/
+                })
+                //.listRowBackground(Color.green) // list background color
                 
-                // TODO: 환경 설정을 화면 맨 아래로 옮기기
-                VStack {
-                    Spacer()
-                    
-                    Button{
-                        showingConfigSheet.toggle()
-                    } label: {
-                        CustomSFImage(imageName: "gearshape.fill",
-                                      width: 30,
-                                      height: 30,
+                NavigationLink(
+                    destination: UIAddBlocker1(),
+                    label: {
+                        CustomSFImage(imageName: "person.fill.badge.plus",
+                                      width: 50,
+                                      height: 50,
                                       corner: 0)
-                            .padding(.leading, 300)
+                            .padding(.leading, 120)
                     }
-                    .sheet(isPresented: $showingConfigSheet, content: {
-                        UIConfig()
-                    })
-                    
-                }
+                )
             }
-            //            .background(Color.orange.edgesIgnoringSafeArea(.all)) // background color1
+            .listStyle(GroupedListStyle())
+            .toolbar {
+                EditButton()
+            }
+            .offset(x: 0, y: 10)
+            
             
             VStack {
                 Spacer()
-                HStack {
-                    Button{showingDepositSheet.toggle()}
-                        label: {
-                            CustomSFImage(imageName: "dollarsign.square.fill",
-                                          width: 90,
-                                          height: 50,
-                                          corner: 5)
-                                .cornerRadius(38.5)
-                                .padding()
-                                .shadow(color: Color.black, radius: 3, x: 3, y: 3)
-                        }
-                        .sheet(isPresented: $showingDepositSheet, content: {
-                            UIDeposit()
-                        })
+                
+                Button{
+                    showingConfigSheet.toggle()
+                } label: {
+                    CustomSFImage(imageName: "gearshape.fill",
+                                  width: 30,
+                                  height: 30,
+                                  corner: 0)
+                        .padding(.leading, 300)
                 }
+                .sheet(isPresented: $showingConfigSheet, content: {
+                    UIConfig()
+                })
+            }
+            
+            VStack {
+                Spacer()
+                
+                Button{showingDepositSheet.toggle()}
+                    label: {
+                        CustomSFImage(imageName: "dollarsign.square.fill",
+                                      width: 120,
+                                      height: 65,
+                                      corner: 5)
+                            .cornerRadius(38.5)
+                            .padding()
+                            .shadow(color: Color.black, radius: 3, x: 3, y: 3)
+                    }
+                    .sheet(isPresented: $showingDepositSheet, content: {
+                        UIDeposit()
+                    })
+                
             }
         }
-        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.orange]),
-                                   startPoint: .topTrailing,
-                                   endPoint: .bottomLeading)) // background color2
-        .accentColor(Color(.label))
+        //        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.orange]),
+        //                                   startPoint: .topTrailing,
+        //                                   endPoint: .bottomLeading))
+        //        .accentColor(Color(.label))
+        
     }
 }
 
