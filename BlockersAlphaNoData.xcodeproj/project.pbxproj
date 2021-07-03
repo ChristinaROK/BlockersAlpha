@@ -49,6 +49,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		74848DE926905B6C00764BCA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				74E63AAB26692A39008ABB40 /* UIMain.swift */,
+				74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */,
+				74B3E9FE2676032800E500D5 /* UIConfig.swift */,
+				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
+				74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */,
+				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		74848DEB26905C0E00764BCA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				74E3E5D6266B74AB00BF4DDE /* Utils.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		74848DED26905C1B00764BCA /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				74E63ABE26693220008ABB40 /* ModelBlocker.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		74E63A9D26692A39008ABB40 = {
 			isa = PBXGroup;
 			children = (
@@ -69,15 +98,10 @@
 			isa = PBXGroup;
 			children = (
 				74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */,
-				74E63AAB26692A39008ABB40 /* UIMain.swift */,
-				74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */,
-				74B3E9FE2676032800E500D5 /* UIConfig.swift */,
+				74848DE926905B6C00764BCA /* View */,
 				74B75AB8266CB60000ADD85B /* test.swift */,
-				74E3E5D6266B74AB00BF4DDE /* Utils.swift */,
-				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
-				74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */,
-				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
-				74E63ABE26693220008ABB40 /* ModelBlocker.swift */,
+				74848DEB26905C0E00764BCA /* Utilities */,
+				74848DED26905C1B00764BCA /* Model */,
 				74E63AAD26692A3B008ABB40 /* Assets.xcassets */,
 				74E63AB226692A3B008ABB40 /* Info.plist */,
 				74E63AAF26692A3B008ABB40 /* Preview Content */,

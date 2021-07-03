@@ -17,38 +17,37 @@ struct UIMain: View {
     
     var body: some View {
         NavigationView {
-            ChildView(istoday: $istoday, showingConfigSheet: $showingConfigSheet, showingDepositSheet: $showingDepositSheet, blockers: blockers)
-            // TODO: toolbar 보이도록 변경
-            //                .toolbar {
-            //                    ToolbarItemGroup(placement: .navigationBarLeading) {
-            //                        HStack(spacing: 200) {
-            //                            HStack{
-            //                                CustomText(text: "Today",
-            //                                           size: 20,
-            //                                           weight: .bold,
-            //                                           design: .default,
-            //                                           color: .black)
-            //
-            //                                Toggle("today", isOn: $istoday)
-            //                                    .labelsHidden()
-            //                            }
-            //
-            //                            NavigationLink(
-            //                                destination: UIBlockerLevel(),
-            //                                label: {
-            //                                    CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
-            //                                        .padding(.trailing, 20)
-            //                                })
-            //                        }
-            //                    }
-            //                }
+            ChildView(showingConfigSheet: $showingConfigSheet, showingDepositSheet: $showingDepositSheet, blockers: blockers)
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarLeading) {
+                        HStack(spacing: 200) {
+                            HStack{
+                                CustomText(text: "Today",
+                                           size: 20,
+                                           weight: .bold,
+                                           design: .default,
+                                           color: .black)
+                                
+                                Toggle("today", isOn: $istoday)
+                                    .labelsHidden()
+                            }
+                            
+                            NavigationLink(
+                                destination: UIBlockerLevel(),
+                                label: {
+                                    CustomSFImage(imageName: "person.crop.circle.badge.plus", width: 40, height: 40, corner: 0)
+                                        .padding(.trailing, 20)
+                                })
+                        }
+                    }
+                }
         }
     }
 }
 
 struct ChildView: View {
     
-    @Binding var istoday : Bool
+    
     @Binding var showingConfigSheet: Bool
     @Binding var showingDepositSheet: Bool
     @State var blockers : [Blocker]
@@ -64,7 +63,7 @@ struct ChildView: View {
                         NavigationLink(
                             destination: UIDetail(blocker: blocker),
                             label: {
-                                BlockerIndividual(blocker: blocker)
+                                BlockerField(blocker: blocker)
                             }
                         )
                     }
@@ -84,9 +83,9 @@ struct ChildView: View {
                     )
                 }
                 .listStyle(GroupedListStyle())
-                .toolbar {
-                    EditButton()
-                }
+                //                .toolbar {
+                //                    EditButton()
+                //                }
                 .offset(x: 0, y: 20)
                 
                 Button{
@@ -133,7 +132,7 @@ struct ChildView: View {
     }
 }
 
-struct BlockerIndividual: View {
+struct BlockerField: View {
     
     var blocker : Blocker
     
@@ -182,5 +181,6 @@ struct BackgroundColor: View {
 struct UIMain_Previews: PreviewProvider {
     static var previews: some View {
         UIMain()
+        //BlockerField(blocker: BlockerList.mainBlockerList.first!)
     }
 }

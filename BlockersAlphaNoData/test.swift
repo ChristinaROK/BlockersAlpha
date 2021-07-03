@@ -102,10 +102,18 @@ struct SheetContentView: View {
     
 }
 
+//struct BlockerTest: View {
+//    @State var blocker = BlockerList.mainBlockerList.first
+//
+//    var body: some View {
+//        BlockerField(blocker: blocker)
+//    }
+//}
+
 struct TestView_Previews: PreviewProvider {
     static var previews: some View {
-                ContentView()
+                //BlockerTest()
         //PaddingTest()
-//        SheetContentView()
+        SheetContentView()
     }
 }
