@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct UIMain: View {
+  // TODO: child view로 옮기기
+//    init() {
+//        UITableView.appearance().separatorStyle = .none
+//    }
     
     @State private var istoday = false
     @State private var showingDepositSheet = false
@@ -47,28 +51,34 @@ struct UIMain: View {
 
 struct ChildView: View {
     
-    
     @Binding var showingConfigSheet: Bool
     @Binding var showingDepositSheet: Bool
     @State var blockers : [Blocker]
+    @State var editMode = false
     
     var body: some View {
         ZStack {
-            BackgroundColor(leadColor: Color.blue, trailColor: Color.orange)
+            BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
             
             VStack{
                 // TODO: list height 늘리기
                 List {
-                    ForEach(blockers, id: \.id) { blocker in
-                        NavigationLink(
-                            destination: UIDetail(blocker: blocker),
-                            label: {
-                                BlockerField(blocker: blocker)
-                            }
-                        )
-                    }
-                    .onDelete(perform: delete)
+                    ForEach(blockers, content: { blocker in
+                            NavigationLink(
+                                destination: UIDetail(blocker: blocker),
+                                label: {
+                                    BlockerField(blocker: blocker)
+                                }
+                            )
+                            .padding(5)
+                    })
+//                    .onDelete(perform: delete)
                     .onMove(perform: move)
+                    .onLongPressGesture {
+                        withAnimation {
+                            self.editMode = true
+                        }
+                    }
                     //.listRowBackground(Color.green) // list background color
                     
                     NavigationLink(
@@ -82,7 +92,8 @@ struct ChildView: View {
                         }
                     )
                 }
-                .listStyle(GroupedListStyle())
+                .listStyle(InsetGroupedListStyle())
+                .environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
                 //                .toolbar {
                 //                    EditButton()
                 //                }
@@ -129,6 +140,9 @@ struct ChildView: View {
     
     func move(indices: IndexSet, newOffset: Int) {
         blockers.move(fromOffsets: indices, toOffset: newOffset)
+        withAnimation {
+            self.editMode = false
+        }
     }
 }
 
@@ -137,7 +151,7 @@ struct BlockerField: View {
     var blocker : Blocker
     
     var body: some View {
-        HStack (spacing: 20) {
+        HStack (spacing: 10) {
             CustomAssetsImage(imageName: blocker.image,
                               width: 100,
                               height: 80,
@@ -147,19 +161,19 @@ struct BlockerField: View {
                 CustomText(text: blocker.name,
                            size: 30,
                            weight: .semibold,
-                           design: .serif,
+                           design: .rounded,
                            color: .blue)
                 CustomText(text: "\(blocker.balance)",
                            size: 20,
                            weight: .semibold,
-                           design: .serif,
+                           design: .rounded,
                            color: .black)
             }
             
             CustomText(text: blocker.dDay,
-                       size: 30,
+                       size: 20,
                        weight: .semibold,
-                       design: .serif,
+                       design: .rounded,
                        color: .black)
         }
     }
@@ -172,8 +186,8 @@ struct BackgroundColor: View {
     
     var body: some View {
         LinearGradient(gradient: Gradient(colors: [leadColor, trailColor]),
-                       startPoint: .topTrailing,
-                       endPoint: .bottomLeading)
+                       startPoint: .leading,
+                       endPoint: .trailing)
             .edgesIgnoringSafeArea(.bottom)
     }
 }
