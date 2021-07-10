@@ -28,18 +28,22 @@ struct CustomAssetsImage: View {
 struct CustomSFImage: View {
     // Image View with SF image name
     var imageName: String
-    var width: CGFloat?
-    var height: CGFloat?
-    var corner: CGFloat?
+    var renderMode: Image.TemplateRenderingMode = .original
+    var width: CGFloat
+    var height: CGFloat
+    var corner: CGFloat = 0
+    var color: Color = Color.black
     
     var body: some View {
         Image(systemName: imageName)
-            .renderingMode(.original)
+            .renderingMode(renderMode)
             .resizable()
+            .foregroundColor(color)
             .aspectRatio(contentMode: .fill)
             .frame(width: width, height: height)
-            .cornerRadius(corner!)
+            .cornerRadius(corner)
             .scaledToFit()
+            
     }
 }
 
@@ -60,7 +64,8 @@ struct CustomText: View {
 
 struct Utils_Previews: PreviewProvider {
     static var previews: some View {
-        CustomText(text: "Today", size: 20, weight: .bold, design: .serif, color: .black)
+        //CustomText(text: "Today", size: 20, weight: .bold, design: .serif, color: .black)
+        CustomSFImage(imageName: "bag.circle.fill", renderMode: .template, width: 100, height: 100, color: Color.red)
     }
 }
 
