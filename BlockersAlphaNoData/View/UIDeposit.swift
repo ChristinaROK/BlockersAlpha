@@ -35,7 +35,7 @@ struct UIDeposit: View {
                 //  TODO: 1) 현재 static value를 blocker model 받는 value로 교체 2) blocker model의 모든 블로커를 스와이핑해 바꿀 수 있도록 변경
                 VStack {
                     CustomText(text: "blocker name", size: 20, weight: .bold, design: .default, color: .black)
-                    CustomAssetsImage(imageName: "add-blocker", width: 200, height: 100, corner: 0.2)
+                    CustomAssetsImage(imageName: "cafe-blocker", width: 200, height: 100, corner: 0.2)
                 }
                 
                 Spacer(minLength: 100)

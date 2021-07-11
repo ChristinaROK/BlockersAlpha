@@ -28,10 +28,15 @@ struct BlockerList {
                 dDay: "d-14",
                 balance: 50000),
         
-        Blocker(name: "?",
-                image: "add-blocker",
-                dDay: "?",
-                balance: 0),
+        Blocker(name: "Cafe",
+                image: "cafe-blocker",
+                dDay: "d-2",
+                balance: 20000),
+        
+        Blocker(name: "Workout",
+                image: "workout-blocker",
+                dDay: "d-30",
+                balance: 300000),
 
     ]
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 
 // TODO
+// 1. button 과 long press gesture 같이 잇으니깐 인식 못함. 개선해야함
 // 2. NavigiationDetail View에서 HStack 내 간격 맞추기
 // 3. background color 넣기 (현재 오류 발생)
 
@@ -24,22 +25,35 @@ struct UIMain: View {
         NavigationView {
             ZStack{
                 //BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
-                
-                List {
-                    ForEach(blockers) { blocker in
-                        NavigationDetail(blocker: blocker)
+                VStack (spacing:20) {
+                    HStack {
+                        CustomText(text: "2020.01.01", size: 20, weight: .light, design: .rounded, color: .white)
+                        CustomText(text: "오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .white)
                     }
-                    .onMove(perform: move)
-                    .onLongPressGesture {
-                        withAnimation {
-                            self.editMode = true
-                        }
-                    }
+                    .padding(5)
+                    .background(Color.green)
+                    .offset(y: -35)
                     
-                    NavigationAdd()
+                    List {
+                        ForEach(blockers) { blocker in
+                            NavigationDetail(blocker: blocker)
+                        }
+                        .onMove(perform: move)
+                        .onLongPressGesture {
+                            withAnimation {
+                                self.editMode = true
+                            }
+                        }
+                        
+                        NavigationAdd()
+                    }
+                    .listStyle(SidebarListStyle())
+                    .environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
+                    .offset(y:-50)
+                    
+                    
+                    Spacer()
                 }
-                .listStyle(SidebarListStyle())
-                .environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
                 
                 SheetConfig(showingConfigSheet: showingConfigSheet)
                 
@@ -47,7 +61,7 @@ struct UIMain: View {
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
-                    HStack(spacing: 180) {
+                    HStack(spacing: 160) {
                         HStack{
                             CustomText(text: "Today",
                                        size: 20,
@@ -63,8 +77,9 @@ struct UIMain: View {
                         NavigationLink(
                             destination: UIBlockerLevel(),
                             label: {
-                                CustomSFImage(imageName: "bag.circle.fill", renderMode: .template, width: 50, height: 50, color: Color.green)
-                                    .padding(.trailing, 30)
+                                    CustomAssetsImage(imageName: "icon-shop-blocker", width: 75 , height: 50, corner: 0)
+                                        .offset(y:5)
+                                        .padding(.trailing, 20)
                             })
                     }
                 }
@@ -106,20 +121,20 @@ struct NavigationDetail: View {
         NavigationLink(
             destination: UIDetail(blocker: blocker),
             label: {
-                HStack (spacing: 40) {
+                HStack (spacing: 30) {
                     CustomAssetsImage(imageName: blocker.image,
-                                      width: 80,
+                                      width: 110,
                                       height: 80,
                                       corner: 0)
                     
                     VStack {
                         CustomText(text: blocker.name,
-                                   size: 25,
+                                   size: 20,
                                    weight: .semibold,
                                    design: .rounded,
                                    color: .blue)
                         CustomText(text: "\(blocker.balance)",
-                                   size: 15,
+                                   size: 12,
                                    weight: .semibold,
                                    design: .rounded,
                                    color: .black)
@@ -144,7 +159,7 @@ struct NavigationAdd: View {
         NavigationLink(
             destination: UIAddBlocker1(),
             label: {
-                CustomSFImage(imageName: "person.fill.badge.plus", renderMode: .original, width: 50, height: 50, color: Color.orange)
+                CustomSFImage(imageName: "person.crop.circle.fill.badge.plus", renderMode: .original, width: 61, height: 52, color: Color.orange)
                     .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.orange, lineWidth: 2))
@@ -184,7 +199,7 @@ struct SheetDeposit: View {
             
             Button{showingDepositSheet.toggle()}
                 label: {
-                    CustomSFImage(imageName: "dollarsign.square.fill", renderMode: .template, width: 100, height: 80, corner: 0, color: Color.green)
+                    CustomSFImage(imageName: "plus.circle.fill", renderMode: .template, width: 80, height: 80, corner: 0, color: Color.green)
                         .cornerRadius(38.5)
                         .shadow(color: Color.green, radius: 3, x: 3, y: 3)
                         .padding()
