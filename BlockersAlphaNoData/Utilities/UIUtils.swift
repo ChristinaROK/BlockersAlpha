@@ -62,11 +62,12 @@ struct CustomText: View {
     }
 }
 
-struct Utils_Previews: PreviewProvider {
+struct UIUtils: PreviewProvider {
     static var previews: some View {
         //CustomText(text: "Today", size: 20, weight: .bold, design: .serif, color: .black)
         CustomSFImage(imageName: "bag.circle.fill", renderMode: .template, width: 100, height: 100, color: Color.red)
     }
 }
+
 
 

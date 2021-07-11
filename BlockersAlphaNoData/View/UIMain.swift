@@ -27,7 +27,10 @@ struct UIMain: View {
                 //BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
                 VStack (spacing:20) {
                     HStack {
-                        CustomText(text: "2020.01.01", size: 20, weight: .light, design: .rounded, color: .white)
+                        // TODO: 추상화 
+                        Text(Date(), style: .date)
+                            .foregroundColor(.white)
+                        
                         CustomText(text: "오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .white)
                     }
                     .padding(5)
