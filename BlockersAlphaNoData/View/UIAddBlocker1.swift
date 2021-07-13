@@ -24,8 +24,11 @@ struct UIAddBlocker1: View {
                     VStack {
                         
                         HStack {
-                            CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
-                                .padding(.all, 70)
+                            CustomAssetsImage(imageName: "eat-blocker", width: 110, height: 80, corner: 150)
+                                .shadow(radius: 10)
+                            
+//                            CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
+//                                .padding(.all, 70)
                             
                             CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
                                 .padding(.all, 70)
@@ -49,6 +52,7 @@ struct UIAddBlocker1: View {
                             .background(Color.green.opacity(0.8))
                     })
             }
+            .offset(y: -20)
         }
     
 }
@@ -168,6 +172,6 @@ struct CircleText: View {
 
 struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
-        UIAddBlocker5()
+        UIAddBlocker1()
     }
 }
