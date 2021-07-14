@@ -7,85 +7,68 @@
 
 import SwiftUI
 
+//TODO: 블로커 카드가 horizontal하게 움직이는 애니메이션 추가
 
 struct UIAddBlocker1: View {
     
+    @State var blockers: [Blocker] = BlockerList.mainBlockerList
+    
     var body: some View {
         
-            VStack {
-                CustomText(text: "예산을 지켜줄 블로커를 선택해 주세요", size: 20, weight: .semibold, design: .default, color: .black)
+        VStack {
+            CustomText(text: "예산을 지켜줄 블로커를 선택해 주세요", size: 22, weight: .semibold, design: .default, color: .black)
+                .padding()
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 25.0)
+                    .fill(Color.green)
+                    .padding(.vertical)
+                    .frame(width: 450, height: 380)
+                    .opacity(0.6)
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.green)
-                        .frame(width: 350, height: 400, alignment: .center)
-                        .opacity(0.6)
-                    
-                    VStack {
-                        
-                        HStack {
-                            CustomAssetsImage(imageName: "eat-blocker", width: 110, height: 80, corner: 150)
-                                .shadow(radius: 10)
-                            
-//                            CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
-//                                .padding(.all, 70)
-                            
-                            CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
-                                .padding(.all, 70)
-                        }
-                        
-                        HStack {
-                            CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
-                                .padding(.all, 70)
-                            
-                            CustomSFImage(imageName: "person.fill.questionmark", width: 30, height: 30, corner: 0)
-                                .padding(.all, 70)
+                ScrollView(.horizontal, showsIndicators: false, content: {
+                    HStack {
+                        ForEach(blockers) { blocker in
+                            CustomAssetsImage(imageName: blocker.image, width: 210, height: 180, corner: 0)
+                                .clipShape(RoundedRectangle(cornerRadius: 30))
+                                .padding(.horizontal, 60)
+                                .shadow(radius: 15)
                         }
                     }
-                }
-                
-                NavigationLink(
-                    destination: UIAddBlocker2(),
-                    label: {
-                        CustomText(text: "블로커 선택하기", size: 15, weight: .semibold, design: .default, color: .white)
-                            .padding(.all, 10)
-                            .background(Color.green.opacity(0.8))
-                    })
+                    .offset(x: 56)
+                })
             }
-            .offset(y: -20)
+            
+            NavigationButton(destination: AnyView(UIAddBlocker2()))
         }
+        .offset(y: -20)
+    }
     
 }
 
 struct UIAddBlocker2: View {
     
-    @State private var name = ""
+    @State private var blockerName = ""
     
     var body: some View {
-        VStack {
-            CustomText(text: "예산 블럭의 이름을 작성해주세요.", size: 20, weight: .semibold, design: .default, color: .black)
+        VStack (spacing:100) {
+            CustomText(text: "예산의 이름을 작성해주세요", size: 22, weight: .semibold, design: .default, color: .black)
+                .padding()
             
-            ZStack {
-                // # TODO: replace text to shape with specified size
-                RoundedRectangle(cornerRadius: 25)
-                    .fill(Color.green)
-                    .frame(width: 350, height: 50, alignment: .center)
-                    .opacity(0.6)
+            HStack{
+                CustomText(text: "NAME", size: 20, weight: .light, design: .default, color: Color.black)
+                TextField("예산 이름", text: $blockerName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-                TextField("Blocker Name: ", text: $name)
-                    .offset(x: 50, y: 0)
             }
+            .padding(.horizontal)
             
-            NavigationLink(
-                destination: UIAddBlocker3(),
-                label: {
-                    CustomText(text: "다음", size: 15, weight: .semibold, design: .default, color: .white)
-                        .padding(.all, 10)
-                        .background(Color.green.opacity(0.8))
-                })
+                
+                
+            NavigationButton(destination: AnyView(UIAddBlocker3()))
 
-            
         }
+        .offset(y: -20)
     }
 }
 
@@ -122,12 +105,12 @@ struct UIAddBlocker3: View {
 }
 
 struct UIAddBlocker4: View {
-
+    
     var body: some View {
         VStack {
             VStack {
                 CustomText(text: "관리할 예산 블럭의 주기를 알려주세요.", size: 20, weight: .semibold, design: .default, color: .black)
-                 // todo : button으로 바꾸기 (데이터 입력)
+                // todo : button으로 바꾸기 (데이터 입력)
                 HStack(spacing: 20) {
                     CircleText(text: "주간")
                     CircleText(text: "월간")
@@ -166,12 +149,27 @@ struct CircleText: View {
                 .opacity(0.6)
             CustomText(text: text, size: 20, weight: .semibold, design: .default, color: .white)
         }
-
+        
     }
 }
 
+struct NavigationButton: View {
+    
+    @State var destination: AnyView
+    
+    var body: some View {
+        NavigationLink(
+            destination: destination,
+            label: {
+                CustomSFImage(imageName: "arrow.forward.circle.fill", renderMode: .template, width: 80 , height: 80, corner: 0, color: Color.green)
+                    .padding(.horizontal)
+            })
+    }
+}
+
+
 struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
-        UIAddBlocker1()
+        UIAddBlocker2()
     }
 }
