@@ -46,25 +46,32 @@ struct UIAddBlocker1: View {
     
 }
 
+// TODO: TextField의 onEditingChanged, onCommit 파라미터에 클로저 추가해 데이터를 저장할 것
+
 struct UIAddBlocker2: View {
     
     @State private var blockerName = ""
     
     var body: some View {
-        VStack (spacing:100) {
+        VStack (spacing:60) {
             CustomText(text: "예산의 이름을 작성해주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 .padding()
             
+            ZStack {
+                Rectangle()
+                    .fill(Color.green)
+                    .frame(width: 400, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .opacity(0.6)
             HStack{
-                CustomText(text: "NAME", size: 20, weight: .light, design: .default, color: Color.black)
+                CustomText(text: "NAME", size: 20, weight: .bold, design: .default, color: Color.black)
                 TextField("예산 이름", text: $blockerName)
+                    .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                 
             }
             .padding(.horizontal)
-            
-                
-                
+            }
+  
             NavigationButton(destination: AnyView(UIAddBlocker3()))
 
         }
@@ -72,46 +79,48 @@ struct UIAddBlocker2: View {
     }
 }
 
+// TODO: 1. customized keyboard 개발 (원 단위 수 자동 생성) 2. string 입력 값을 float로 변환해 데이터에 저장
+
 struct UIAddBlocker3: View {
     
-    @State private var amount = "0 ￦"
+    @State private var blockerAmount = ""
     
-    // TODO: 1. ui navigation bar 모든 뷰에 생성 (pre, next button) / 2. customized keyboard 개발
     var body: some View {
         
-        VStack {
-            CustomText(text: "관리할 예산 블럭의 총 금액을 알려주세요.", size: 20, weight: .semibold, design: .default, color: .black)
+        VStack(spacing: 60) {
+            CustomText(text: "관리할 예산 블럭의 총 금액을 알려주세요.", size: 22, weight: .semibold, design: .default, color: .black)
             
             ZStack {
-                RoundedRectangle(cornerRadius: 25)
+                Rectangle()
                     .fill(Color.green)
-                    .frame(width: 350, height: 50, alignment: .center)
+                    .frame(width: 400, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                     .opacity(0.6)
-                
-                HStack {
-                    TextField("Amount", text: $amount)
-                        .offset(x: 40, y: 2)
-                    
-                    Button {
-                        // numeric keypad
-                    } label: {
-                        CustomSFImage(imageName: "keyboard.chevron.compact.down", width: 20, height: 20, corner: 0.2)
-                    }
-                    .offset(x: -40, y: 2)
-                }
+            HStack{
+                CustomText(text: "BUDGET", size: 20, weight: .bold, design: .default, color: Color.black)
+                TextField("총 예산 금액", text: $blockerAmount)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
             }
+            .padding(.horizontal)
+            }
+  
+            NavigationButton(destination: AnyView(UIAddBlocker4()))
+            
         }
+        .offset(y: -20)
     }
 }
 
+// TODO: ing
 struct UIAddBlocker4: View {
     
     var body: some View {
         VStack {
             VStack {
-                CustomText(text: "관리할 예산 블럭의 주기를 알려주세요.", size: 20, weight: .semibold, design: .default, color: .black)
-                // todo : button으로 바꾸기 (데이터 입력)
+                CustomText(text: "관리할 예산 블럭의 주기를 알려주세요.", size: 22, weight: .semibold, design: .default, color: .black)
+                
                 HStack(spacing: 20) {
+                    
                     CircleText(text: "주간")
                     CircleText(text: "월간")
                     CircleText(text: "연간")
@@ -170,6 +179,6 @@ struct NavigationButton: View {
 
 struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
-        UIAddBlocker2()
+        UIAddBlocker4()
     }
 }
