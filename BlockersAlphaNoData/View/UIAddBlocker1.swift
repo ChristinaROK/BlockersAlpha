@@ -111,27 +111,54 @@ struct UIAddBlocker3: View {
     }
 }
 
-// TODO: ing
+
 struct UIAddBlocker4: View {
+    
+    @State private var isOneTime: Bool = true
     
     var body: some View {
         VStack {
             VStack {
-                CustomText(text: "관리할 예산 블럭의 주기를 알려주세요.", size: 22, weight: .semibold, design: .default, color: .black)
+                CustomText(text: "관리할 예산 블럭의 성격을 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 
-                HStack(spacing: 20) {
+                HStack(spacing: 40) {
+                    Button {
+                        isOneTime.toggle()
+                    } label: {
+                        CircleText(text: "주간")
+                    }
                     
+                    Button {
+                        if isOneTime == false {
+                            isOneTime.toggle()
+                        }
+                    // TODO: save and pass to next view
+                    } label: {
+                        CircleText(text: "일회성")
+                    }
+                }
+            }
+
+            VStack {
+                CustomText(text: "관리할 예산 블럭의 주기를 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
+                
+                HStack(spacing: 5) {
                     CircleText(text: "주간")
                     CircleText(text: "월간")
                     CircleText(text: "연간")
-                    CircleText(text: "일회성")
                 }
             }
+            .isEmpty(isOneTime) // custom view modifier
+            
+            NavigationButton(destination: AnyView(UIAddBlocker5()))
+                .offset(y:80)
             
         }
+        .offset(y: -20)
     }
 }
 
+// START FROM HERE
 struct UIAddBlocker5: View {
     var body: some View {
         VStack {
@@ -154,11 +181,11 @@ struct CircleText: View {
         ZStack {
             Circle()
                 .fill(Color.green)
-                .frame(width: 55, height: 55, alignment: .center)
+                .frame(width: 80, height: 80, alignment: .center)
                 .opacity(0.6)
-            CustomText(text: text, size: 20, weight: .semibold, design: .default, color: .white)
+            CustomText(text: text, size: 22, weight: .semibold, design: .default, color: .white)
         }
-        
+        .padding()
     }
 }
 
@@ -176,6 +203,25 @@ struct NavigationButton: View {
     }
 }
 
+struct EmptyModifier: ViewModifier {
+    let isEmpty: Bool
+    
+    func body(content: Content) -> some View {
+        Group {
+            if isEmpty {
+                EmptyView()
+            } else {
+                content
+            }
+        }
+    }
+}
+
+extension View {
+    func isEmpty(_ bool: Bool) -> some View {
+        modifier(EmptyModifier(isEmpty: bool))
+    }
+}
 
 struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
