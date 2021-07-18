@@ -14,17 +14,18 @@ import SwiftUI
 
 struct UIMain: View {
     
-    @State private var istoday = false
-    @State private var showingDepositSheet = false
-    @State private var showingConfigSheet = false
+    @State var istoday = false
+    @State var showingDepositSheet = false
+    @State var showingConfigSheet = false
     @State var editMode = false
     
-    @State var blockers: [Blocker] = BlockerList.mainBlockerList
+    @EnvironmentObject var blockerViewModel : BlockerViewModel
     
     var body: some View {
-        NavigationView {
             ZStack{
+                
                 //BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
+                
                 VStack (spacing:20) {
                     HStack {
                         // TODO: 추상화 
@@ -38,20 +39,21 @@ struct UIMain: View {
                     .offset(y: -35)
                     
                     List {
-                        ForEach(blockers) { blocker in
+                        ForEach(blockerViewModel.currentBlockers) { blocker in
                             NavigationDetail(blocker: blocker)
                         }
-                        .onMove(perform: move)
-                        .onLongPressGesture {
-                            withAnimation {
-                                self.editMode = true
-                            }
-                        }
+                        .onMove(perform: blockerViewModel.moveBlocker)
+                        .onDelete(perform: blockerViewModel.deleteBlocker)
+//                        .onLongPressGesture {
+//                            withAnimation {
+//                                self.editMode = true
+//                            }
+//                        }
                         
                         NavigationAdd()
                     }
                     .listStyle(SidebarListStyle())
-                    .environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
+//                    .environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
                     .offset(y:-50)
                     
                     
@@ -87,19 +89,15 @@ struct UIMain: View {
                     }
                 }
             }
-        }
+        
     }
     
-    func delete(indexSet: IndexSet) {
-        blockers.remove(atOffsets: indexSet)
-    }
-    
-    func move(indices: IndexSet, newOffset: Int) {
-        blockers.move(fromOffsets: indices, toOffset: newOffset)
-        withAnimation {
-            self.editMode = false
-        }
-    }
+//    func move(indices: IndexSet, newOffset: Int) {
+//        blockers.move(fromOffsets: indices, toOffset: newOffset)
+//        withAnimation {
+//            self.editMode = false
+//        }
+//    }
 }
 
 
@@ -112,42 +110,48 @@ struct BackgroundColor: View {
         LinearGradient(gradient: Gradient(colors: [leadColor, trailColor]),
                        startPoint: .leading,
                        endPoint: .trailing)
-            .edgesIgnoringSafeArea(.bottom)
+                        .ignoresSafeArea()
     }
 }
 
 struct NavigationDetail: View {
     
-    @State var blocker: Blocker
+    @State var blocker: BlockerModel
     
     var body: some View {
         NavigationLink(
             destination: UIDetail(blocker: blocker),
             label: {
-                HStack (spacing: 30) {
+                HStack (spacing: 5) {
                     CustomAssetsImage(imageName: blocker.image,
                                       width: 110,
                                       height: 80,
                                       corner: 0)
+                        .padding(5)
                     
-                    VStack {
-                        CustomText(text: blocker.name,
-                                   size: 20,
-                                   weight: .semibold,
-                                   design: .rounded,
-                                   color: .blue)
-                        CustomText(text: "\(blocker.balance)",
-                                   size: 12,
-                                   weight: .semibold,
-                                   design: .rounded,
-                                   color: .black)
-                    }
-                    
-                    CustomText(text: blocker.dDay,
+                    CustomText(text: blocker.name,
                                size: 20,
                                weight: .semibold,
                                design: .rounded,
-                               color: .black)
+                               color: .blue)
+                        .lineLimit(1)
+                        .padding(5)
+                    
+                    VStack {
+                        CustomText(text: "\(blocker.getCurrentBudget().currencyRepresentation) 남음",
+                                   size: 13,
+                                   weight: .semibold,
+                                   design: .rounded,
+                                   color: .black)
+                            .padding(.vertical, 3)
+//                        CustomText(text: "\(blocker.dDay)일 남음",
+//                                   size: 13,
+//                                   weight: .semibold,
+//                                   design: .rounded,
+//                                   color: .black)
+                    }
+                    
+                    
                 }
                 .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -216,6 +220,10 @@ struct SheetDeposit: View {
 
 struct UIMain_Previews: PreviewProvider {
     static var previews: some View {
-        UIMain()
+        NavigationView {
+            UIMain()
+        }
+        .environmentObject(BlockerViewModel())
+        
     }
 }

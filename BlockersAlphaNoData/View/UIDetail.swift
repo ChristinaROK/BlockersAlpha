@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UIDetail: View {
     
-    var blocker: Blocker
+    var blocker: BlockerModel
     
     var body: some View {
         Text("\(blocker.name)")
@@ -17,7 +17,13 @@ struct UIDetail: View {
 }
 
 struct UIDetail_Previews: PreviewProvider {
+    
     static var previews: some View {
-        UIDetail(blocker: BlockerList.mainBlockerList.first!)
+        
+        let blocker1: BlockerModel = BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: "Monthly", resetDate: "1", spent: 300000, startDate: nil, endDate: nil, histories: [])
+        
+        NavigationView {
+            UIDetail(blocker: blocker1)
+        }
     }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 
 struct UIAddBlocker1: View {
     
-    @State var blockers: [Blocker] = BlockerList.mainBlockerList
+    @EnvironmentObject var imageViewModel: ImageViewModel
     
     var body: some View {
         
@@ -28,8 +28,8 @@ struct UIAddBlocker1: View {
                 
                 ScrollView(.horizontal, showsIndicators: false, content: {
                     HStack {
-                        ForEach(blockers) { blocker in
-                            CustomAssetsImage(imageName: blocker.image, width: 210, height: 180, corner: 0)
+                        ForEach(imageViewModel.currentImages) { image in
+                            CustomAssetsImage(imageName: image.image, width: 210, height: 180, corner: 0)
                                 .clipShape(RoundedRectangle(cornerRadius: 30))
                                 .padding(.horizontal, 60)
                                 .shadow(radius: 15)
@@ -225,6 +225,10 @@ extension View {
 
 struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
-        UIAddBlocker4()
+        NavigationView {
+            UIAddBlocker1()
+        }
+        .environmentObject(ImageViewModel())
+        
     }
 }

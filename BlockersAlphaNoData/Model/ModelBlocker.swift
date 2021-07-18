@@ -7,39 +7,35 @@
 
 import Foundation
 
-struct Blocker: Identifiable {
-    let id = UUID()
+struct BlockerModel: Identifiable {
+    let id: String = UUID().uuidString
     let name: String
-    var image: String
-    var dDay: String // todo: move this property to ModelUser
-    var rawBalance: Float // todo: move this property to ModelUser
-    lazy var balance: String = rawBalance.currencyRepresentation
+    let image : String
+    var budget: Float
+    let period: String? // Weekly / Monthly / Yearly
+    let resetDate: String? // Monday / 27 / 27, January
+    let spent: Float?
+    let startDate: Date?
+    let endDate: Date?
+    var histories: [BlockerHistoryModel]
     
+    func getCurrentBudget() -> Float {
+        if let currentSpent = self.spent {
+            return self.budget - currentSpent
+        } else {
+            return self.budget
+        }
+    }
 }
 
-struct BlockerList {
-    
-    
-    static var mainBlockerList = [
-        Blocker(name: "Eat",
-                image: "eat-blocker",
-                dDay: "d-14",
-                rawBalance: 24500),
-        
-        Blocker(name: "Shop",
-                image: "shop-blocker",
-                dDay: "d-14",
-                rawBalance: 50000),
-        
-        Blocker(name: "Cafe",
-                image: "cafe-blocker",
-                dDay: "d-2",
-                rawBalance: 20000),
-        
-        Blocker(name: "Workout",
-                image: "workout-blocker",
-                dDay: "d-30",
-                rawBalance: 300000),
+struct BlockerHistoryModel: Hashable {
+    let date: String
+    let spent: Float
+    let earn: Float
+    let memo: String
+}
 
-    ]
+struct BlockerImageModel: Identifiable {
+    let id: String = UUID().uuidString
+    let image: String
 }

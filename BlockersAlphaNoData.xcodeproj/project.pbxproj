@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */; };
+		7427ECDA26A43C6400297CAA /* UItest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD926A43C6400297CAA /* UItest.swift */; };
 		74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UIConfig.swift */; };
-		74B75AB9266CB60000ADD85B /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B75AB8266CB60000ADD85B /* test.swift */; };
 		74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */; };
 		74E3E5BD266B59A500BF4DDE /* UIAddBlocker1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */; };
 		74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */; };
@@ -23,8 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBlocker.swift; sourceTree = "<group>"; };
+		7427ECD926A43C6400297CAA /* UItest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UItest.swift; sourceTree = "<group>"; };
 		74B3E9FE2676032800E500D5 /* UIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfig.swift; sourceTree = "<group>"; };
-		74B75AB8266CB60000ADD85B /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockerLevel.swift; sourceTree = "<group>"; };
 		74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAddBlocker1.swift; sourceTree = "<group>"; };
 		74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeposit.swift; sourceTree = "<group>"; };
@@ -51,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7427ECCD26A3D30300297CAA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		74848DE926905B6C00764BCA /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +70,7 @@
 				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
 				74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */,
 				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
+				7427ECD926A43C6400297CAA /* UItest.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -102,10 +113,10 @@
 			children = (
 				74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */,
 				74848DE926905B6C00764BCA /* View */,
-				74B75AB8266CB60000ADD85B /* test.swift */,
 				74848DEB26905C0E00764BCA /* Utilities */,
 				74848DED26905C1B00764BCA /* Model */,
 				74E63AAD26692A3B008ABB40 /* Assets.xcassets */,
+				7427ECCD26A3D30300297CAA /* ViewModel */,
 				74E63AB226692A3B008ABB40 /* Info.plist */,
 				74E63AAF26692A3B008ABB40 /* Preview Content */,
 			);
@@ -190,14 +201,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */,
+				7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */,
 				74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */,
 				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
 				74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */,
+				7427ECDA26A43C6400297CAA /* UItest.swift in Sources */,
 				74E3E5D7266B74AB00BF4DDE /* UIUtils.swift in Sources */,
 				74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */,
 				74F0A48B269AEB4E00F936BC /* FunctionUtils.swift in Sources */,
 				74E3E5BD266B59A500BF4DDE /* UIAddBlocker1.swift in Sources */,
-				74B75AB9266CB60000ADD85B /* test.swift in Sources */,
 				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,
 				74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */,
 			);
