@@ -15,6 +15,7 @@ struct BlockersAlphaNoDataApp: App {
                 UIMain()
             }
             .environmentObject(BlockerViewModel())
+            .environmentObject(ImageViewModel())
         }
     }
 }

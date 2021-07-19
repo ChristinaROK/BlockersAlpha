@@ -9,9 +9,10 @@ import SwiftUI
 
 //TODO: 블로커 카드가 horizontal하게 움직이는 애니메이션 추가
 
-struct UIAddBlocker1: View {
+struct UICreateImage: View {
     
     @EnvironmentObject var imageViewModel: ImageViewModel
+    @State var blockerImage: String = ""
     
     var body: some View {
         
@@ -29,17 +30,24 @@ struct UIAddBlocker1: View {
                 ScrollView(.horizontal, showsIndicators: false, content: {
                     HStack {
                         ForEach(imageViewModel.currentImages) { image in
-                            CustomAssetsImage(imageName: image.image, width: 210, height: 180, corner: 0)
-                                .clipShape(RoundedRectangle(cornerRadius: 30))
-                                .padding(.horizontal, 60)
-                                .shadow(radius: 15)
+                            Button(action: {
+                                blockerImage = image.image
+                            }, label: {
+                                CustomAssetsImage(imageName: image.image, width: 210, height: 180, corner: 0)
+                                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                                    .padding(.horizontal, 60)
+                                    .shadow(radius: 15)
+                            })
                         }
                     }
                     .offset(x: 56)
                 })
             }
             
-            NavigationButton(destination: AnyView(UIAddBlocker2()))
+            if blockerImage != "" {
+                NavigationButton(destination: AnyView(UICreateName(blockerImage: $blockerImage)))
+            }
+            
         }
         .offset(y: -20)
     }
@@ -48,9 +56,10 @@ struct UIAddBlocker1: View {
 
 // TODO: TextField의 onEditingChanged, onCommit 파라미터에 클로저 추가해 데이터를 저장할 것
 
-struct UIAddBlocker2: View {
+struct UICreateName: View {
     
-    @State private var blockerName = ""
+    @Binding var blockerImage: String
+    @State var blockerName = ""
     
     var body: some View {
         VStack (spacing:60) {
@@ -60,30 +69,48 @@ struct UIAddBlocker2: View {
             ZStack {
                 Rectangle()
                     .fill(Color.green)
-                    .frame(width: 400, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .cornerRadius(10)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    //.frame(height: 150)
                     .opacity(0.6)
-            HStack{
-                CustomText(text: "NAME", size: 20, weight: .bold, design: .default, color: Color.black)
-                TextField("예산 이름", text: $blockerName)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 
-            }
-            .padding(.horizontal)
+                VStack {
+                    
+                    if blockerImage == "" {
+                        CustomSFImage(imageName: "exclamationmark.triangle.fill", renderMode: .template, width: 98, height: 90, corner: 0, color: .orange)
+                            .padding()
+                    } else {
+                        CustomAssetsImage(imageName: blockerImage, width: 150, height: 120, corner: 20)
+                            .padding()
+                    }
+
+                    HStack{
+                        CustomText(text: "NAME", size: 20, weight: .bold, design: .default, color: Color.black)
+                        TextField("예산 이름", text: $blockerName)
+                            .padding()
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                    }
+                    .padding(.horizontal)
+                }
+               
             }
   
-            NavigationButton(destination: AnyView(UIAddBlocker3()))
+            NavigationButton(destination: AnyView(UICreateBudget(blockerImage: $blockerImage, blockerName: $blockerName)))
 
         }
         .offset(y: -20)
     }
 }
 
-// TODO: 1. customized keyboard 개발 (원 단위 수 자동 생성) 2. string 입력 값을 float로 변환해 데이터에 저장
+// TODO: 1. customized keyboard 개발 (원 단위 수 자동 생성)
 
-struct UIAddBlocker3: View {
+struct UICreateBudget: View {
     
-    @State private var blockerAmount = ""
+    @Binding var blockerImage: String
+    @Binding var blockerName: String
+    @State var blockerAmount = ""
+    
     
     var body: some View {
         
@@ -91,10 +118,14 @@ struct UIAddBlocker3: View {
             CustomText(text: "관리할 예산 블럭의 총 금액을 알려주세요.", size: 22, weight: .semibold, design: .default, color: .black)
             
             ZStack {
+                
                 Rectangle()
                     .fill(Color.green)
-                    .frame(width: 400, height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    .cornerRadius(10)
+                    .frame(maxWidth: .infinity)
+                    .frame(height:120)
                     .opacity(0.6)
+                
             HStack{
                 CustomText(text: "BUDGET", size: 20, weight: .bold, design: .default, color: Color.black)
                 TextField("총 예산 금액", text: $blockerAmount)
@@ -103,21 +134,31 @@ struct UIAddBlocker3: View {
             }
             .padding(.horizontal)
             }
-  
-            NavigationButton(destination: AnyView(UIAddBlocker4()))
+            
+            // create Blocker model
+            let newblocker = BlockerModel(name: blockerName, image: blockerImage, budget: Float(blockerAmount) ?? 0, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])
+            
+            NavigationButton(destination: AnyView(UICreateType(blockerModel: newblocker)))
             
         }
         .offset(y: -20)
     }
 }
 
-
-struct UIAddBlocker4: View {
+// TODO : blockerModel의 property를 업데이트할 것!!!!
+struct UICreateType: View {
     
-    @State private var isOneTime: Bool = true
+    var blockerModel: BlockerModel
+    @State var isOneTime: Bool = true
+    @State var period: String?
     
     var body: some View {
         VStack {
+            
+            /* debug */
+            Text(blockerModel.name)
+            Text(blockerModel.period ?? "empty")
+            
             VStack {
                 CustomText(text: "관리할 예산 블럭의 성격을 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 
@@ -132,7 +173,6 @@ struct UIAddBlocker4: View {
                         if isOneTime == false {
                             isOneTime.toggle()
                         }
-                    // TODO: save and pass to next view
                     } label: {
                         CircleText(text: "일회성")
                     }
@@ -143,9 +183,24 @@ struct UIAddBlocker4: View {
                 CustomText(text: "관리할 예산 블럭의 주기를 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 
                 HStack(spacing: 5) {
-                    CircleText(text: "주간")
-                    CircleText(text: "월간")
-                    CircleText(text: "연간")
+                    Button(action: {
+                        period = "Weekly"
+                        //blockerModel.period = period
+                    }, label: {
+                        CircleText(text: "주간")
+                    })
+                    
+                    Button(action: {
+                        period = "Monthly"
+                    }, label: {
+                        CircleText(text: "월간")
+                    })
+                    
+                    Button(action: {
+                        period = "Yearly"
+                    }, label: {
+                        CircleText(text: "연간")
+                    })
                 }
             }
             .isEmpty(isOneTime) // custom view modifier
@@ -224,9 +279,10 @@ extension View {
 }
 
 struct UIAddBlocker_Previews: PreviewProvider {
+    
     static var previews: some View {
         NavigationView {
-            UIAddBlocker1()
+            UICreateType(blockerModel: BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: []))
         }
         .environmentObject(ImageViewModel())
         

@@ -12,11 +12,11 @@ struct BlockerModel: Identifiable {
     let name: String
     let image : String
     var budget: Float
-    let period: String? // Weekly / Monthly / Yearly
-    let resetDate: String? // Monday / 27 / 27, January
-    let spent: Float?
-    let startDate: Date?
-    let endDate: Date?
+    var period: String? // Weekly / Monthly / Yearly
+    var resetDate: String? // Monday / 27 / 27, January
+    var spent: Float?
+    var startDate: Date?
+    var endDate: Date?
     var histories: [BlockerHistoryModel]
     
     func getCurrentBudget() -> Float {

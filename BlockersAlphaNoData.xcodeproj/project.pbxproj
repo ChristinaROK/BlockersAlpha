@@ -11,7 +11,7 @@
 		7427ECDA26A43C6400297CAA /* UItest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD926A43C6400297CAA /* UItest.swift */; };
 		74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UIConfig.swift */; };
 		74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */; };
-		74E3E5BD266B59A500BF4DDE /* UIAddBlocker1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */; };
+		74E3E5BD266B59A500BF4DDE /* UICreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */; };
 		74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */; };
 		74E3E5D7266B74AB00BF4DDE /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5D6266B74AB00BF4DDE /* UIUtils.swift */; };
 		74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AA926692A39008ABB40 /* BlockersAlphaNoDataApp.swift */; };
@@ -28,7 +28,7 @@
 		7427ECD926A43C6400297CAA /* UItest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UItest.swift; sourceTree = "<group>"; };
 		74B3E9FE2676032800E500D5 /* UIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfig.swift; sourceTree = "<group>"; };
 		74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockerLevel.swift; sourceTree = "<group>"; };
-		74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAddBlocker1.swift; sourceTree = "<group>"; };
+		74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICreateImage.swift; sourceTree = "<group>"; };
 		74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeposit.swift; sourceTree = "<group>"; };
 		74E3E5D6266B74AB00BF4DDE /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		74E63AA626692A39008ABB40 /* BlockersAlphaNoData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockersAlphaNoData.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,7 +68,7 @@
 				74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */,
 				74B3E9FE2676032800E500D5 /* UIConfig.swift */,
 				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
-				74E3E5BC266B59A500BF4DDE /* UIAddBlocker1.swift */,
+				74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */,
 				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
 				7427ECD926A43C6400297CAA /* UItest.swift */,
 			);
@@ -209,7 +209,7 @@
 				74E3E5D7266B74AB00BF4DDE /* UIUtils.swift in Sources */,
 				74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */,
 				74F0A48B269AEB4E00F936BC /* FunctionUtils.swift in Sources */,
-				74E3E5BD266B59A500BF4DDE /* UIAddBlocker1.swift in Sources */,
+				74E3E5BD266B59A500BF4DDE /* UICreateImage.swift in Sources */,
 				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,
 				74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */,
 			);

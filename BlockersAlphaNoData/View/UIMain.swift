@@ -164,7 +164,7 @@ struct NavigationDetail: View {
 struct NavigationAdd: View {
     var body: some View {
         NavigationLink(
-            destination: UIAddBlocker1(),
+            destination: UICreateImage(),
             label: {
                 CustomSFImage(imageName: "person.crop.circle.fill.badge.plus", renderMode: .original, width: 61, height: 52, color: Color.orange)
                     .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
@@ -224,6 +224,7 @@ struct UIMain_Previews: PreviewProvider {
             UIMain()
         }
         .environmentObject(BlockerViewModel())
+        .environmentObject(ImageViewModel())
         
     }
 }
