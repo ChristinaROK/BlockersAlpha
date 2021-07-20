@@ -14,6 +14,8 @@ struct UItest: View {
     @EnvironmentObject var imageViewModel : ImageViewModel
     
     var body: some View {
+        
+//        VStack {
         List {
             ForEach(blockerViewModel.currentBlockers) { blocker in
                 VStack {
@@ -50,6 +52,10 @@ struct UItest: View {
             }
         }
         .navigationTitle("View Model Test")
+        
+        
+//        }
+        
     }
 }
 

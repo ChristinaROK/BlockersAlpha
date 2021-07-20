@@ -28,6 +28,13 @@ struct BlockerModel: Identifiable {
     }
 }
 
+// TODO: BlockerModel의 period property를 BlockerPeriodModel로 바꾸기
+enum BlockerPeriodModel: String, CaseIterable, Equatable {
+    case weekly = "Weekly"
+    case montly = "Monthly"
+    case yearly = "Yearly"
+}
+
 struct BlockerHistoryModel: Hashable {
     let date: String
     let spent: Float

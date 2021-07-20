@@ -145,10 +145,10 @@ struct UICreateBudget: View {
     }
 }
 
-// TODO : blockerModel의 property를 업데이트할 것!!!!
+
 struct UICreateType: View {
     
-    var blockerModel: BlockerModel
+    @State var blockerModel: BlockerModel
     @State var isOneTime: Bool = true
     @State var period: String?
     
@@ -173,6 +173,10 @@ struct UICreateType: View {
                         if isOneTime == false {
                             isOneTime.toggle()
                         }
+                        
+                        if blockerModel.period != nil {
+                            blockerModel.period = nil
+                        }
                     } label: {
                         CircleText(text: "일회성")
                     }
@@ -185,19 +189,21 @@ struct UICreateType: View {
                 HStack(spacing: 5) {
                     Button(action: {
                         period = "Weekly"
-                        //blockerModel.period = period
+                        blockerModel.period = period
                     }, label: {
                         CircleText(text: "주간")
                     })
                     
                     Button(action: {
                         period = "Monthly"
+                        blockerModel.period = period
                     }, label: {
                         CircleText(text: "월간")
                     })
                     
                     Button(action: {
                         period = "Yearly"
+                        blockerModel.period = period
                     }, label: {
                         CircleText(text: "연간")
                     })
@@ -205,7 +211,7 @@ struct UICreateType: View {
             }
             .isEmpty(isOneTime) // custom view modifier
             
-            NavigationButton(destination: AnyView(UIAddBlocker5()))
+            NavigationButton(destination: AnyView(UICreateDate(isOneTime: isOneTime, blockerModel: $blockerModel)))
                 .offset(y:80)
             
         }
@@ -214,14 +220,59 @@ struct UICreateType: View {
 }
 
 // START FROM HERE
-struct UIAddBlocker5: View {
+struct UICreateDate: View {
+    
+    let isOneTime: Bool
+    @Binding var blockerModel: BlockerModel
+    @State var date: Date = Date()
+    @State var selectedDay = CustomDays.월요일
+    
+    enum CustomDays: String, CaseIterable, Identifiable {
+        case 월요일
+        case 화요일
+        case 수요일
+        case 목요일
+        case 금요일
+        case 토요일
+        case 일요일
+        
+        var id: String { self.rawValue }
+    }
+    
     var body: some View {
-        VStack {
-            VStack {
+        
+        if isOneTime {
+            // 일회성 모드
+        } else {
+            // 반복 모드
+            VStack{
                 CustomText(text: "예산 블럭의 시작일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
                 CustomText(text: "(모든 예산은 시작일이 되면 초기화 됩니다.)", size: 18, weight: .semibold, design: .default, color: .black)
+            
+            
+            if blockerModel.period == "Weekly" {
+                // 주별 View
+                Picker("", selection: $selectedDay) {
+                    ForEach(CustomDays.allCases) { day in
+                        Text(day.rawValue).tag(day)
+                    }
+                }
+                .labelsHidden()
+                .padding()
                 
-                // TODO: 이전 View의 값을 받아서 그 값에 따라 view 변경
+                /* debug */
+                Text("\(selectedDay.rawValue)")
+                
+            } else if blockerModel.period == "Monthly" {
+                // 월별 View
+            } else {
+                // 연별 View
+                DatePicker("", selection: $date, displayedComponents: .date)
+                    .datePickerStyle(WheelDatePickerStyle())
+                    .labelsHidden()
+                    .padding()
+            }
+                
             }
         }
     }
@@ -282,7 +333,7 @@ struct UIAddBlocker_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            UICreateType(blockerModel: BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: []))
+            UICreateDate(isOneTime: false, blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: "Weekly", resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
         }
         .environmentObject(ImageViewModel())
         
