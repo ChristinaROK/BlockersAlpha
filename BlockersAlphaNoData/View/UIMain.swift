@@ -27,13 +27,8 @@ struct UIMain: View {
                 //BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
                 
                 VStack (spacing:20) {
-                    HStack {
-                        // TODO: 추상화 
-                        Text(Date(), style: .date)
-                            .foregroundColor(.white)
-                        
-                        CustomText(text: "오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .white)
-                    }
+                    
+                    CustomText(text: "\(Date().formatDate()) 🗓 오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .white)
                     .padding(5)
                     .background(Color.green)
                     .offset(y: -35)

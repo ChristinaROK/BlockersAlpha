@@ -22,7 +22,7 @@ struct UItest: View {
                     Text("Name: \(blocker.name)")
                     Image(blocker.image)
                     Text("Budget: \(blocker.budget.currencyRepresentation)")
-                    Text("Period: \(blocker.period ?? "")")
+                    Text("Period: \(blocker.period?.rawValue ?? "")")
                     Text("ResetDate: \(blocker.resetDate ?? "")")
                     Text("Spent: \(blocker.spent?.currencyRepresentation ?? "")")
                     Text("current Amount: \(blocker.getCurrentBudget().currencyRepresentation)")
@@ -59,13 +59,33 @@ struct UItest: View {
     }
 }
 
+
+struct Tempt: View {
+    @State var wakeUp = Date()
+    
+    var body: some View {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        
+        
+        dateFormatter.dateFormat = " yyyy / MM / dd / EEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateString = dateFormatter.string(from: wakeUp)
+        
+        return Text("\(dateString)")
+        
+    }
+}
+
+
 struct UItest_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
-            UItest()
-        }
-        .environmentObject(BlockerViewModel())
-        .environmentObject(ImageViewModel())
-        
+//        NavigationView {
+//            UItest()
+//        }
+//        .environmentObject(BlockerViewModel())
+//        .environmentObject(ImageViewModel())
+        Tempt()
     }
 }

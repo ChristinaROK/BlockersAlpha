@@ -20,7 +20,7 @@
 		74E63AB126692A3B008ABB40 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74E63AB026692A3B008ABB40 /* Preview Assets.xcassets */; };
 		74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63ABE26693220008ABB40 /* ModelBlocker.swift */; };
 		74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AC2266936AB008ABB40 /* UIDetail.swift */; };
-		74F0A48B269AEB4E00F936BC /* FunctionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F0A48A269AEB4E00F936BC /* FunctionUtils.swift */; };
+		74F0A48B269AEB4E00F936BC /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F0A48A269AEB4E00F936BC /* ExtensionUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +39,7 @@
 		74E63AB226692A3B008ABB40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74E63ABE26693220008ABB40 /* ModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBlocker.swift; sourceTree = "<group>"; };
 		74E63AC2266936AB008ABB40 /* UIDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDetail.swift; sourceTree = "<group>"; };
-		74F0A48A269AEB4E00F936BC /* FunctionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionUtils.swift; sourceTree = "<group>"; };
+		74F0A48A269AEB4E00F936BC /* ExtensionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				74E3E5D6266B74AB00BF4DDE /* UIUtils.swift */,
-				74F0A48A269AEB4E00F936BC /* FunctionUtils.swift */,
+				74F0A48A269AEB4E00F936BC /* ExtensionUtils.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -208,7 +208,7 @@
 				7427ECDA26A43C6400297CAA /* UItest.swift in Sources */,
 				74E3E5D7266B74AB00BF4DDE /* UIUtils.swift in Sources */,
 				74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */,
-				74F0A48B269AEB4E00F936BC /* FunctionUtils.swift in Sources */,
+				74F0A48B269AEB4E00F936BC /* ExtensionUtils.swift in Sources */,
 				74E3E5BD266B59A500BF4DDE /* UICreateImage.swift in Sources */,
 				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,
 				74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */,

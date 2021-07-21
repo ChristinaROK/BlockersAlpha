@@ -20,7 +20,7 @@ struct UIDetail_Previews: PreviewProvider {
     
     static var previews: some View {
         
-        let blocker1: BlockerModel = BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: "Monthly", resetDate: "1", spent: 300000, startDate: nil, endDate: nil, histories: [])
+        let blocker1: BlockerModel = BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .monthly, resetDate: "1", spent: 300000, startDate: nil, endDate: nil, histories: [])
         
         NavigationView {
             UIDetail(blocker: blocker1)

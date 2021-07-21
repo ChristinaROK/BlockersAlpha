@@ -23,3 +23,14 @@ extension Float {
     
 }
 
+extension Date {
+    
+    func formatDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat="yyyy/MM/dd E"
+        return dateFormatter.string(from: self)
+    }
+    
+}

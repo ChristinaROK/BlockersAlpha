@@ -83,7 +83,7 @@ struct UICreateName: View {
                         CustomAssetsImage(imageName: blockerImage, width: 150, height: 120, corner: 20)
                             .padding()
                     }
-
+                    
                     HStack{
                         CustomText(text: "NAME", size: 20, weight: .bold, design: .default, color: Color.black)
                         TextField("예산 이름", text: $blockerName)
@@ -93,11 +93,11 @@ struct UICreateName: View {
                     }
                     .padding(.horizontal)
                 }
-               
+                
             }
-  
+            
             NavigationButton(destination: AnyView(UICreateBudget(blockerImage: $blockerImage, blockerName: $blockerName)))
-
+            
         }
         .offset(y: -20)
     }
@@ -126,13 +126,13 @@ struct UICreateBudget: View {
                     .frame(height:120)
                     .opacity(0.6)
                 
-            HStack{
-                CustomText(text: "BUDGET", size: 20, weight: .bold, design: .default, color: Color.black)
-                TextField("총 예산 금액", text: $blockerAmount)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
-            .padding(.horizontal)
+                HStack{
+                    CustomText(text: "BUDGET", size: 20, weight: .bold, design: .default, color: Color.black)
+                    TextField("총 예산 금액", text: $blockerAmount)
+                        .padding()
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+                .padding(.horizontal)
             }
             
             // create Blocker model
@@ -154,10 +154,6 @@ struct UICreateType: View {
     
     var body: some View {
         VStack {
-            
-            /* debug */
-            Text(blockerModel.name)
-            Text(blockerModel.period ?? "empty")
             
             VStack {
                 CustomText(text: "관리할 예산 블럭의 성격을 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
@@ -182,28 +178,25 @@ struct UICreateType: View {
                     }
                 }
             }
-
+            
             VStack {
                 CustomText(text: "관리할 예산 블럭의 주기를 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 
                 HStack(spacing: 5) {
                     Button(action: {
-                        period = "Weekly"
-                        blockerModel.period = period
+                        blockerModel.period = .weekly
                     }, label: {
                         CircleText(text: "주간")
                     })
                     
                     Button(action: {
-                        period = "Monthly"
-                        blockerModel.period = period
+                        blockerModel.period = .monthly
                     }, label: {
                         CircleText(text: "월간")
                     })
                     
                     Button(action: {
-                        period = "Yearly"
-                        blockerModel.period = period
+                        blockerModel.period = .yearly
                     }, label: {
                         CircleText(text: "연간")
                     })
@@ -211,7 +204,7 @@ struct UICreateType: View {
             }
             .isEmpty(isOneTime) // custom view modifier
             
-            NavigationButton(destination: AnyView(UICreateDate(isOneTime: isOneTime, blockerModel: $blockerModel)))
+            NavigationButton(destination: AnyView(UICreateDate(blockerModel: $blockerModel)))
                 .offset(y:80)
             
         }
@@ -219,63 +212,55 @@ struct UICreateType: View {
     }
 }
 
-// START FROM HERE
+
 struct UICreateDate: View {
     
-    let isOneTime: Bool
     @Binding var blockerModel: BlockerModel
     @State var date: Date = Date()
     @State var selectedDay = CustomDays.월요일
     
-    enum CustomDays: String, CaseIterable, Identifiable {
-        case 월요일
-        case 화요일
-        case 수요일
-        case 목요일
-        case 금요일
-        case 토요일
-        case 일요일
-        
-        var id: String { self.rawValue }
-    }
-    
     var body: some View {
         
-        if isOneTime {
-            // 일회성 모드
-        } else {
-            // 반복 모드
+        if let period = blockerModel.period {
+            // recurrsive mode
+            
             VStack{
+                
                 CustomText(text: "예산 블럭의 시작일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
                 CustomText(text: "(모든 예산은 시작일이 되면 초기화 됩니다.)", size: 18, weight: .semibold, design: .default, color: .black)
-            
-            
-            if blockerModel.period == "Weekly" {
-                // 주별 View
-                Picker("", selection: $selectedDay) {
-                    ForEach(CustomDays.allCases) { day in
-                        Text(day.rawValue).tag(day)
+                
+                
+                switch period {
+                case .weekly:
+                    // weekly view
+                    Picker("", selection: $selectedDay) {
+                        ForEach(CustomDays.allCases) { day in
+                            Text(day.rawValue).tag(day)
+                        }
                     }
-                }
-                .labelsHidden()
-                .padding()
-                
-                /* debug */
-                Text("\(selectedDay.rawValue)")
-                
-            } else if blockerModel.period == "Monthly" {
-                // 월별 View
-            } else {
-                // 연별 View
-                DatePicker("", selection: $date, displayedComponents: .date)
-                    .datePickerStyle(WheelDatePickerStyle())
                     .labelsHidden()
                     .padding()
+                case .monthly:
+                    // monthly view
+                    Text("montly")
+                case .yearly:
+                    // yearly view
+                    DatePicker("", selection: $date, displayedComponents: .date)
+                        .datePickerStyle(WheelDatePickerStyle())
+                        .labelsHidden()
+                        .padding()
+                    
+                }
             }
-                
-            }
+            
+        } else {
+            // one time mode
+            
+            
         }
+        
     }
+    
 }
 
 
@@ -333,7 +318,7 @@ struct UIAddBlocker_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            UICreateDate(isOneTime: false, blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: "Weekly", resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
+            UICreateDate(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .weekly, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
         }
         .environmentObject(ImageViewModel())
         

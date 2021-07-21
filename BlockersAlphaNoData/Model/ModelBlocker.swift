@@ -7,12 +7,16 @@
 
 import Foundation
 
+/*
+Model - Blocker
+ */
+
 struct BlockerModel: Identifiable {
     let id: String = UUID().uuidString
     let name: String
     let image : String
     var budget: Float
-    var period: String? // Weekly / Monthly / Yearly
+    var period: BlockerPeriodModel? // Weekly / Monthly / Yearly
     var resetDate: String? // Monday / 27 / 27, January
     var spent: Float?
     var startDate: Date?
@@ -28,11 +32,8 @@ struct BlockerModel: Identifiable {
     }
 }
 
-// TODO: BlockerModel의 period property를 BlockerPeriodModel로 바꾸기
 enum BlockerPeriodModel: String, CaseIterable, Equatable {
-    case weekly = "Weekly"
-    case montly = "Monthly"
-    case yearly = "Yearly"
+    case weekly ,monthly, yearly
 }
 
 struct BlockerHistoryModel: Hashable {
@@ -45,4 +46,13 @@ struct BlockerHistoryModel: Hashable {
 struct BlockerImageModel: Identifiable {
     let id: String = UUID().uuidString
     let image: String
+}
+
+/*
+ Model - Custom Dates
+ */
+
+enum CustomDays: String, CaseIterable, Identifiable {
+    case 월요일 , 화요일, 수요일, 목요일, 금요일, 토요일, 일요일
+    var id: String { self.rawValue }
 }
