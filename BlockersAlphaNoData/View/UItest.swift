@@ -23,7 +23,7 @@ struct UItest: View {
                     Image(blocker.image)
                     Text("Budget: \(blocker.budget.currencyRepresentation)")
                     Text("Period: \(blocker.period?.rawValue ?? "")")
-                    Text("ResetDate: \(blocker.resetDate ?? "")")
+//                    Text("ResetDate: \(Calendar.current.date(from: blocker.resetDate ?? DateComponents(day:1)) ?? Date())")
                     Text("Spent: \(blocker.spent?.currencyRepresentation ?? "")")
                     Text("current Amount: \(blocker.getCurrentBudget().currencyRepresentation)")
                     
@@ -81,11 +81,11 @@ struct Tempt: View {
 
 struct UItest_Previews: PreviewProvider {
     static var previews: some View {
-//        NavigationView {
-//            UItest()
-//        }
-//        .environmentObject(BlockerViewModel())
-//        .environmentObject(ImageViewModel())
-        Tempt()
+        NavigationView {
+            UItest()
+        }
+        .environmentObject(BlockerViewModel())
+        .environmentObject(ImageViewModel())
+//        Tempt()
     }
 }

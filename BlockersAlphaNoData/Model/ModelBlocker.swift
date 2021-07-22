@@ -17,7 +17,7 @@ struct BlockerModel: Identifiable {
     let image : String
     var budget: Float
     var period: BlockerPeriodModel? // Weekly / Monthly / Yearly
-    var resetDate: String? // Monday / 27 / 27, January
+    var resetDate: DateComponents?
     var spent: Float?
     var startDate: Date?
     var endDate: Date?
@@ -52,7 +52,17 @@ struct BlockerImageModel: Identifiable {
  Model - Custom Dates
  */
 
-enum CustomDays: String, CaseIterable, Identifiable {
-    case 월요일 , 화요일, 수요일, 목요일, 금요일, 토요일, 일요일
+enum CustomWeekdays: String, CaseIterable, Identifiable {
+    case 일요일, 월요일, 화요일, 수요일, 목요일, 금요일, 토요일 
     var id: String { self.rawValue }
 }
+
+var weekdays2int: [String:Int] = ["일요일" : 1,
+                              "월요일" : 2,
+                              "화요일" : 3,
+                              "수요일" : 4,
+                              "목요일" : 5,
+                              "금요일" : 6,
+                              "토요일" : 7]
+
+var customDays: [String] = ["매월 1일", "매월 말일"] + (2...31).map { "\($0) 일" }

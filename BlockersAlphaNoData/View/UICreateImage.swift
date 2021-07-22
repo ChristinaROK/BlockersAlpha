@@ -217,7 +217,8 @@ struct UICreateDate: View {
     
     @Binding var blockerModel: BlockerModel
     @State var date: Date = Date()
-    @State var selectedDay = CustomDays.월요일
+    @State var selectedWeekday = CustomWeekdays.일요일
+    @State var selectedDay = "매월 1일"
     
     var body: some View {
         
@@ -233,16 +234,33 @@ struct UICreateDate: View {
                 switch period {
                 case .weekly:
                     // weekly view
-                    Picker("", selection: $selectedDay) {
-                        ForEach(CustomDays.allCases) { day in
-                            Text(day.rawValue).tag(day)
+                    Picker("", selection: $selectedWeekday) {
+                        ForEach(CustomWeekdays.allCases) { day in
+                            Text("\(day.rawValue)").tag(day)
                         }
                     }
                     .labelsHidden()
                     .padding()
+                    
+                    if let period = weekdays2int[selectedWeekday.rawValue] {
+                        // TODO: Button Click할 때 blocker 값을 변경할 것
+                        //blockerModel.resetDate = DateComponents(weekday:period)
+                        
+                        // debugging
+                        Text("\(period)")
+                    }
+                    
+                    
                 case .monthly:
                     // monthly view
-                    Text("montly")
+                    Picker("", selection: $selectedDay) {
+                        ForEach(customDays, id: \.self) { date in
+                            Text(date).tag(date)
+                        }
+                    }
+                    Text("\(selectedDay)")
+                    // resetDate 추가
+                
                 case .yearly:
                     // yearly view
                     DatePicker("", selection: $date, displayedComponents: .date)
@@ -318,7 +336,7 @@ struct UIAddBlocker_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            UICreateDate(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .weekly, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
+            UICreateDate(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .monthly, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
         }
         .environmentObject(ImageViewModel())
         
