@@ -65,4 +65,4 @@ var weekdays2int: [String:Int] = ["일요일" : 1,
                               "금요일" : 6,
                               "토요일" : 7]
 
-var customDays: [String] = ["매월 1일", "매월 말일"] + (2...31).map { "\($0) 일" }
+var customDays: [String] = ["매월 1 일", "매월 말 일"] + (2...31).map { "\($0) 일" }
