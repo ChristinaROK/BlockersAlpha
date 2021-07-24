@@ -57,7 +57,7 @@ enum CustomWeekdays: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
-var weekdays2int: [String:Int] = ["일요일" : 1,
+let weekdays2int: [String:Int] = ["일요일" : 1,
                               "월요일" : 2,
                               "화요일" : 3,
                               "수요일" : 4,
@@ -65,4 +65,12 @@ var weekdays2int: [String:Int] = ["일요일" : 1,
                               "금요일" : 6,
                               "토요일" : 7]
 
-var customDays: [String] = ["매월 1 일", "매월 말 일"] + (2...31).map { "\($0) 일" }
+let customDays: [String] = ["매월 1 일", "매월 말 일"] + (2...31).map { "\($0) 일" }
+
+var days2int1: [String:Int] = ["매월 1 일" : 1,
+                              "매월 말 일" : 31]
+
+var days2int2: [String:Int] = Dictionary(uniqueKeysWithValues: zip((2...31).map { "\($0) 일" }, 2...31))
+
+let days2int = days2int1.merging(days2int2) { $1 }
+

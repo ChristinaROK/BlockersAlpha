@@ -261,27 +261,13 @@ struct UICreateDate: View {
                     .labelsHidden()
                     .padding()
                     
-                    if let period = selectedDay {
-                        let firstSplitIndex = period.firstIndex(of: " ") ?? period.startIndex
-                        let secondSplitIndex = period.lastIndex(of: " ") ?? period.endIndex
+                    if let period = days2int[selectedDay] {
                         
-                        if firstSplitIndex != secondSplitIndex {
-                            let dateSubstring = period[firstSplitIndex..<secondSplitIndex]
-                            let dateInt = Int(dateSubstring) ?? 999
-                            
-                            // TODO
-                            //blockerModel.resetDate = DateComponents(day:Int(dateSubstring) ?? 31)
-                            
-                            Text("\(dateInt)")
-                        } else {
-                            let dateSubstring = period[..<secondSplitIndex]
-                            
-                            // TODO
-                            //blockerModel.resetDate = DateComponents(day:Int(dateSubstring) ?? 31)
-                            Text(dateSubstring)
-                        }
+                        // TODO: Button Click할 때 blocker 값을 변경할 것
+                        //blockerModel.resetDate = DateComponents(days:period)
                         
-                        
+                        Text("\(period)")
+  
                     }
                     
                     
