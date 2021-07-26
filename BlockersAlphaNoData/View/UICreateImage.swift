@@ -162,7 +162,7 @@ struct UICreateType: View {
                     Button {
                         isOneTime.toggle()
                     } label: {
-                        CircleText(text: "주간")
+                        CircleText(text: "반복")
                     }
                     
                     Button {
@@ -218,8 +218,11 @@ struct UICreateDate: View {
     @Binding var blockerModel: BlockerModel
     @State var date: Date = Date()
     @State var selectedWeekday = CustomWeekdays.일요일
-    @State var selectedDay = "매월 1 일"
-    
+    @State var selectedDate = "1 일"
+    @State var selectedMonth = "1 월"
+    @State var _month : Int? = 1
+    @State var selectedStartDate = Date()
+
     var body: some View {
         
         if let period = blockerModel.period {
@@ -227,6 +230,7 @@ struct UICreateDate: View {
             
             VStack{
                 
+                VStack {
                 CustomText(text: "예산 블럭의 시작일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
                 CustomText(text: "(모든 예산은 시작일이 되면 초기화 됩니다.)", size: 18, weight: .semibold, design: .default, color: .black)
                 
@@ -241,56 +245,160 @@ struct UICreateDate: View {
                     }
                     .labelsHidden()
                     .padding()
-                    
-                    if let period = weekdays2int[selectedWeekday.rawValue] {
-                        // TODO: Button Click할 때 blocker 값을 변경할 것
-                        //blockerModel.resetDate = DateComponents(weekday:period)
-                        
-                        // debugging
-                        Text("\(period)")
+                    .onReceive([self.selectedWeekday].publisher.first(), perform: { value in
+                        blockerModel.resetDate = DateComponents(weekday: weekdays2int[value.rawValue])
                     }
-                    
-                    
+                    )
                 case .monthly:
                     // monthly view
-                    Picker("", selection: $selectedDay) {
-                        ForEach(customDays, id: \.self) { date in
-                            Text(date).tag(date)
+                    VStack(spacing: 5) {
+                        Picker("", selection: $selectedDate) {
+                            ForEach(customDays, id: \.self) { date in
+                                Text(date).tag(date)
+                            }
                         }
-                    }
-                    .labelsHidden()
-                    .padding()
-                    
-                    if let period = days2int[selectedDay] {
-                        
-                        // TODO: Button Click할 때 blocker 값을 변경할 것
-                        //blockerModel.resetDate = DateComponents(days:period)
-                        
-                        Text("\(period)")
-  
-                    }
-                    
-                    
-                    // resetDate 추가
-                
-                case .yearly:
-                    // yearly view
-                    DatePicker("", selection: $date, displayedComponents: .date)
-                        .datePickerStyle(WheelDatePickerStyle())
                         .labelsHidden()
                         .padding()
+                        .onReceive([self.selectedDate].publisher.first(), perform: { value in
+                            blockerModel.resetDate = DateComponents(day: days2int[value])
+                        }
+                        )
+                        
+                        CustomText(text: "⚠️ 일수가 모자란 달은 자동으로 계산됩니다.", size: 18, weight: .semibold, design: .default, color: .black)
+                    }
+                    
+                case .yearly:
+                    // yearly view
+                    VStack {
+                        HStack(spacing: 0) {
+                            
+                            Picker("", selection: $selectedMonth) {
+                                ForEach(customMonth, id: \.self) { month in
+                                    Text(month).tag(month)
+                                }
+                            }
+                            .labelsHidden()
+                            .frame(width: UIScreen.main.bounds.width * 0.5)
+                            .clipped()
+                            .onReceive([self.selectedMonth].publisher.first(), perform: { value in
+                                self._month = month2int[value]
+                                //blockerModel.resetDate = DateComponents(month: month2int[value])
+                            }
+                            )
+                            
+                            
+                            Picker("", selection: $selectedDate) {
+                                ForEach(customDays, id: \.self) { date in
+                                    Text(date).tag(date)
+                                }
+                            }
+                            .labelsHidden()
+                            .frame(width: UIScreen.main.bounds.width * 0.5)
+                            .clipped()
+                            .onReceive([self.selectedDate].publisher.first(), perform: { value in
+                                if let _month = self._month {
+                                    blockerModel.resetDate = DateComponents(month: _month, day: days2int[value])
+                            }
+                            }
+                            )
+
+                        }
+                        
+                    }
                     
                 }
+                    
+                }
+                
+                
+                NavigationButton(destination: AnyView(UICreateSpent(blockerModel: $blockerModel)))
+                    .offset(y:80)
+                
+                
             }
             
         } else {
             // one time mode
+            VStack {
+                CustomText(text: "예산 블럭의 시작일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
+                    .padding()
+                // TODO: locale 적용
+                DatePicker("", selection: $selectedStartDate, displayedComponents: [.date])
+                    .labelsHidden()
+                    .datePickerStyle(WheelDatePickerStyle())
+                    .onReceive([self.selectedStartDate].publisher.first(), perform: { value in
+                        blockerModel.startDate = value
+                    })
+                
+                NavigationButton(destination: AnyView(UICreateEndDate(blockerModel: $blockerModel)))
+                    .offset(y:80)
+            }
+        }
+    }
+}
+
+struct UICreateSpent: View {
+    
+    @Binding var blockerModel: BlockerModel
+    @State var spent = ""
+    
+    var body: some View {
+        
+        VStack {
+            Text("debugging: \(blockerModel.resetDate ?? DateComponents(year:9999))")
+            CustomText(text: "예산 중 이미 사용한 금액이 있다면, 블로커에게 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
+                .padding()
+            
+            ZStack {
+                
+                Rectangle()
+                    .fill(Color.green)
+                    .cornerRadius(10)
+                    .frame(maxWidth: .infinity)
+                    .frame(height:120)
+                    .opacity(0.6)
+                
+                TextField("", text: $spent)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
             
             
         }
         
     }
+}
+
+
+struct UICreateEndDate: View {
     
+    @Binding var blockerModel: BlockerModel
+//    let dateRange: PartialRangeFrom<Date>
+//    @Binding var blockerModel: BlockerModel
+    @State var endDate: Date = Date()
+    
+    
+//    init(blockerModel: BlockerModel) {
+//        self.startDate = self.blockerModel.startDate
+//        self.dateRange = {
+//            let current = Calendar.current
+//            let startCompenet = current.dateComponents([.year, .month, .day], from: startDate)
+//            return current.date(from: startCompenet)!...
+//        }()
+//    }
+    
+    var body: some View {
+        VStack {
+            CustomText(text: "예산 블럭의 종료일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
+                .padding()
+            // TODO: locale 적용
+            
+//            DatePicker("", selection: $endDate, in: dateRange, displayedComponents: [.date])
+//                .labelsHidden()
+//                .datePickerStyle(WheelDatePickerStyle())
+            
+        }
+    }
 }
 
 
@@ -348,7 +456,8 @@ struct UIAddBlocker_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            UICreateDate(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .monthly, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
+            UICreateDate(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
+            //UICreateEndDate(startDate: Calendar.current.date(from: DateComponents(year: 2021, month: 1, day: 1))!)
         }
         .environmentObject(ImageViewModel())
         

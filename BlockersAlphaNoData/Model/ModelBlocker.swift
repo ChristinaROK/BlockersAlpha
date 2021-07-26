@@ -57,6 +57,15 @@ enum CustomWeekdays: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
+//let customDays: [String] = ["1 일", "말 일"] + (2...31).map { "\($0) 일" }
+let customDays: [String] = (1...31).map { "\($0) 일" }
+
+let customMonth: [String] = (1...12).map { "\($0) 월" }
+
+/*
+ Model - Custom date2value Mapper
+ */
+
 let weekdays2int: [String:Int] = ["일요일" : 1,
                               "월요일" : 2,
                               "화요일" : 3,
@@ -65,12 +74,13 @@ let weekdays2int: [String:Int] = ["일요일" : 1,
                               "금요일" : 6,
                               "토요일" : 7]
 
-let customDays: [String] = ["매월 1 일", "매월 말 일"] + (2...31).map { "\($0) 일" }
+//var days2int1: [String:Int] = ["1 일" : 1, "말 일" : 31]
+//var days2int2: [String:Int] = Dictionary(uniqueKeysWithValues: zip((2...31).map { "\($0) 일" }, 2...31))
+//let days2int = days2int1.merging(days2int2) { $1 }
 
-var days2int1: [String:Int] = ["매월 1 일" : 1,
-                              "매월 말 일" : 31]
+let days2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customDays, (1...31)))
 
-var days2int2: [String:Int] = Dictionary(uniqueKeysWithValues: zip((2...31).map { "\($0) 일" }, 2...31))
+let month2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customMonth, (1...12)))
 
-let days2int = days2int1.merging(days2int2) { $1 }
+
 
