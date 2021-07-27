@@ -375,46 +375,23 @@ struct UICreateEndDate: View {
     @State var selectedEndDate: Date = Date()
     @Binding var blockerModel: BlockerModel
     
-    // hide dateRange by using private property
-    private var _dateRange: PartialRangeFrom<Date>!
-    var dateRange: PartialRangeFrom<Date> {
-        return _dateRange
+    // initialize Binding property
+    init(blocker blockerModel: Binding<BlockerModel>) {
+        self._blockerModel = blockerModel
     }
     
-//    let dateRangeTwo: ClosedRange<Date> = {
-//        let calendar = Calendar.current
-//        let startComponents = DateComponents(year: 2021, month: 1, day: 1)
-//        let endComponents = DateComponents(year: 2021, month: 12, day: 31, hour: 23, minute: 59, second: 59)
-//        return calendar.date(from:startComponents)!
-//            ...
-//            calendar.date(from:endComponents)!
-//    }()
-    
-    
-    init(blocker blockerModel: Binding<BlockerModel>) {
-        self._blockerModel = blockerModel // initialize Binding property
-        
-        print("**debug** Blocker start date: \(blockerModel.startDate)")
-        
-        let startDate: Date = self.blockerModel.startDate ?? Date()
-        
-        
-        // initialize private property
-        self._dateRange = {
-            let current = Calendar.current
-            let startCompenet = current.dateComponents([.year, .month, .day], from: startDate)
-            print("**debug** Start Component: \(startCompenet)")
-            return current.date(from: startCompenet)!...
-        }()
-        
-        print("**debug** DateRange Lower Bound: \(dateRange.lowerBound)")
+    // Computed Property
+    var startDate: Date { blockerModel.startDate! > Date() ? blockerModel.startDate! : Date() } // max(today, startDate)
+    var dateRange: PartialRangeFrom<Date> {
+        let current = Calendar.current
+        let startCompenet = current.dateComponents([.year, .month, .day], from: startDate)
+        return current.date(from: startCompenet)!...
     }
     
     var body: some View {
         VStack {
             
             Text("**DEBUG** \(blockerModel.startDate ?? Date())")
-            // 이 부분이 계속 Date()로 설정됨 ㅠ ㅠ
             Text("**DEBUG** \(dateRange.lowerBound)")
             
             CustomText(text: "예산 블럭의 종료일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
