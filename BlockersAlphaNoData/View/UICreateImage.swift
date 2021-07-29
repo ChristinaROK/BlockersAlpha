@@ -136,9 +136,15 @@ struct UICreateBudget: View {
             }
             
             // create Blocker model
-            let newblocker = BlockerModel(name: blockerName, image: blockerImage, budget: Float(blockerAmount) ?? 0, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])
+            if let budget = Float(blockerAmount) {
+                Text("\(budget)")
+                let newblocker = BlockerModel(name: blockerName, image: blockerImage, budget: budget, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])
+                
+                NavigationButton(destination: AnyView(UICreateType(blockerModel: newblocker)))
+            }
+
             
-            NavigationButton(destination: AnyView(UICreateType(blockerModel: newblocker)))
+
             
         }
         .offset(y: -20)
@@ -339,13 +345,14 @@ struct UICreateDate: View {
 
 struct UICreateSpent: View {
     
+    @EnvironmentObject var blockerViewModel: BlockerViewModel
     @Binding var blockerModel: BlockerModel
     @State var spent = ""
     
     var body: some View {
         
         VStack {
-            Text("debugging: \(blockerModel.resetDate ?? DateComponents(year:9999))")
+            
             CustomText(text: "예산 중 이미 사용한 금액이 있다면, 블로커에게 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
                 .padding()
             
@@ -357,13 +364,37 @@ struct UICreateSpent: View {
                     .frame(maxWidth: .infinity)
                     .frame(height:120)
                     .opacity(0.6)
-                
-                TextField("", text: $spent)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                HStack {
+                    CustomText(text: "SPENT", size: 20, weight: .bold, design: .default, color: Color.black)
+                    TextField("", text: $spent)
+                        .padding()
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+                .padding(.horizontal)
+
             }
             
+//            Button(action: {
+//                blockerModel.spent = Float(spent)
+//                blockerViewModel.currentBlockers.append(blockerModel)
+//            }, label: {
+//                Text("\(blockerModel.spent ?? 0)")
+//                CustomText(text: "예산 생성", size: 22, weight: .bold, design: .default, color: .white)
+//                    .background(Color.green)
+//            })
             
+            if spent.count>0 {
+                blockerModel.spent = Float(spent)
+                
+                Button(action: {
+                    blockerViewModel.currentBlockers.append(blockerModel)
+                }, label: {
+                    Text("\(blockerModel.spent ?? 0)")
+                    CustomText(text: "예산 생성", size: 22, weight: .bold, design: .default, color: .white)
+                        .background(Color.green)
+                })
+            }
+                        
         }
         
     }
@@ -372,6 +403,7 @@ struct UICreateSpent: View {
 
 struct UICreateEndDate: View {
     
+    @EnvironmentObject var blockerViewModel: BlockerViewModel
     @State var selectedEndDate: Date = Date()
     @Binding var blockerModel: BlockerModel
     
@@ -404,6 +436,14 @@ struct UICreateEndDate: View {
                 .onReceive([self.selectedEndDate].publisher.first(), perform: { value in
                     blockerModel.endDate = value
                 })
+            
+            Button(action: {
+                blockerModel.endDate = selectedEndDate
+                blockerViewModel.currentBlockers.append(blockerModel)
+            }, label: {
+                CustomText(text: "예산 생성", size: 22, weight: .bold, design: .default, color: .white)
+                    .background(Color.green)
+            })
         }
     }
 }
@@ -463,10 +503,14 @@ struct UIAddBlocker_Previews: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
-            UICreateDate(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: nil, resetDate: nil, spent: nil, startDate: nil, endDate: nil, histories: [])))
+            
+            UICreateBudget(blockerImage: .constant("eat-blocker"), blockerName: .constant("aa"))
+            
+            //UICreateSpent(blockerModel: .constant(BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .weekly, resetDate: DateComponents(weekday:1), spent: nil, startDate: nil, endDate: nil, histories: [])))
             //UICreateEndDate(startDate: Calendar.current.date(from: DateComponents(year: 2021, month: 1, day: 1))!)
         }
         .environmentObject(ImageViewModel())
+        .environmentObject(BlockerViewModel())
         
     }
 }

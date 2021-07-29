@@ -51,9 +51,9 @@ class BlockerViewModel: ObservableObject {
         
     }
     
-    func addBlocker() {
-        
-    }
+//    func addBlocker() {
+//        
+//    }
     
     
     func deleteBlocker(indexSet: IndexSet) {
