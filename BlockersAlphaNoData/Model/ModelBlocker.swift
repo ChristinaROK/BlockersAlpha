@@ -22,6 +22,15 @@ struct BlockerModel: Identifiable {
     var startDate: Date?
     var endDate: Date?
     var histories: [BlockerHistoryModel]
+//    var currentBudget: String {
+//        get {
+//            if let currentSpent = self.spent {
+//                return self.budget.currencyRepresentation - currentSpent.currencyRepresentation
+//            } else {
+//                return self.budget.currencyRepresentation
+//            }
+//        }
+//    }
     
     func getCurrentBudget() -> Float {
         if let currentSpent = self.spent {
@@ -58,7 +67,7 @@ enum CustomWeekdays: String, CaseIterable, Identifiable {
 }
 
 //let customDays: [String] = ["1 일", "말 일"] + (2...31).map { "\($0) 일" }
-let customDays: [String] = (1...31).map { "\($0) 일" }
+let customDates: [String] = (1...31).map { "\($0) 일" }
 
 let customMonth: [String] = (1...12).map { "\($0) 월" }
 
@@ -78,7 +87,7 @@ let weekdays2int: [String:Int] = ["일요일" : 1,
 //var days2int2: [String:Int] = Dictionary(uniqueKeysWithValues: zip((2...31).map { "\($0) 일" }, 2...31))
 //let days2int = days2int1.merging(days2int2) { $1 }
 
-let days2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customDays, (1...31)))
+let days2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customDates, (1...31)))
 
 let month2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customMonth, (1...12)))
 

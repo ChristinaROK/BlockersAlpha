@@ -132,6 +132,9 @@ struct NavigationDetail: View {
                         .lineLimit(1)
                         .padding(5)
                     
+                    Text("debug \(blocker.budget)")
+                    Text("debug \(blocker.spent ?? 0)")
+                    
                     VStack {
                         CustomText(text: "\(blocker.getCurrentBudget().currencyRepresentation) 남음",
                                    size: 13,
