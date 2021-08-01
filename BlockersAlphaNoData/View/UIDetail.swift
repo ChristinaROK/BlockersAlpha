@@ -9,10 +9,49 @@ import SwiftUI
 
 struct UIDetail: View {
     
+    @State var isFirst: Bool = false
     var blocker: BlockerModel
     
     var body: some View {
-        Text("\(blocker.name)")
+        
+        if isFirst {
+            UIFirstView()
+                .transition(.slide)
+        } else {
+            UISecondView(isFirst: $isFirst)
+        }
+    }
+}
+
+struct UIFirstView: View {
+    var body: some View {
+        VStack {
+            Text("First View")
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.red)
+                .frame(width: 200, height: 200)
+        }
+        
+            
+    }
+}
+
+struct UISecondView: View {
+    
+    @Binding var isFirst: Bool
+    
+    var body: some View {
+        VStack {
+        Text("Second View")
+        Button(action: {
+            withAnimation {
+                isFirst.toggle()
+            }
+            
+        }, label: {
+            Text("ClickMe")
+        })
+        }
     }
 }
 

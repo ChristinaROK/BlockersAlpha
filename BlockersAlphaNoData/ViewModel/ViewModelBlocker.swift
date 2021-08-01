@@ -34,7 +34,6 @@ class ImageViewModel: ObservableObject {
 
 class BlockerViewModel: ObservableObject {
     
-    
     @Published var currentBlockers : [BlockerModel] = []
     
     init() {
@@ -64,4 +63,14 @@ class BlockerViewModel: ObservableObject {
         currentBlockers.move(fromOffsets: indices, toOffset: newOffset)
     }
     
+}
+
+class NewBlockerViewModel: ObservableObject {
+    
+    @Published var blocker: BlockerModel
+    
+    init() {
+        //self.blocker = BlockerModel(name: "", image: "", budget: 0, histories: [])
+        self.blocker = BlockerModel(name: "eating", image: "eat-blocker", budget: 200000, period: nil, histories: [])
+    }
 }

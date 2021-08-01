@@ -77,7 +77,7 @@ struct UIMain: View {
                         NavigationLink(
                             destination: UIBlockerLevel(),
                             label: {
-                                    CustomAssetsImage(imageName: "icon-shop-blocker", width: 75 , height: 50, corner: 0)
+                                    CustomAssetsImage(imageName: "icon-shop-blocker", width: 40 , height: 40, corner: 0)
                                         .offset(y:5)
                                         .padding(.trailing, 20)
                             })
@@ -132,11 +132,8 @@ struct NavigationDetail: View {
                         .lineLimit(1)
                         .padding(5)
                     
-                    Text("debug \(blocker.budget)")
-                    Text("debug \(blocker.spent ?? 0)")
-                    
                     VStack {
-                        CustomText(text: "\(blocker.getCurrentBudget().currencyRepresentation) 남음",
+                        CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
                                    size: 13,
                                    weight: .semibold,
                                    design: .rounded,

@@ -14,8 +14,10 @@ struct BlockersAlphaNoDataApp: App {
             NavigationView {
                 UIMain()
             }
+            //.navigationViewStyle(StackNavigationViewStyle())
             .environmentObject(BlockerViewModel())
             .environmentObject(ImageViewModel())
+            .environmentObject(NewBlockerViewModel())
         }
     }
 }

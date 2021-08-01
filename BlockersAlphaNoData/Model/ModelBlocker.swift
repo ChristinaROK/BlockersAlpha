@@ -13,8 +13,8 @@ Model - Blocker
 
 struct BlockerModel: Identifiable {
     let id: String = UUID().uuidString
-    let name: String
-    let image : String
+    var name: String
+    var image : String
     var budget: Float
     var period: BlockerPeriodModel? // Weekly / Monthly / Yearly
     var resetDate: DateComponents?
@@ -22,23 +22,29 @@ struct BlockerModel: Identifiable {
     var startDate: Date?
     var endDate: Date?
     var histories: [BlockerHistoryModel]
-//    var currentBudget: String {
-//        get {
-//            if let currentSpent = self.spent {
-//                return self.budget.currencyRepresentation - currentSpent.currencyRepresentation
-//            } else {
-//                return self.budget.currencyRepresentation
-//            }
-//        }
-//    }
-    
-    func getCurrentBudget() -> Float {
-        if let currentSpent = self.spent {
-            return self.budget - currentSpent
-        } else {
-            return self.budget
+    // Computed Property
+    var currentBudget: Float { // desc: 현재 주기의 남은 예산 금액
+        get {
+            if let currentSpent = self.spent {
+                return self.budget - currentSpent
+            } else {
+                return self.budget
+            }
         }
     }
+    
+    var dDay: Int {
+        get {
+            let cal = Calendar.current
+            if let component = self.resetDate {
+                let closestNextDate: Date = cal.nextDate(after: Date(), matching: component, matchingPolicy: .previousTimePreservingSmallerComponents) ?? Date()
+                return closestNextDate
+            }
+            
+        }
+    }
+    
+
 }
 
 enum BlockerPeriodModel: String, CaseIterable, Equatable {
