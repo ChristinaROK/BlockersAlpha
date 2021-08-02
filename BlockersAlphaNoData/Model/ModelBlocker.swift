@@ -33,14 +33,46 @@ struct BlockerModel: Identifiable {
         }
     }
     
-    var dDay: Int {
+    var nextDate: Date { // desc: 시험용 변수. 향후 삭제할 예정
+        get {
+            if let component = self.resetDate {
+                let cal = Calendar.current
+                let closestNextDate = cal.nextDate(after: Date(), matching: component, matchingPolicy: .previousTimePreservingSmallerComponents)
+                return closestNextDate ?? Date()
+            } else {
+                return Date()
+            }
+            
+        }
+    }
+    
+    var dDay: Int { // desc: 예산 종료일까지 남은 일자 수
         get {
             let cal = Calendar.current
             if let component = self.resetDate {
                 let closestNextDate: Date = cal.nextDate(after: Date(), matching: component, matchingPolicy: .previousTimePreservingSmallerComponents) ?? Date()
-                return closestNextDate
+                let offSet: DateComponents = cal.dateComponents([.day], from: Date(), to: closestNextDate)
+                return offSet.day ?? 0
+            } else {
+                let offSet: DateComponents = cal.dateComponents([.day], from: self.startDate ?? Date(), to: self.endDate ?? Date())
+                return offSet.day ?? 0
             }
-            
+        }
+    }
+    
+    var dTime: Int { // desc: 오늘자 예산 종료일까지 남은 시간
+        get {
+            let cal = Calendar.current
+            let todayStartDate = cal.startOfDay(for: Date())
+            let tomorrowStartDate = cal.date(byAdding: .day, value: 1, to: todayStartDate)
+            let offSet: DateComponents = cal.dateComponents([.hour], from: Date(), to: tomorrowStartDate ?? Date())
+            return offSet.hour ?? 0
+        }
+    }
+    
+    var todayBudget: Float { // desc: 오늘자 사용 가능한(남은) 예산 금액
+        get {
+            return self.currentBudget/Float(self.dDay == 0 ? 1 : self.dDay)
         }
     }
     

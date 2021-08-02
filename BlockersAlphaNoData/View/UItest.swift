@@ -25,29 +25,36 @@ struct UItest: View {
                     Text("Period: \(blocker.period?.rawValue ?? "")")
 //                    Text("ResetDate: \(Calendar.current.date(from: blocker.resetDate ?? DateComponents(day:1)) ?? Date())")
                     Text("Spent: \(blocker.spent?.currencyRepresentation ?? "")")
-                    Text("current Amount: \(blocker.getCurrentBudget().currencyRepresentation)")
+                    Text("current Amount: \(blocker.currentBudget.currencyRepresentation)")
+//
+//                    if let startDate = blocker.startDate {
+//                        HStack {
+//                            Text("Start Date:")
+//                            Text(startDate, style: .date)
+//                        }
+//                    }
+//
+//                    if let endDate = blocker.endDate {
+//                        HStack {
+//                            Text("End Date:")
+//                            Text(endDate, style: .date)
+//                        }
+//                    }
+//
+//                    if blocker.histories.isEmpty {
+//                        Text("history is empty")
+//                    } else {
+//                        ForEach(blocker.histories, id: \.self) { history in
+//                            Text(history.memo)
+//                        }
+//                    }
                     
-                    if let startDate = blocker.startDate {
-                        HStack {
-                            Text("Start Date:")
-                            Text(startDate, style: .date)
-                        }
-                    }
-                    
-                    if let endDate = blocker.endDate {
-                        HStack {
-                            Text("End Date:")
-                            Text(endDate, style: .date)
-                        }
-                    }
-                    
-                    if blocker.histories.isEmpty {
-                        Text("history is empty")
-                    } else {
-                        ForEach(blocker.histories, id: \.self) { history in
-                            Text(history.memo)
-                        }
-                    }
+                    //Text("\(Calendar.current.startOfDay(for: Date()))")
+                    //Text("closestNextDate: \(blocker.nextDate.description)")
+                    Text("dDay: \(blocker.dDay)")
+                    Text("today: \(Date())")
+                    Text("dTime: \(blocker.dTime)")
+                    Text("today budget: \(blocker.todayBudget.currencyRepresentation)")
                 }
             }
         }

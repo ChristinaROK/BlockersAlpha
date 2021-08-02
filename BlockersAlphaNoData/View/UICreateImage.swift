@@ -12,11 +12,6 @@ struct UICreateImage: View {
     
     @EnvironmentObject var blockerModel: NewBlockerViewModel
     @EnvironmentObject var imageViewModel: ImageViewModel
-    //    @State var blockerImage: String = "" {
-    //        didSet {
-    //            self.blockerModel.image = blockerImage
-    //        }
-    //    }
     
     var body: some View {
         

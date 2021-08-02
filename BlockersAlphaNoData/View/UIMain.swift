@@ -35,7 +35,7 @@ struct UIMain: View {
                     
                     List {
                         ForEach(blockerViewModel.currentBlockers) { blocker in
-                            NavigationDetail(blocker: blocker)
+                            NavigationDetail(isToday: $istoday, blocker: blocker)
                         }
                         .onMove(perform: blockerViewModel.moveBlocker)
                         .onDelete(perform: blockerViewModel.deleteBlocker)
@@ -111,6 +111,7 @@ struct BackgroundColor: View {
 
 struct NavigationDetail: View {
     
+    @Binding var isToday: Bool
     @State var blocker: BlockerModel
     
     var body: some View {
@@ -133,17 +134,31 @@ struct NavigationDetail: View {
                         .padding(5)
                     
                     VStack {
-                        CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
-                                   size: 13,
-                                   weight: .semibold,
-                                   design: .rounded,
-                                   color: .black)
-                            .padding(.vertical, 3)
-//                        CustomText(text: "\(blocker.dDay)일 남음",
-//                                   size: 13,
-//                                   weight: .semibold,
-//                                   design: .rounded,
-//                                   color: .black)
+                        if isToday {
+                            CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
+                                       size: 13,
+                                       weight: .semibold,
+                                       design: .rounded,
+                                       color: .black)
+                                .padding(.vertical, 3)
+                            CustomText(text: "D-\(blocker.dTime)시간 남음",
+                                       size: 13,
+                                       weight: .semibold,
+                                       design: .rounded,
+                                       color: .black)
+                        } else {
+                            CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
+                                       size: 13,
+                                       weight: .semibold,
+                                       design: .rounded,
+                                       color: .black)
+                                .padding(.vertical, 3)
+                            CustomText(text: "D-\(blocker.dDay)일 남음",
+                                       size: 13,
+                                       weight: .semibold,
+                                       design: .rounded,
+                                       color: .black)
+                        }
                     }
                     
                     
