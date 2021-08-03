@@ -133,6 +133,8 @@ struct NavigationDetail: View {
                         .lineLimit(1)
                         .padding(5)
                     
+                    Text("\(blocker.nextDate)")
+                    
                     VStack {
                         if isToday {
                             CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
