@@ -51,7 +51,9 @@ struct BlockerModel: Identifiable {
             let cal = Calendar.current
             if let component = self.resetDate {
                 let closestNextDate: Date = cal.nextDate(after: Date(), matching: component, matchingPolicy: .previousTimePreservingSmallerComponents) ?? Date()
-                let offSet: DateComponents = cal.dateComponents([.day], from: Date(), to: closestNextDate)
+                let closestNextDateZeroset: Date = cal.date(bySettingHour: 0, minute: 0, second: 0, of: closestNextDate)!
+                let todayZeroset: Date = cal.date(bySettingHour: 0, minute: 0, second: 0, of: Date())!
+                let offSet: DateComponents = cal.dateComponents([.day], from: todayZeroset, to: closestNextDateZeroset)
                 return offSet.day ?? 0
             } else {
                 let offSet: DateComponents = cal.dateComponents([.day], from: self.startDate ?? Date(), to: self.endDate ?? Date())
