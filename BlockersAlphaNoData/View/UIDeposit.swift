@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UIDeposit: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var imageViewModel : ImageViewModel
     
     let stateOptions: [String] = [
         "수입", "지출"
@@ -18,6 +19,7 @@ struct UIDeposit: View {
     @State private var date = Date()
     @State private var memo = ""
     @State private var isSave = false
+    @State private var currentIndex: Int = 0
     
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor.systemGreen
@@ -30,16 +32,30 @@ struct UIDeposit: View {
     
     var body: some View {
         
-        NavigationView {
             VStack {
-                //  TODO: 1) 현재 static value를 blocker model 받는 value로 교체 2) blocker model의 모든 블로커를 스와이핑해 바꿀 수 있도록 변경
                 
-                VStack {
-                    CustomText(text: "blocker name", size: 20, weight: .bold, design: .default, color: .black)
-                    CustomAssetsImage(imageName: "cafe-blocker", width: 110, height: 80, corner: 0.2)
+                HStack {
+                    
+                    Button(action: {
+                        currentIndex = leftClick(curIndex: currentIndex, len: imageViewModel.currentImages.count)
+                    }, label: {
+                        CustomSFImage(imageName: "arrowtriangle.backward.fill", width: 20, height: 20)
+                    })
+                    .padding()
+                    
+                    CustomAssetsImage(imageName:
+                                        imageViewModel.currentImages[currentIndex].image, width: 200, height: 150, corner: 0)
+                    
+                    Button(action: {
+                        currentIndex = rightClick(curIndex: currentIndex, len: imageViewModel.currentImages.count)
+                    }, label: {
+                        CustomSFImage(imageName: "arrowtriangle.forward.fill", width: 20, height: 20)
+                    })
+                    .padding()
+                    
                 }
+                .padding(.vertical, 100)
                 
-                Spacer(minLength: 100)
                 
                 Form {
                     Section {
@@ -75,7 +91,7 @@ struct UIDeposit: View {
                 }
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
@@ -85,14 +101,33 @@ struct UIDeposit: View {
                     }
                 }
             }
+            .navigationBarTitle("예산 기록", displayMode: .inline)
+    }
+    
+    func rightClick(curIndex:Int, len:Int) -> Int {
+        var newIndex = curIndex+1
+        if newIndex==len {
+            newIndex = 0
         }
-        
+        return newIndex
+    }
+
+    func leftClick(curIndex:Int, len:Int) -> Int {
+        var newIndex = curIndex-1
+        if newIndex == -1 {
+            newIndex = len-1
+        }
+        return newIndex
     }
 }
 
 
 struct UIDeposit_Previews: PreviewProvider {
     static var previews: some View {
-        UIDeposit()
+        NavigationView {
+            UIDeposit()
+        }
+        .environmentObject(BlockerViewModel())
+        .environmentObject(ImageViewModel())
     }
 }

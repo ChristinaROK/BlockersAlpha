@@ -9,51 +9,61 @@ import SwiftUI
 
 struct UIDetail: View {
     
-    @State var isFirst: Bool = false
     var blocker: BlockerModel
+    @State var isToday: Bool = false
     
     var body: some View {
-        
-        if isFirst {
-            UIFirstView()
-                .transition(.slide)
-        } else {
-            UISecondView(isFirst: $isFirst)
-        }
-    }
-}
-
-struct UIFirstView: View {
-    var body: some View {
         VStack {
-            Text("First View")
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.red)
-                .frame(width: 200, height: 200)
-        }
-        
+            CustomAssetsImage(imageName: blocker.image, width: 350, height: 250, corner: 0)
             
-    }
-}
-
-struct UISecondView: View {
-    
-    @Binding var isFirst: Bool
-    
-    var body: some View {
-        VStack {
-        Text("Second View")
-        Button(action: {
-            withAnimation {
-                isFirst.toggle()
+            VStack {
+                
+                HStack {
+                HStack {
+                    CustomText(text: "Today",
+                               size: 20,
+                               weight: .bold,
+                               design: .default,
+                               color: .black)
+                    
+                    Toggle("", isOn: $isToday)
+                        .labelsHidden()
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+                }
+                
+                // HP bar
+                
             }
             
-        }, label: {
-            Text("ClickMe")
-        })
+            VStack(spacing:10) {
+                if isToday {
+                    DetailShowView(explainText: "오늘 예산", infoText: IntOrFloat.float(blocker.todayBudget))
+                } else {
+                    DetailShowView(explainText: "남은 예산", infoText: IntOrFloat.float(blocker.currentBudget))
+                }
+                
+                if isToday {
+                    // TODO: 해당 variable model 생성한 후 적용하기
+                    DetailShowView(explainText: "오늘 지출", infoText: IntOrFloat.float(-999))
+                } else {
+                    DetailShowView(explainText: "현재까지 지출", infoText: IntOrFloat.float(blocker.spent ?? 0))
+                }
+                
+                DetailShowView(explainText: "예산 만료일까지 남은 기간", infoText: IntOrFloat.int(blocker.dDay))
+
+            }
         }
+        .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
+        .navigationBarTitle(blocker.name, displayMode: .inline)
+        
+        
+
     }
 }
+
 
 struct UIDetail_Previews: PreviewProvider {
     
@@ -64,5 +74,29 @@ struct UIDetail_Previews: PreviewProvider {
         NavigationView {
             UIDetail(blocker: blocker1)
         }
+    }
+}
+
+struct DetailShowView: View {
+    
+    let explainText: String
+    let infoText : IntOrFloat
+    
+    var body: some View {
+        HStack {
+            CustomText(text: explainText, size: 20, weight: .medium, design: .default, color: .black)
+            
+            Spacer()
+            
+            switch infoText {
+            case .int(let i):
+                CustomText(text: "\(i)일", size: 20, weight: .medium, design: .default, color: .black)
+            case .float(let f):
+                CustomText(text: "\(f.currencyRepresentation)", size: 20, weight: .medium, design: .default, color: .black)
+            }
+
+                
+        }
+        .padding(.horizontal)
     }
 }

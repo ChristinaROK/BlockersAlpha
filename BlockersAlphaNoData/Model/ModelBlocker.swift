@@ -33,15 +33,10 @@ struct BlockerModel: Identifiable {
         }
     }
     
-    var nextDate: Date { // desc: 시험용 변수. 향후 삭제할 예정
+    var nextDate: Int { // desc: 시험용 변수. 향후 삭제할 예정
         get {
-            if let component = self.resetDate {
-                let cal = Calendar.current
-                let closestNextDate = cal.nextDate(after: Date(), matching: component, matchingPolicy: .previousTimePreservingSmallerComponents)
-                return closestNextDate ?? Date()
-            } else {
-                return Date()
-            }
+            let cal = Calendar.current
+            return cal.component(.minute, from: Date())
             
         }
     }
@@ -56,7 +51,9 @@ struct BlockerModel: Identifiable {
                 let offSet: DateComponents = cal.dateComponents([.day], from: todayZeroset, to: closestNextDateZeroset)
                 return offSet.day ?? 0
             } else {
-                let offSet: DateComponents = cal.dateComponents([.day], from: self.startDate ?? Date(), to: self.endDate ?? Date())
+                let startDateZeroset: Date = cal.date(bySettingHour: 0, minute: 0, second: 0, of: self.startDate ?? Date())!
+                let endDateZeroset: Date = cal.date(bySettingHour: 0, minute: 0, second: 0, of: self.endDate ?? Date())!
+                let offSet: DateComponents = cal.dateComponents([.day], from: startDateZeroset, to: endDateZeroset)
                 return offSet.day ?? 0
             }
         }
@@ -64,11 +61,10 @@ struct BlockerModel: Identifiable {
     
     var dTime: Int { // desc: 오늘자 예산 종료일까지 남은 시간
         get {
+            let maxHour = 24
             let cal = Calendar.current
-            let todayStartDate = cal.startOfDay(for: Date())
-            let tomorrowStartDate = cal.date(byAdding: .day, value: 1, to: todayStartDate)
-            let offSet: DateComponents = cal.dateComponents([.hour], from: Date(), to: tomorrowStartDate ?? Date())
-            return offSet.hour ?? 0
+            let currentHour: Int = cal.dateComponents([.hour], from: Date()).hour ?? 0
+            return maxHour - currentHour
         }
     }
     
@@ -132,4 +128,11 @@ let days2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customDates, (
 let month2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customMonth, (1...12)))
 
 
+/*
+ Both DataTypes
+ */
 
+enum IntOrFloat {
+    case int(Int)
+    case float(Float)
+}

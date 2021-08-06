@@ -20,6 +20,7 @@ struct UIMain: View {
     @State var editMode = false
     
     @EnvironmentObject var blockerViewModel : BlockerViewModel
+    @EnvironmentObject var imageViewModel : BlockerImageViewModel
     
     var body: some View {
             ZStack{
@@ -57,7 +58,7 @@ struct UIMain: View {
                 
                 SheetConfig(showingConfigSheet: showingConfigSheet)
                 
-                SheetDeposit(showingDepositSheet: showingDepositSheet)
+                SheetDeposit(showingDepositSheet: showingDepositSheet) //debug
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -133,7 +134,6 @@ struct NavigationDetail: View {
                         .lineLimit(1)
                         .padding(5)
                     
-                    Text("\(blocker.nextDate)")
                     
                     VStack {
                         if isToday {
@@ -143,7 +143,9 @@ struct NavigationDetail: View {
                                        design: .rounded,
                                        color: .black)
                                 .padding(.vertical, 3)
-                            CustomText(text: "D-\(blocker.dTime)시간 남음",
+                            
+                            
+                            CustomText(text: "\(blocker.dTime)시간 남음",
                                        size: 13,
                                        weight: .semibold,
                                        design: .rounded,
@@ -210,6 +212,8 @@ struct SheetConfig: View {
 
 struct SheetDeposit: View {
     
+    var environmentObect1
+    var environmentObject2
     @State var showingDepositSheet: Bool
     
     var body: some View {
@@ -225,6 +229,8 @@ struct SheetDeposit: View {
                 }
                 .sheet(isPresented: $showingDepositSheet, content: {
                     UIDeposit()
+                        .environmentObject(environmentObect1)
+                        .environmentObject(environmentObect2)
                 })
         }
     }
