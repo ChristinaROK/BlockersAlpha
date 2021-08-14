@@ -10,9 +10,40 @@ import SwiftUI
 struct UIDetail: View {
     
     var blocker: BlockerModel
+    @State private var currentIndex = 0
+    
+    var body: some View {
+        TabView(selection: $currentIndex) {
+            
+            UIDetailMain(blocker: blocker)
+                    .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
+                    .navigationBarTitle(blocker.name, displayMode: .inline)
+                .tag(0)
+            
+            UIDailyStats()
+                    .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
+                    .navigationBarTitle(blocker.name, displayMode: .inline)
+                .tag(1)
+            
+            UIStats()
+                .navigationBarTitle(blocker.name, displayMode: .inline)
+                .tag(2)
+        }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+    }
+}
+
+struct UIDetailMain: View {
+    
+    var blocker: BlockerModel
     @State var isToday: Bool = false
     
     var body: some View {
+        
+        ZStack {
+            Color("peripheralOlive")
+                .ignoresSafeArea()
+        
         VStack {
             CustomAssetsImage(imageName: blocker.image, width: 350, height: 250, corner: 0)
             
@@ -56,24 +87,12 @@ struct UIDetail: View {
 
             }
         }
-        .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
-        .navigationBarTitle(blocker.name, displayMode: .inline)
-        
-        
-
-    }
-}
-
-
-struct UIDetail_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        
-        let blocker1: BlockerModel = BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .monthly, resetDate: DateComponents(day:1), spent: 300000, startDate: nil, endDate: nil, histories: [])
-        
-        NavigationView {
-            UIDetail(blocker: blocker1)
+            
         }
+
+        
+        
+
     }
 }
 
@@ -100,3 +119,17 @@ struct DetailShowView: View {
         .padding(.horizontal)
     }
 }
+
+
+struct UIDetail_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        
+        let blocker1: BlockerModel = BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .monthly, resetDate: DateComponents(day:1), spent: 300000, startDate: nil, endDate: nil, histories: [])
+        
+        NavigationView {
+            UIDetail(blocker: blocker1)
+        }
+    }
+}
+

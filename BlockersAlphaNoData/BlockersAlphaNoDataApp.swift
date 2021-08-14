@@ -11,9 +11,10 @@ import SwiftUI
 struct BlockersAlphaNoDataApp: App {
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                UIMain()
-            }
+//            NavigationView {
+//                UIMain()
+//            }
+            UIParent()
             //.navigationViewStyle(StackNavigationViewStyle())
             .environmentObject(BlockerViewModel())
             .environmentObject(ImageViewModel())

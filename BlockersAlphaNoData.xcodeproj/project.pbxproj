@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */; };
 		7427ECDA26A43C6400297CAA /* UItest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD926A43C6400297CAA /* UItest.swift */; };
+		7478932826BF98E500E73ECF /* UIParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478932726BF98E500E73ECF /* UIParent.swift */; };
+		7478933326BFCB3C00E73ECF /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7478933226BFCB3C00E73ECF /* Color.xcassets */; };
 		74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UIConfig.swift */; };
 		74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */; };
 		74E3E5BD266B59A500BF4DDE /* UICreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */; };
@@ -21,11 +23,15 @@
 		74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63ABE26693220008ABB40 /* ModelBlocker.swift */; };
 		74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E63AC2266936AB008ABB40 /* UIDetail.swift */; };
 		74F0A48B269AEB4E00F936BC /* ExtensionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F0A48A269AEB4E00F936BC /* ExtensionUtils.swift */; };
+		74F6859A26C84DF700F51BCC /* UIDailyStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6859926C84DF700F51BCC /* UIDailyStats.swift */; };
+		74F6859D26C84E0D00F51BCC /* UIStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74F6859C26C84E0D00F51BCC /* UIStats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBlocker.swift; sourceTree = "<group>"; };
 		7427ECD926A43C6400297CAA /* UItest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UItest.swift; sourceTree = "<group>"; };
+		7478932726BF98E500E73ECF /* UIParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIParent.swift; sourceTree = "<group>"; };
+		7478933226BFCB3C00E73ECF /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		74B3E9FE2676032800E500D5 /* UIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfig.swift; sourceTree = "<group>"; };
 		74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockerLevel.swift; sourceTree = "<group>"; };
 		74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICreateImage.swift; sourceTree = "<group>"; };
@@ -40,6 +46,8 @@
 		74E63ABE26693220008ABB40 /* ModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBlocker.swift; sourceTree = "<group>"; };
 		74E63AC2266936AB008ABB40 /* UIDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDetail.swift; sourceTree = "<group>"; };
 		74F0A48A269AEB4E00F936BC /* ExtensionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUtils.swift; sourceTree = "<group>"; };
+		74F6859926C84DF700F51BCC /* UIDailyStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDailyStats.swift; sourceTree = "<group>"; };
+		74F6859C26C84E0D00F51BCC /* UIStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStats.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,10 +72,13 @@
 		74848DE926905B6C00764BCA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7478932726BF98E500E73ECF /* UIParent.swift */,
 				74E63AAB26692A39008ABB40 /* UIMain.swift */,
 				74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */,
 				74B3E9FE2676032800E500D5 /* UIConfig.swift */,
 				74E63AC2266936AB008ABB40 /* UIDetail.swift */,
+				74F6859926C84DF700F51BCC /* UIDailyStats.swift */,
+				74F6859C26C84E0D00F51BCC /* UIStats.swift */,
 				74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */,
 				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
 				7427ECD926A43C6400297CAA /* UItest.swift */,
@@ -116,6 +127,7 @@
 				74848DEB26905C0E00764BCA /* Utilities */,
 				74848DED26905C1B00764BCA /* Model */,
 				74E63AAD26692A3B008ABB40 /* Assets.xcassets */,
+				7478933226BFCB3C00E73ECF /* Color.xcassets */,
 				7427ECCD26A3D30300297CAA /* ViewModel */,
 				74E63AB226692A3B008ABB40 /* Info.plist */,
 				74E63AAF26692A3B008ABB40 /* Preview Content */,
@@ -190,6 +202,7 @@
 			files = (
 				74E63AB126692A3B008ABB40 /* Preview Assets.xcassets in Resources */,
 				74E63AAE26692A3B008ABB40 /* Assets.xcassets in Resources */,
+				7478933326BFCB3C00E73ECF /* Color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,9 +214,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */,
+				74F6859A26C84DF700F51BCC /* UIDailyStats.swift in Sources */,
 				7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */,
 				74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */,
 				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
+				74F6859D26C84E0D00F51BCC /* UIStats.swift in Sources */,
+				7478932826BF98E500E73ECF /* UIParent.swift in Sources */,
 				74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */,
 				7427ECDA26A43C6400297CAA /* UItest.swift in Sources */,
 				74E3E5D7266B74AB00BF4DDE /* UIUtils.swift in Sources */,

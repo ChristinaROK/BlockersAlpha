@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Float {
    
@@ -32,5 +33,16 @@ extension Date {
         dateFormatter.dateFormat="yyyy/MM/dd E"
         return dateFormatter.string(from: self)
     }
+    
+}
+
+extension Color {
+    static let backgroundOlive = Color("backgroundOlive")
+    static let fontOlive = Color("avocado")
+    static let peripheralOlive = Color("peripheralOlive")
+    static let blockerOrange = Color("blockerOrange")
+    static let lightAvocado = Color("lightAvocado")
+    static let olive = Color("olive")
+    
     
 }
