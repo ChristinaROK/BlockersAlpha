@@ -10,7 +10,6 @@ import SwiftUI
 // TODO
 // 1. button 과 long press gesture 같이 잇으니깐 인식 못함. 개선해야함
 // 2. NavigiationDetail View에서 HStack 내 간격 맞추기
-// 3. background color 넣기 (현재 오류 발생)
 
 struct UIMain: View {
     
@@ -25,70 +24,69 @@ struct UIMain: View {
     @EnvironmentObject var imageViewModel : ImageViewModel
     
     var body: some View {
-             
-            ZStack{
+        
+        ZStack{
+            
+            //BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
+            
+            VStack (spacing:10) {
                 
-                //BackgroundColor(leadColor: Color.orange, trailColor: Color.green)
-                
-                VStack (spacing:10) {
-                    
-                    CustomText(text: "\(Date().formatDate()) 🗓 오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .fontOlive)
+                CustomText(text: "\(Date().formatDate()) 🗓 오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .fontOlive)
                     .padding(10)
-                        .background(Color.backgroundOlive)
-                    
-                    HStack{
-                        HStack{
-                            CustomText(text: "Today",
-                                       size: 20,
-                                       weight: .bold,
-                                       design: .default,
-                                       color: .black)
-
-                            Toggle("today", isOn: $istoday)
-                                .labelsHidden()
-                        }
-                        .padding(.horizontal)
-                        Spacer()
+                    .background(Color.backgroundOlive)
+                
+                List {
+                    ForEach(blockerViewModel.currentBlockers) { blocker in
+                        NavigationDetail(isToday: $istoday, blocker: blocker)
                     }
-                    
-                    List {
-                        ForEach(blockerViewModel.currentBlockers) { blocker in
-                            NavigationDetail(isToday: $istoday, blocker: blocker)
-                        }
-                        .onMove(perform: blockerViewModel.moveBlocker)
-                        .onDelete { indexSet in
-                            self.indexSet = indexSet
-                            showingDeleteAlert = true
-                        }
-                        .alert(isPresented: $showingDeleteAlert, content: {
-                            Alert(title: Text("블로커 삭제"),
-                                  message: Text("블로커를 삭제하면 기존 데이터가 모두 삭제됩니다."),
-                                  primaryButton: .destructive(Text("삭제"), action: {
-                                    blockerViewModel.deleteBlocker(indexSet: self.indexSet)
-                                  }),
-                                  secondaryButton: .cancel(Text("취소")))
-                        })
-
-//                        .onLongPressGesture {
-//                            withAnimation {
-//                                self.editMode = true
-//                            }
-//                        }
-                        
-                        NavigationAdd()
+                    .onMove(perform: blockerViewModel.moveBlocker)
+                    .onDelete { indexSet in
+                        self.indexSet = indexSet
+                        showingDeleteAlert = true
                     }
-                    .listStyle(SidebarListStyle())
-                    //.environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
+                    .alert(isPresented: $showingDeleteAlert, content: {
+                        Alert(title: Text("블로커 삭제"),
+                              message: Text("블로커를 삭제하면 기존 데이터가 모두 삭제됩니다."),
+                              primaryButton: .destructive(Text("삭제"), action: {
+                                blockerViewModel.deleteBlocker(indexSet: self.indexSet)
+                              }),
+                              secondaryButton: .cancel(Text("취소")))
+                    })
                     
+                    //                        .onLongPressGesture {
+                    //                            withAnimation {
+                    //                                self.editMode = true
+                    //                            }
+                    //                        }
                     
-                    Spacer()
+                    NavigationAdd()
                 }
+                .listStyle(SidebarListStyle())
+                //.environment(\.editMode, editMode ? .constant(.active) : .constant(.inactive))
                 
-                .offset(y:-50)
                 
-                SheetDeposit(showingDepositSheet: showingDepositSheet, blockerViewModel: blockerViewModel)
+                Spacer()
             }
-   
+            
+            .offset(y:-50)
+            
+            SheetDeposit(showingDepositSheet: showingDepositSheet, blockerViewModel: blockerViewModel)
+        }
+        .navigationBarItems(leading:
+                                HStack{
+                                    CustomText(text: "Today",
+                                               size: 17,
+                                               weight: .bold,
+                                               design: .default,
+                                               color: .blue)
+                                    
+                                    Toggle("today", isOn: $istoday)
+                                        .labelsHidden()
+                                }
+                                .padding(.vertical)
+                            ,
+                            trailing: EditButton())
+        
     }
 }
 
@@ -102,7 +100,7 @@ struct BackgroundColor: View {
         LinearGradient(gradient: Gradient(colors: [leadColor, trailColor]),
                        startPoint: .leading,
                        endPoint: .trailing)
-                        .ignoresSafeArea()
+            .ignoresSafeArea()
     }
 }
 
@@ -132,34 +130,52 @@ struct NavigationDetail: View {
                     
                     
                     VStack {
+                        
                         if isToday {
-                            CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
-                                       size: 13,
-                                       weight: .semibold,
-                                       design: .rounded,
-                                       color: .fontOlive)
-                                .padding(.vertical, 3)
                             
+                            HStack { // 오른쪽 정렬
+                                Spacer()
+                                CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
+                                           size: 13,
+                                           weight: .semibold,
+                                           design: .rounded,
+                                           color: .fontOlive)
+                                
+                            }
                             
-                            CustomText(text: "\(blocker.dTime)시간 남음",
-                                       size: 13,
-                                       weight: .semibold,
-                                       design: .rounded,
-                                       color: .fontOlive)
+                            HStack {
+                                Spacer()
+                                CustomText(text: "\(blocker.dTime)시간 남음",
+                                           size: 13,
+                                           weight: .semibold,
+                                           design: .rounded,
+                                           color: .fontOlive)
+                            }
+                            
                         } else {
-                            CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
-                                       size: 13,
-                                       weight: .semibold,
-                                       design: .rounded,
-                                       color: .fontOlive)
-                                .padding(.vertical, 3)
-                            CustomText(text: "D-\(blocker.dDay)일 남음",
-                                       size: 13,
-                                       weight: .semibold,
-                                       design: .rounded,
-                                       color: .fontOlive)
+                            
+                            HStack {
+                                Spacer()
+                                CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
+                                           size: 13,
+                                           weight: .semibold,
+                                           design: .rounded,
+                                           color: .fontOlive)
+                            }
+                            
+                            
+                            HStack {
+                                Spacer()
+                                CustomText(text: "D-\(blocker.dDay)일 남음",
+                                           size: 13,
+                                           weight: .semibold,
+                                           design: .rounded,
+                                           color: .fontOlive)
+                            }
+                            
                         }
                     }
+                    .padding(.horizontal, 10)
                     
                     
                 }
@@ -174,7 +190,7 @@ struct NavigationDetail: View {
 struct NavigationAdd: View {
     var body: some View {
         NavigationLink(
-            destination: UICreateImage(),
+            destination: UICreateImageCopy(),
             label: {
                 CustomSFImage(imageName: "person.crop.circle.badge.plus", renderMode: .template, width: 61, height: 52, color: .blockerOrange)
                     .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
@@ -225,7 +241,7 @@ struct SheetDeposit: View {
                 .sheet(isPresented: $showingDepositSheet, content: {
                     UIDeposit()
                         .environmentObject(blockerViewModel)
-                        
+                    
                 })
         }
     }
@@ -235,7 +251,6 @@ struct UIMain_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             UIMain()
-                .navigationBarItems(trailing: EditButton())
         }
         .environmentObject(BlockerViewModel())
         .environmentObject(ImageViewModel())

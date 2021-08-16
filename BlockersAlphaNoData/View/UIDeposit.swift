@@ -32,6 +32,7 @@ struct UIDeposit: View {
     }
     
     var body: some View {
+        
         NavigationView {
             
             VStack {
@@ -94,7 +95,7 @@ struct UIDeposit: View {
                     }
                 }
                 else {
-                    Text("Please Create Blocker First!")
+                    CustomText(text: "⚠️ 예산 블록을 먼저 만들어주세요", size: 20, weight: .bold, design: .default, color: .black)
                 }
             }
             .navigationBarItems(trailing:
@@ -103,10 +104,10 @@ struct UIDeposit: View {
                                     } label: {
                                         CustomSFImage(imageName: "xmark.circle", width: 25, height: 25, corner: 0)
                                     }
-
+                                
             )
             .navigationBarTitle("예산 기록", displayMode: .inline)
-    }
+        }
     }
     
     func rightClick(curIndex:Int, len:Int) -> Int {
@@ -116,7 +117,7 @@ struct UIDeposit: View {
         }
         return newIndex
     }
-
+    
     func leftClick(curIndex:Int, len:Int) -> Int {
         var newIndex = curIndex-1
         if newIndex == -1 {
@@ -129,7 +130,7 @@ struct UIDeposit: View {
 
 struct UIDeposit_Previews: PreviewProvider {
     static var previews: some View {
-            UIDeposit()
-                .environmentObject(BlockerViewModel())
+        UIDeposit()
+            .environmentObject(BlockerViewModel())
     }
 }

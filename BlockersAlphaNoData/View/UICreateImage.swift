@@ -7,6 +7,73 @@
 
 import SwiftUI
 
+struct UICreateImageCopy: View {
+    
+    @EnvironmentObject var blockerModel: NewBlockerViewModel
+    @EnvironmentObject var imageViewModel: ImageViewModel
+    @State var curIndex: Int = -1
+    
+    private let displayNum : Int = 3
+    private var columnIndex : Int {
+        get {
+        imageViewModel.currentImages.count / displayNum
+        }
+    }
+    
+    var body: some View {
+        
+        VStack {
+            Spacer()
+            
+            CustomText(text: "예산을 지켜줄 블로커를 선택해 주세요", size: 22, weight: .semibold, design: .default, color: .black)
+                .padding()
+            
+            ScrollView(.vertical, showsIndicators: true, content: {
+                LazyVStack {
+                    ForEach(0..<columnIndex+1) { index in
+                        HStack {
+                            ForEach(0..<3) { i in
+                                let currentIndex = 3*index+i
+                                if currentIndex < imageViewModel.currentImages.count {
+                                    Button(action: {
+                                        blockerModel.blocker.image = imageViewModel.currentImages[currentIndex].image
+                                        self.curIndex = currentIndex
+                                    }, label : {
+                                        CustomAssetsImage(imageName: imageViewModel.currentImages[currentIndex].image, width: 100, height: 80, corner: 0)
+                                            .padding(5)
+                                            .border(currentIndex == self.curIndex ? Color.blockerOrange : Color.peripheralOlive, width: 5)
+                                    })
+                                } else {
+                                    Text("")
+                                        .padding(.horizontal, 55)
+                                        .padding(.vertical, 40)
+//                                    Button(action: {
+//                                        blockerModel.blocker.image = ""
+//                                    }, label : {
+//                                        CustomSFImage(imageName: "person.fill", renderMode: .template, width: 60, height: 65, color: Color.blockerOrange)
+//                                            .padding(.horizontal, 25)
+//                                            .padding(.vertical, 15)
+//                                            .border(Color.peripheralOlive, width: 5)
+//                                    })
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+            })
+                
+            if blockerModel.blocker.image != "" {
+                NavigationButton(destination: AnyView(UICreateName()))
+                    .offset(y: -20)
+            }
+        
+        }
+        
+    }
+    
+}
+
 //TODO: 블로커 카드가 horizontal하게 움직이는 애니메이션 추가
 struct UICreateImage: View {
     
@@ -18,15 +85,16 @@ struct UICreateImage: View {
         VStack {
             CustomText(text: "예산을 지켜줄 블로커를 선택해 주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 .padding()
+        
             
             ZStack {
-                RoundedRectangle(cornerRadius: 25.0)
-                    .fill(Color.green)
-                    .padding(.vertical)
-                    .frame(width: 380, height: 380)
-                    .opacity(0.6)
+//                RoundedRectangle(cornerRadius: 25.0)
+//                    .fill(Color.green)
+//                    .padding(.vertical)
+//                    .frame(width: 380, height: 380)
+//                    .opacity(0.6)
                 
-                ScrollView(.horizontal, showsIndicators: false, content: {
+                ScrollView(.horizontal, showsIndicators: true, content: {
                     HStack {
                         ForEach(imageViewModel.currentImages) { image in
                             Button(action: {
@@ -70,45 +138,30 @@ struct UICreateName: View {
     
     var body: some View {
         VStack {
-            CustomText(text: "예산의 이름을 작성해주세요", size: 22, weight: .semibold, design: .default, color: .black)
-                .padding()
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: 25.0)
-                    .fill(Color.green)
-                    .padding(.vertical)
-                    .frame(width: 380, height: 380)
-                    .opacity(0.6)
-                
-                VStack {
-                    if blockerModel.blocker.image == "" {
-                        CustomSFImage(imageName: "exclamationmark.triangle.fill", renderMode: .template, width: 98, height: 90, corner: 0, color: .orange)
-                            .padding()
-                    } else {
-                        CustomAssetsImage(imageName: blockerModel.blocker.image, width: 150, height: 120, corner: 20)
-                            .padding()
-                    }
-                    
-                    TextField("예산 이름", text: $blockerName)
+            CustomText(text: "예산 블럭의 이름을 정해주세요", size: 22, weight: .semibold, design: .default, color: .black)
+            CustomText(text: "(예: 식비, 편의점/마트, 여행경비 등)", size: 18, weight: .medium, design: .default, color: .black)
+           
+            VStack {
+                if blockerModel.blocker.image == "" {
+                    CustomSFImage(imageName: "exclamationmark.triangle.fill", renderMode: .template, width: 98, height: 90, corner: 0, color: .orange)
                         .padding()
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                } else {
+                    CustomAssetsImage(imageName: blockerModel.blocker.image, width: 150, height: 120, corner: 20)
+                        .padding()
                 }
                 
+                TextField("예산 이름", text: $blockerName)
+                    .padding()
+                    .background(Color.peripheralOlive)
+                    .cornerRadius(5)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            
+                
             if blockerName.count>0 {
-                
-                NavigationLink(
-                    destination: UICreateBudget()) {
-                    CustomSFImage(imageName: "arrow.forward.circle.fill", renderMode: .template, width: 80 , height: 80, corner: 0, color: Color.green)
-                        .padding(.horizontal)
-                }.simultaneousGesture(TapGesture().onEnded({
-                    blockerModel.blocker.name = blockerName
-                })
-                )
-                
+                NavigationButton(destination: AnyView(UICreateBudget()))
+                    .simultaneousGesture(TapGesture().onEnded({ blockerModel.blocker.name = blockerName }))
             }
-            
             
         }
         .offset(y: -20)
@@ -133,28 +186,18 @@ struct UICreateBudget: View {
             CustomText(text: "관리할 예산 블럭의 총 금액을 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 .padding()
             
-            ZStack {
-                RoundedRectangle(cornerRadius: 25.0)
-                    .fill(Color.green)
-                    .padding(.vertical)
-                    .frame(width: 380, height: 200)
-                    .opacity(0.6)
                 
                 TextField("총 예산 금액", text: $blockerAmount)
                     .padding()
+                    .background(Color.peripheralOlive)
+                    .cornerRadius(5)
+                    .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
+            
             
             if let budget = Float(blockerAmount) {
-                
-                NavigationLink(
-                    destination: UICreateType()) {
-                    CustomSFImage(imageName: "arrow.forward.circle.fill", renderMode: .template, width: 80 , height: 80, corner: 0, color: Color.green)
-                        .padding(.horizontal)
-                }.simultaneousGesture(TapGesture().onEnded({
-                    blockerModel.blocker.budget = budget
-                })
-                )
+                NavigationButton(destination: AnyView(UICreateType()))
+                .simultaneousGesture(TapGesture().onEnded({ blockerModel.blocker.budget = budget }))
             }
             
         }
@@ -166,9 +209,11 @@ struct UICreateBudget: View {
 struct UICreateType: View {
     
     @EnvironmentObject var blockerModel: NewBlockerViewModel
-    //@Binding var blockerModel: BlockerModel
+    
     @State private var isClicked: Bool = false
     @State private var isOneTime: Bool = true
+    @State private var clickedType: String = ""
+    @State private var clickedPeriod: String = ""
     
     var body: some View {
         VStack {
@@ -183,22 +228,17 @@ struct UICreateType: View {
                 
                 CustomText(text: "관리할 예산 블럭의 성격을 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
                 
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25.0)
-                        .fill(Color.green)
-                        .padding(.vertical)
-                        .frame(width: 380, height: 200)
-                        .opacity(0.6)
-                    
+  
                     HStack(spacing: 40) {
                         Button {
                             isOneTime.toggle()
                             if isClicked {
                                 isClicked.toggle()
                             }
+                            clickedType = "반복"
                         } label: {
-                            CircleText(text: "반복")
+                            CircleTextClick(text: "반복", clickedText: $clickedType)
+                                
                         }
                         
                         Button {
@@ -213,22 +253,18 @@ struct UICreateType: View {
                             if blockerModel.blocker.period != nil {
                                 blockerModel.blocker.period = nil
                             }
+                            
+                            clickedType = "일회성"
+                            clickedPeriod = ""
                         } label: {
-                            CircleText(text: "일회성")
+                            CircleTextClick(text: "일회성", clickedText: $clickedType)
                         }
                     }
                 }
-            }
+            
             
             VStack {
                 CustomText(text: "관리할 예산 블럭의 주기를 알려주세요", size: 22, weight: .semibold, design: .default, color: .black)
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25.0)
-                        .fill(Color.green)
-                        .padding(.vertical)
-                        .frame(width: 380, height: 200)
-                        .opacity(0.6)
                     
                     HStack(spacing: 5) {
                         Button(action: {
@@ -236,8 +272,9 @@ struct UICreateType: View {
                             if isClicked == false {
                                 isClicked.toggle()
                             }
+                            clickedPeriod = "주간"
                         }, label: {
-                            CircleText(text: "주간")
+                            CircleTextClick(text: "주간", clickedText: $clickedPeriod)
                         })
                         
                         Button(action: {
@@ -245,8 +282,9 @@ struct UICreateType: View {
                             if isClicked == false {
                                 isClicked.toggle()
                             }
+                            clickedPeriod = "월간"
                         }, label: {
-                            CircleText(text: "월간")
+                            CircleTextClick(text: "월간", clickedText: $clickedPeriod)
                         })
                         
                         Button(action: {
@@ -254,11 +292,12 @@ struct UICreateType: View {
                             if isClicked == false {
                                 isClicked.toggle()
                             }
+                            clickedPeriod = "연간"
                         }, label: {
-                            CircleText(text: "연간")
+                            CircleTextClick(text: "연간", clickedText: $clickedPeriod)
                         })
                     }
-                }
+                
             }
             .isEmpty(isOneTime) // custom view modifier
             
@@ -289,14 +328,8 @@ struct UICreateDate: View {
             
             if let period = blockerModel.blocker.period {
                 
-                CustomText(text: "(모든 예산은 시작일이 되면 초기화 됩니다.)", size: 18, weight: .semibold, design: .default, color: .black)
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 25.0)
-                        .fill(Color.green)
-                        .padding(.vertical)
-                        .frame(width: 380, height: 380)
-                        .opacity(0.6)
+                CustomText(text: "(모든 예산은 시작일이 되면 초기화 됩니다.)", size: 18, weight: .medium, design: .default, color: .black)
+                    
                     
                     switch period {
                     case .weekly:
@@ -312,7 +345,7 @@ struct UICreateDate: View {
                             blockerModel.blocker.resetDate = DateComponents(weekday: weekdays2int[value.rawValue])
                         })
                         .labelsHidden()
-                        .padding()
+                        .padding(20)
 
                     case .monthly:
                         VStack(spacing: 5) {
@@ -333,7 +366,11 @@ struct UICreateDate: View {
                             .labelsHidden()
                             .padding()
 
-                            CustomText(text: "⚠️ 일수가 모자란 달은 자동으로 계산됩니다.", size: 18, weight: .semibold, design: .default, color: .black)
+                            CustomText(text: "⚠️ 선택한 일자가 존재하지 않는 월에는, 가장 가까운 직전 일자에 예산이 초기화 됩니다", size: 15, weight: .semibold, design: .default, color: .black)
+                                .padding(5)
+                                .background(Color.peripheralOlive)
+                                .cornerRadius(5)
+                                .padding(20)
                         }
                     case .yearly:
                         HStack(spacing: 0) {
@@ -342,8 +379,8 @@ struct UICreateDate: View {
                                 Text("월")
                                     .font(.system(size: 20, weight: .semibold, design: .default))
                                     .padding()
-                                    .frame(width: 100, height: 35, alignment: .center)
-                                    .background(Color.white)
+                                    .frame(width: 150, height: 35, alignment: .center)
+                                    .background(Color.peripheralOlive)
                                     .cornerRadius(10)
 
 
@@ -364,8 +401,8 @@ struct UICreateDate: View {
                                 Text("일")
                                     .font(.system(size: 20, weight: .semibold, design: .default))
                                     .padding()
-                                    .frame(width: 100, height: 35, alignment: .center)
-                                    .background(Color.white)
+                                    .frame(width: 150, height: 35, alignment: .center)
+                                    .background(Color.peripheralOlive)
                                     .cornerRadius(10)
 
 
@@ -390,20 +427,14 @@ struct UICreateDate: View {
 
 
                         }
+                        .padding(.vertical, 20)
                     
                     }
-                }
+                
                 
                 NavigationButton(destination: AnyView(UICreateSpent()))
                 
             } else {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 25.0)
-                            .fill(Color.green)
-                            .padding(.vertical)
-                            .frame(width: 380, height: 380)
-                            .opacity(0.5)
-    
                         // TODO: locale 적용
                         DatePicker("", selection: $selectedStartDate, displayedComponents: [.date])
                             .onAppear(perform: {
@@ -414,10 +445,10 @@ struct UICreateDate: View {
                             })
                             .labelsHidden()
                             .datePickerStyle(WheelDatePickerStyle())
-                    }
+                            .padding(20)
+                    
     
                     NavigationButton(destination: AnyView(UICreateEndDate()))
-                        .offset(y:60)
                 
             }
             
@@ -453,22 +484,17 @@ struct UICreateSpent: View {
         
         VStack {
             
-            CustomText(text: "예산 중 이미 사용한 금액이 있다면, 블로커에게 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
+            CustomText(text: "예산 중 이미 사용한 금액이 있다면 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
                 .padding()
             
-            ZStack {
-                
-                RoundedRectangle(cornerRadius: 25.0)
-                    .fill(Color.green)
-                    .padding(.vertical)
-                    .frame(width: 380, height: 200)
-                    .opacity(0.6)
-                
-                
+
                 TextField("이미 사용한 금액", text: $spent)
                     .padding()
+                    .background(Color.peripheralOlive)
+                    .cornerRadius(5)
+                    .padding()
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-            }
+            
             
             
             if let spent = Float(spent) {
@@ -478,6 +504,7 @@ struct UICreateSpent: View {
                     blockerViewModel.currentBlockers.append(blockerModel.blocker)
                     // Initialize ViewModel
                     blockerModel.blocker = BlockerModel(name: "", image: "", budget: 0, histories: [])
+
                     DispatchQueue.main.async {
                         self.presentationMode.wrappedValue.dismiss()
                     }
@@ -515,14 +542,6 @@ struct UICreateEndDate: View {
             
             CustomText(text: "예산 블럭의 종료일을 알려주세요", size: 20, weight: .semibold, design: .default, color: .black)
                 .padding()
-            
-            ZStack {
-                
-                RoundedRectangle(cornerRadius: 25.0)
-                    .fill(Color.green)
-                    .padding(.vertical)
-                    .frame(width: 380, height: 360)
-                    .opacity(0.6)
                 
                 // TODO: locale 적용
                 DatePicker("", selection: $selectedEndDate, in: dateRange,  displayedComponents: [.date])
@@ -534,7 +553,6 @@ struct UICreateEndDate: View {
                     .onChange(of: selectedEndDate, perform: { value in
                         blockerModel.blocker.endDate = value
                     })
-            }
             
             Button(action: {
                 blockerViewModel.currentBlockers.append(blockerModel.blocker)
@@ -562,9 +580,25 @@ struct CircleText: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(Color.white)
+                .fill(Color.peripheralOlive)
                 .frame(width: 80, height: 80, alignment: .center)
-            CustomText(text: text, size: 22, weight: .semibold, design: .default, color: .orange)
+            CustomText(text: text, size: 22, weight: .semibold, design: .default, color: Color.white)
+        }
+        .padding()
+    }
+}
+
+struct CircleTextClick: View {
+    
+    @State var text: String
+    @Binding var clickedText: String
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(clickedText == text ? Color.blockerOrange : Color.peripheralOlive)
+                .frame(width: 80, height: 80, alignment: .center)
+            CustomText(text: text, size: 22, weight: .semibold, design: .default, color: Color.white)
         }
         .padding()
     }
@@ -609,7 +643,9 @@ struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             
-            //UICreateImage()
+            //UICreateImageCopy() // version2
+            
+            //UICreateImage() // version1
             
             //UICreateName()
             
@@ -617,11 +653,11 @@ struct UIAddBlocker_Previews: PreviewProvider {
             
             //UICreateType()
             
-            UICreateDate()
+            //UICreateDate()
             
-            //UICreateSpent()
+            // UICreateSpent()
             
-            //UICreateEndDate()
+            UICreateEndDate()
             
         }
         .environmentObject(ImageViewModel())

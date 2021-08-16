@@ -17,7 +17,6 @@ struct UIParent: View {
             // 1st
             NavigationView{
                 UIMain()
-                    .navigationBarItems(trailing: EditButton()) 
             }
             .environmentObject(blockerViewModel)
             .environmentObject(imageViewModel)
