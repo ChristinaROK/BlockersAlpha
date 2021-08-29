@@ -38,6 +38,19 @@ struct UIMain: View {
                 List {
                     ForEach(blockerViewModel.currentBlockers) { blocker in
                         NavigationDetail(isToday: $istoday, blocker: blocker)
+//                            .listRowBackground( // TODO: frame width 절대 수치를 상대 수치로 변환
+//                                HStack(alignment: .top) {
+//                                    RoundedRectangle(cornerRadius: 5)
+//                                        .frame(width: 330*CGFloat(blocker.currentPercentage),
+//                                            height: .infinity)
+//                                        .background(Color.clear)
+//                                        .foregroundColor(.red)
+//                                        .opacity(0.2)
+//                                        .padding(5)
+//                                    Spacer()
+//                                }
+//
+//                            )
                     }
                     .onMove(perform: blockerViewModel.moveBlocker)
                     .onDelete { indexSet in
@@ -110,80 +123,92 @@ struct NavigationDetail: View {
     @State var blocker: BlockerModel
     
     var body: some View {
-        NavigationLink(
-            destination: UIDetail(blocker: blocker),
-            label: {
-                HStack (spacing: 5) {
-                    CustomAssetsImage(imageName: blocker.image,
-                                      width: 110,
-                                      height: 80,
-                                      corner: 0)
-                        .padding(5)
-                    
-                    CustomText(text: blocker.name,
-                               size: 20,
-                               weight: .semibold,
-                               design: .rounded,
-                               color: .fontOlive)
-                        .lineLimit(1)
-                        .padding(5)
-                    
-                    
-                    VStack {
+        
+        ZStack(alignment: .leading) {
+            
+            NavigationLink(
+                destination: UIDetail(blocker: blocker),
+                label: {
+                    HStack (spacing: 5) {
+                        CustomAssetsImage(imageName: blocker.image,
+                                          width: 110,
+                                          height: 80,
+                                          corner: 0)
+                            .padding(5)
                         
-                        if isToday {
+                        CustomText(text: blocker.name,
+                                   size: 20,
+                                   weight: .semibold,
+                                   design: .rounded,
+                                   color: .fontOlive)
+                            .lineLimit(1)
+                            .padding(5)
+                        
+                        
+                        VStack {
                             
-                            HStack { // 오른쪽 정렬
-                                Spacer()
-                                CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
-                                           size: 13,
-                                           weight: .semibold,
-                                           design: .rounded,
-                                           color: .fontOlive)
+                            if isToday {
+                                
+                                HStack { // 오른쪽 정렬
+                                    Spacer()
+                                    CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
+                                               size: 13,
+                                               weight: .semibold,
+                                               design: .rounded,
+                                               color: .fontOlive)
+                                    
+                                }
+                                
+                                HStack {
+                                    Spacer()
+                                    CustomText(text: "\(blocker.dTime)시간 남음",
+                                               size: 13,
+                                               weight: .semibold,
+                                               design: .rounded,
+                                               color: .fontOlive)
+                                }
+                                
+                            } else {
+                                
+                                HStack {
+                                    Spacer()
+                                    CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
+                                               size: 13,
+                                               weight: .semibold,
+                                               design: .rounded,
+                                               color: .fontOlive)
+                                }
+                                
+                                
+                                HStack {
+                                    Spacer()
+                                    CustomText(text: "D-\(blocker.dDay)일 남음",
+                                               size: 13,
+                                               weight: .semibold,
+                                               design: .rounded,
+                                               color: .fontOlive)
+                                }
                                 
                             }
-                            
-                            HStack {
-                                Spacer()
-                                CustomText(text: "\(blocker.dTime)시간 남음",
-                                           size: 13,
-                                           weight: .semibold,
-                                           design: .rounded,
-                                           color: .fontOlive)
-                            }
-                            
-                        } else {
-                            
-                            HStack {
-                                Spacer()
-                                CustomText(text: "\(blocker.currentBudget.currencyRepresentation) 남음",
-                                           size: 13,
-                                           weight: .semibold,
-                                           design: .rounded,
-                                           color: .fontOlive)
-                            }
-                            
-                            
-                            HStack {
-                                Spacer()
-                                CustomText(text: "D-\(blocker.dDay)일 남음",
-                                           size: 13,
-                                           weight: .semibold,
-                                           design: .rounded,
-                                           color: .fontOlive)
-                            }
-                            
                         }
+                        .padding(.horizontal, 10)
+                        
+                        
                     }
-                    .padding(.horizontal, 10)
-                    
-                    
+                    .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
+                    //.background(Color.red.opacity(0.5))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.peripheralOlive, lineWidth: 2))
                 }
-                .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.peripheralOlive, lineWidth: 2))
-            }
-        )
+            )
+            
+//            Text("\(blocker.currentPercentage)")
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.green.opacity(0.3))
+                .frame(width: 300*CGFloat(blocker.currentPercentage), height: 100)
+                
+        }
+
     }
 }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */; };
 		7427ECDA26A43C6400297CAA /* UItest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD926A43C6400297CAA /* UItest.swift */; };
+		7463366D26DB4B89002D3F2D /* BlockerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7463366B26DB4B89002D3F2D /* BlockerModel.xcdatamodeld */; };
 		7478932826BF98E500E73ECF /* UIParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478932726BF98E500E73ECF /* UIParent.swift */; };
 		7478933326BFCB3C00E73ECF /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7478933226BFCB3C00E73ECF /* Color.xcassets */; };
 		74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UIConfig.swift */; };
@@ -30,6 +31,7 @@
 /* Begin PBXFileReference section */
 		7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBlocker.swift; sourceTree = "<group>"; };
 		7427ECD926A43C6400297CAA /* UItest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UItest.swift; sourceTree = "<group>"; };
+		7463366C26DB4B89002D3F2D /* BlockerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BlockerModel.xcdatamodel; sourceTree = "<group>"; };
 		7478932726BF98E500E73ECF /* UIParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIParent.swift; sourceTree = "<group>"; };
 		7478933226BFCB3C00E73ECF /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		74B3E9FE2676032800E500D5 /* UIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfig.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				74E63ABE26693220008ABB40 /* ModelBlocker.swift */,
+				7463366B26DB4B89002D3F2D /* BlockerModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -217,6 +220,7 @@
 				74F6859A26C84DF700F51BCC /* UIDailyStats.swift in Sources */,
 				7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */,
 				74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */,
+				7463366D26DB4B89002D3F2D /* BlockerModel.xcdatamodeld in Sources */,
 				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
 				74F6859D26C84E0D00F51BCC /* UIStats.swift in Sources */,
 				7478932826BF98E500E73ECF /* UIParent.swift in Sources */,
@@ -416,6 +420,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7463366B26DB4B89002D3F2D /* BlockerModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7463366C26DB4B89002D3F2D /* BlockerModel.xcdatamodel */,
+			);
+			currentVersion = 7463366C26DB4B89002D3F2D /* BlockerModel.xcdatamodel */;
+			path = BlockerModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 74E63A9E26692A39008ABB40 /* Project object */;
 }

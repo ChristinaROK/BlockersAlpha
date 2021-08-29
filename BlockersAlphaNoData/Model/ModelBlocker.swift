@@ -33,6 +33,12 @@ struct BlockerModel: Identifiable {
         }
     }
     
+    var currentPercentage: Float { // desc: 현재 주기의 남은 예산 금액 백분위 (소숫점 아래 버림)
+        get {
+            return self.currentBudget / self.budget
+        }
+    }
+    
     var nextDate: Int { // desc: 시험용 변수. 향후 삭제할 예정
         get {
             let cal = Calendar.current
