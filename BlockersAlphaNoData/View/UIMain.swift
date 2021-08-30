@@ -38,19 +38,6 @@ struct UIMain: View {
                 List {
                     ForEach(blockerViewModel.currentBlockers) { blocker in
                         NavigationDetail(isToday: $istoday, blocker: blocker)
-//                            .listRowBackground( // TODO: frame width 절대 수치를 상대 수치로 변환
-//                                HStack(alignment: .top) {
-//                                    RoundedRectangle(cornerRadius: 5)
-//                                        .frame(width: 330*CGFloat(blocker.currentPercentage),
-//                                            height: .infinity)
-//                                        .background(Color.clear)
-//                                        .foregroundColor(.red)
-//                                        .opacity(0.2)
-//                                        .padding(5)
-//                                    Spacer()
-//                                }
-//
-//                            )
                     }
                     .onMove(perform: blockerViewModel.moveBlocker)
                     .onDelete { indexSet in
