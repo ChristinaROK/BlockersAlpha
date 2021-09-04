@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D64" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="BlockerHistoryModel" representedClassName="BlockerHistoryModel" syncable="YES" codeGenerationType="class"/>
+    <entity name="BlockerHistoryModel" representedClassName="BlockerHistoryModel" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="earn" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="memo" optional="YES" attributeType="String"/>
+        <attribute name="spent" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="blocker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BlockerModel" inverseName="history" inverseEntity="BlockerModel"/>
+    </entity>
     <entity name="BlockerImageModel" representedClassName="BlockerImageModel" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="String"/>
@@ -10,11 +16,12 @@
         <attribute name="budget" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="history" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BlockerHistoryModel" inverseName="blocker" inverseEntity="BlockerHistoryModel"/>
         <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BlockerImageModel" inverseName="blocker" inverseEntity="BlockerImageModel"/>
     </entity>
     <elements>
-        <element name="BlockerHistoryModel" positionX="-36" positionY="27" width="128" height="29"/>
-        <element name="BlockerImageModel" positionX="-54" positionY="18" width="128" height="14"/>
-        <element name="BlockerModel" positionX="-63" positionY="-18" width="128" height="14"/>
+        <element name="BlockerHistoryModel" positionX="297.39892578125" positionY="331.0965881347656" width="157.510009765625" height="14"/>
+        <element name="BlockerImageModel" positionX="-452.7930908203125" positionY="225.64111328125" width="128" height="14"/>
+        <element name="BlockerModel" positionX="-126.4467163085938" positionY="-14.3934326171875" width="103.9495849609375" height="14"/>
     </elements>
 </model>

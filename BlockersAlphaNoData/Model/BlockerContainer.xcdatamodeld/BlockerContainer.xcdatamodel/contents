@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D64" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BlockerEntity" representedClassName="BlockerEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="addBudget" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="budget" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="currnetBudget" transient="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Transformable"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="period" optional="YES" attributeType="Transformable"/>
+        <attribute name="resetDate" optional="YES" attributeType="Transformable"/>
+        <attribute name="startDate" optional="YES" attributeType="Transformable"/>
+        <attribute name="subtractBudget" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="histories" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HistoryEntity" inverseName="blocker" inverseEntity="HistoryEntity"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ImageEntity" inverseName="blockers" inverseEntity="ImageEntity"/>
+    </entity>
+    <entity name="HistoryEntity" representedClassName="HistoryEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="earn" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="spent" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="blocker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BlockerEntity" inverseName="histories" inverseEntity="BlockerEntity"/>
+    </entity>
+    <entity name="ImageEntity" representedClassName="ImageEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="blockers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BlockerEntity" inverseName="image" inverseEntity="BlockerEntity"/>
+    </entity>
+    <entity name="TestEntity" representedClassName="TestEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="resetDate" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="DateComponents"/>
+    </entity>
+    <elements>
+        <element name="BlockerEntity" positionX="44.724365234375" positionY="-10.38365173339844" width="128" height="209"/>
+        <element name="HistoryEntity" positionX="-180.05419921875" positionY="36.902587890625" width="128" height="118"/>
+        <element name="ImageEntity" positionX="270.9320678710938" positionY="55.20339965820312" width="128" height="88"/>
+        <element name="TestEntity" positionX="193.734619140625" positionY="-171.496826171875" width="128" height="73"/>
+    </elements>
+</model>

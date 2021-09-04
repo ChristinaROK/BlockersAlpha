@@ -87,6 +87,7 @@ enum BlockerPeriodModel: String, CaseIterable, Equatable {
     case weekly ,monthly, yearly
 }
 
+
 struct BlockerHistoryModel: Hashable {
     let date: String
     let spent: Float
