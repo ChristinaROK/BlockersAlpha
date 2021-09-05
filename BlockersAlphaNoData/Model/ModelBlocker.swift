@@ -11,17 +11,33 @@ import Foundation
 Model - Blocker
  */
 
+struct BlockerCoreDataModel: Identifiable {
+    let id: UUID = UUID()
+    var name: String
+    var image : String
+    var imageEntity : ImageEntity // added
+    var budget: Float
+    var period: BlockerPeriodModel? // Weekly / Monthly / Yearly
+    var resetDate: DateComponents?
+    var spent: Float?
+    var earned: Float?
+    var startDate: Date?
+    var endDate: Date?
+    var histories: [BlockerHistoryModel]?
+    }
+
 struct BlockerModel: Identifiable {
-    let id: String = UUID().uuidString
+    let id: UUID = UUID()
     var name: String
     var image : String
     var budget: Float
     var period: BlockerPeriodModel? // Weekly / Monthly / Yearly
     var resetDate: DateComponents?
     var spent: Float?
+    var earned: Float?
     var startDate: Date?
     var endDate: Date?
-    var histories: [BlockerHistoryModel]
+    var histories: [BlockerHistoryModel]?
     // Computed Property
     var currentBudget: Float { // desc: 현재 주기의 남은 예산 금액
         get {
@@ -96,7 +112,7 @@ struct BlockerHistoryModel: Hashable {
 }
 
 struct BlockerImageModel: Identifiable {
-    let id: String = UUID().uuidString
+    let id: UUID = UUID()
     let image: String
 }
 

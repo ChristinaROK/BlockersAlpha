@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7407AE7226E40F6000EC2AC4 /* HistoryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AE6C26E40F6000EC2AC4 /* HistoryEntity+CoreDataClass.swift */; };
+		7407AE7326E40F6000EC2AC4 /* HistoryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AE6D26E40F6000EC2AC4 /* HistoryEntity+CoreDataProperties.swift */; };
+		7407AE7426E40F6000EC2AC4 /* ImageEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AE6E26E40F6000EC2AC4 /* ImageEntity+CoreDataClass.swift */; };
+		7407AE7526E40F6000EC2AC4 /* ImageEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AE6F26E40F6000EC2AC4 /* ImageEntity+CoreDataProperties.swift */; };
+		7407AE7626E40F6000EC2AC4 /* BlockerEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AE7026E40F6000EC2AC4 /* BlockerEntity+CoreDataClass.swift */; };
+		7407AE7726E40F6000EC2AC4 /* BlockerEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7407AE7126E40F6000EC2AC4 /* BlockerEntity+CoreDataProperties.swift */; };
 		7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */; };
 		7427ECDA26A43C6400297CAA /* UItest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7427ECD926A43C6400297CAA /* UItest.swift */; };
 		7455065C26E34BED00D6954D /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455065B26E34BED00D6954D /* test.swift */; };
-		7455066026E353C300D6954D /* TestEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455065E26E353C300D6954D /* TestEntity+CoreDataClass.swift */; };
-		7455066126E353C300D6954D /* TestEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455065F26E353C300D6954D /* TestEntity+CoreDataProperties.swift */; };
 		7478932826BF98E500E73ECF /* UIParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7478932726BF98E500E73ECF /* UIParent.swift */; };
 		7478933326BFCB3C00E73ECF /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7478933226BFCB3C00E73ECF /* Color.xcassets */; };
 		7484CF0526DFD6C3002AC27B /* BlockerContainer.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7484CF0326DFD6C3002AC27B /* BlockerContainer.xcdatamodeld */; };
+		74874B8A26E408CF00AE5F0F /* Test2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74874B8926E408CF00AE5F0F /* Test2.swift */; };
 		74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B3E9FE2676032800E500D5 /* UIConfig.swift */; };
 		74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */; };
 		74E3E5BD266B59A500BF4DDE /* UICreateImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */; };
@@ -32,14 +37,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7407AE6C26E40F6000EC2AC4 /* HistoryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7407AE6D26E40F6000EC2AC4 /* HistoryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HistoryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7407AE6E26E40F6000EC2AC4 /* ImageEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7407AE6F26E40F6000EC2AC4 /* ImageEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7407AE7026E40F6000EC2AC4 /* BlockerEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlockerEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7407AE7126E40F6000EC2AC4 /* BlockerEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlockerEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7427ECD426A3EA6B00297CAA /* ViewModelBlocker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelBlocker.swift; sourceTree = "<group>"; };
 		7427ECD926A43C6400297CAA /* UItest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UItest.swift; sourceTree = "<group>"; };
 		7455065B26E34BED00D6954D /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
-		7455065E26E353C300D6954D /* TestEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		7455065F26E353C300D6954D /* TestEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TestEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7478932726BF98E500E73ECF /* UIParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIParent.swift; sourceTree = "<group>"; };
 		7478933226BFCB3C00E73ECF /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		7484CF0426DFD6C3002AC27B /* BlockerContainer.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BlockerContainer.xcdatamodel; sourceTree = "<group>"; };
+		74874B8926E408CF00AE5F0F /* Test2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test2.swift; sourceTree = "<group>"; };
 		74B3E9FE2676032800E500D5 /* UIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfig.swift; sourceTree = "<group>"; };
 		74C25AEE267F152700E516C9 /* UIBlockerLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockerLevel.swift; sourceTree = "<group>"; };
 		74E3E5BC266B59A500BF4DDE /* UICreateImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICreateImage.swift; sourceTree = "<group>"; };
@@ -91,6 +101,7 @@
 				74E3E5BF266B59B900BF4DDE /* UIDeposit.swift */,
 				7427ECD926A43C6400297CAA /* UItest.swift */,
 				7455065B26E34BED00D6954D /* test.swift */,
+				74874B8926E408CF00AE5F0F /* Test2.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -116,8 +127,12 @@
 		74E63A9D26692A39008ABB40 = {
 			isa = PBXGroup;
 			children = (
-				7455065E26E353C300D6954D /* TestEntity+CoreDataClass.swift */,
-				7455065F26E353C300D6954D /* TestEntity+CoreDataProperties.swift */,
+				7407AE6C26E40F6000EC2AC4 /* HistoryEntity+CoreDataClass.swift */,
+				7407AE6D26E40F6000EC2AC4 /* HistoryEntity+CoreDataProperties.swift */,
+				7407AE6E26E40F6000EC2AC4 /* ImageEntity+CoreDataClass.swift */,
+				7407AE6F26E40F6000EC2AC4 /* ImageEntity+CoreDataProperties.swift */,
+				7407AE7026E40F6000EC2AC4 /* BlockerEntity+CoreDataClass.swift */,
+				7407AE7126E40F6000EC2AC4 /* BlockerEntity+CoreDataProperties.swift */,
 				74E63AA826692A39008ABB40 /* BlockersAlphaNoData */,
 				74E63AA726692A39008ABB40 /* Products */,
 			);
@@ -225,25 +240,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74874B8A26E408CF00AE5F0F /* Test2.swift in Sources */,
 				74B3E9FF2676032800E500D5 /* UIConfig.swift in Sources */,
 				7455065C26E34BED00D6954D /* test.swift in Sources */,
 				74F6859A26C84DF700F51BCC /* UIDailyStats.swift in Sources */,
+				7407AE7526E40F6000EC2AC4 /* ImageEntity+CoreDataProperties.swift in Sources */,
 				7427ECD526A3EA6B00297CAA /* ViewModelBlocker.swift in Sources */,
 				74E3E5C0266B59B900BF4DDE /* UIDeposit.swift in Sources */,
 				74E63ABF26693221008ABB40 /* ModelBlocker.swift in Sources */,
-				7455066026E353C300D6954D /* TestEntity+CoreDataClass.swift in Sources */,
+				7407AE7326E40F6000EC2AC4 /* HistoryEntity+CoreDataProperties.swift in Sources */,
 				74F6859D26C84E0D00F51BCC /* UIStats.swift in Sources */,
 				7478932826BF98E500E73ECF /* UIParent.swift in Sources */,
 				74E63AAC26692A39008ABB40 /* UIMain.swift in Sources */,
 				7427ECDA26A43C6400297CAA /* UItest.swift in Sources */,
 				74E3E5D7266B74AB00BF4DDE /* UIUtils.swift in Sources */,
+				7407AE7626E40F6000EC2AC4 /* BlockerEntity+CoreDataClass.swift in Sources */,
 				7484CF0526DFD6C3002AC27B /* BlockerContainer.xcdatamodeld in Sources */,
 				74C25AEF267F152700E516C9 /* UIBlockerLevel.swift in Sources */,
+				7407AE7426E40F6000EC2AC4 /* ImageEntity+CoreDataClass.swift in Sources */,
 				74F0A48B269AEB4E00F936BC /* ExtensionUtils.swift in Sources */,
+				7407AE7726E40F6000EC2AC4 /* BlockerEntity+CoreDataProperties.swift in Sources */,
+				7407AE7226E40F6000EC2AC4 /* HistoryEntity+CoreDataClass.swift in Sources */,
 				74E3E5BD266B59A500BF4DDE /* UICreateImage.swift in Sources */,
 				74E63AC3266936AB008ABB40 /* UIDetail.swift in Sources */,
 				74E63AAA26692A39008ABB40 /* BlockersAlphaNoDataApp.swift in Sources */,
-				7455066126E353C300D6954D /* TestEntity+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
