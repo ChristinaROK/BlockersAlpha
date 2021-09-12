@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UIDetail: View {
     
-    var blocker: BlockerModel
+    var blocker: BlockerEntity
     @State private var currentIndex = 0
     
     var body: some View {
@@ -35,7 +35,7 @@ struct UIDetail: View {
 
 struct UIDetailMain: View {
     
-    var blocker: BlockerModel
+    var blocker: BlockerEntity
     @State var isToday: Bool = false
     
     var body: some View {
@@ -45,7 +45,7 @@ struct UIDetailMain: View {
                 .ignoresSafeArea()
             
             VStack {
-                CustomAssetsImage(imageName: blocker.image, width: 350, height: 250, corner: 0)
+                CustomAssetsImage(imageName: blocker.image.name, width: 350, height: 250, corner: 0)
                 
                 VStack {
                     
@@ -76,10 +76,10 @@ struct UIDetailMain: View {
                         // 2. HP 색상
                         RoundedRectangle(cornerRadius: 5)
                             .fill(Color.red)
-                            .frame(width: 350*CGFloat(blocker.currentPercentage), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
+                            .frame(width: 350*CGFloat(blocker.currentBudgetPerBudget), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
                         
                         // 3. 텍스트
-                        CustomText(text: "\(Int(blocker.currentPercentage*100)) %", size: 15, weight: .bold, design: .default, color: .white)
+                        CustomText(text: "\(Int(blocker.currentBudgetPerBudget*100)) %", size: 15, weight: .bold, design: .default, color: .white)
                             .padding(.horizontal)
                     }
                     .padding()
@@ -100,7 +100,7 @@ struct UIDetailMain: View {
                         // TODO: 해당 variable model 생성한 후 적용하기
                         DetailShowView(explainText: "오늘 지출", infoText: IntOrFloat.float(-999))
                     } else {
-                        DetailShowView(explainText: "현재까지 지출", infoText: IntOrFloat.float(blocker.spent ?? 0))
+                        DetailShowView(explainText: "현재까지 지출", infoText: IntOrFloat.float(blocker.spent))
                     }
                     
                     DetailShowView(explainText: "예산 만료일까지 남은 기간", infoText: IntOrFloat.int(blocker.dDay))
@@ -140,16 +140,4 @@ struct DetailShowView: View {
     }
 }
 
-
-struct UIDetail_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        
-        let blocker1: BlockerModel = BlockerModel(name: "식비", image: "eat-blocker", budget: 500000, period: .monthly, resetDate: DateComponents(day:1), spent: 300000, startDate: nil, endDate: nil, histories: [])
-        
-        NavigationView {
-            UIDetail(blocker: blocker1)
-        }
-    }
-}
 

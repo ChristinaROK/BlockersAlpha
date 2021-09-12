@@ -14,15 +14,15 @@ struct BlockersAlphaNoDataApp: App {
             ////            NavigationView {
             ////                UIMain()
             ////            }
-            //            UIParent()
-            //            //.navigationViewStyle(StackNavigationViewStyle())
-            //            .environmentObject(BlockerViewModel())
-            //            .environmentObject(ImageViewModel())
-            //            .environmentObject(NewBlockerViewModel())
+            UIParent()
+            //.navigationViewStyle(StackNavigationViewStyle())
+            .environmentObject(BlockerCoreDataViewModel())
+            .environmentObject(ImageCoreDataViewModel())
+            .environmentObject(NewBlockerCoreDataViewModel())
             
-            Test2()
-                .environmentObject(BlockerCoreDataViewModel())
-                .environmentObject(ImageCoreDataViewModel())
+//            Test2()
+//                .environmentObject(BlockerCoreDataViewModel())
+//                .environmentObject(ImageCoreDataViewModel())
         }
     }
 }

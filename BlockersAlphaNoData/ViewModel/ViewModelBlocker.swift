@@ -63,7 +63,14 @@ class BlockerCoreDataViewModel: ObservableObject {
         newBlocker.name = blocker.name
         newBlocker.budget = blocker.budget
         newBlocker.period = blocker.period?.rawValue ?? "" // String
-        newBlocker.resetDate = blocker.resetDate
+        if newBlocker.period == "weekly" {
+            newBlocker.resetWeekday = Int16((blocker.resetDate?.weekday!) ?? 0)
+        } else if newBlocker.period == "monthly" {
+            newBlocker.resetDay = Int16((blocker.resetDate?.day!) ?? 0)
+        } else if newBlocker.period == "yearly" {
+            newBlocker.resetMonth = Int16((blocker.resetDate?.month!) ?? 0)
+            newBlocker.resetDay = Int16((blocker.resetDate?.day!) ?? 0)
+        }
         newBlocker.startDate = blocker.startDate
         newBlocker.endDate = blocker.endDate
         newBlocker.spent = blocker.spent ?? 0
@@ -72,6 +79,19 @@ class BlockerCoreDataViewModel: ObservableObject {
         
         save()
     }
+    
+    func deleteBlockerEntity(index: Int) { // TODO: input parameter를 IndexSet으로 변환
+        
+        let rmBlocker = currentBlockers[index]
+        manager.context.delete(rmBlocker)
+        print("Delete \(rmBlocker.name)")
+        
+        save()
+    }
+    
+    //    func moveBlocker(indices: IndexSet, newOffset: Int) {
+    //        currentBlockers.move(fromOffsets: indices, toOffset: newOffset)
+    //    }
     
     func save() {
         currentBlockers.removeAll()
@@ -139,70 +159,70 @@ class ImageCoreDataViewModel: ObservableObject {
     }
 }
 
-class ImageViewModel: ObservableObject {
-    
-    @Published var currentImages : [BlockerImageModel] = []
-    
-    init() {
-        getDefaultImage()
-    }
-    
-    func getDefaultImage() {
-        let newImages = [
-            BlockerImageModel(image: "eat-blocker"),
-            BlockerImageModel(image: "cafe-blocker"),
-            BlockerImageModel(image: "shop-blocker"),
-            BlockerImageModel(image: "workout-blocker")
-        ]
-        
-        currentImages.append(contentsOf: newImages)
-    }
-    
-    func addImage() {
-        
-    }
-}
-
-
-class BlockerViewModel: ObservableObject {
-    
-    @Published var currentBlockers : [BlockerModel] = []
-    
-    init() {
-        getBlocker()
-    }
-    
-    func getBlocker() {
-        let newBlockers: [BlockerModel] = [
-            BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .weekly, resetDate: DateComponents(weekday:1), spent: 300000, startDate: nil, endDate: nil, histories: []),
-            BlockerModel(name: "쇼핑", image: "shop-blocker", budget: 400000, period: nil, resetDate: nil, spent: nil, startDate: Date(), endDate: Date(), histories: [])
-        ]
-        
-        currentBlockers.append(contentsOf: newBlockers)
-        
-    }
-    
-//    func addBlocker() {
+//class ImageViewModel: ObservableObject {
+//    
+//    @Published var currentImages : [BlockerImageModel] = []
+//    
+//    init() {
+//        getDefaultImage()
+//    }
+//    
+//    func getDefaultImage() {
+//        let newImages = [
+//            BlockerImageModel(image: "eat-blocker"),
+//            BlockerImageModel(image: "cafe-blocker"),
+//            BlockerImageModel(image: "shop-blocker"),
+//            BlockerImageModel(image: "workout-blocker")
+//        ]
+//        
+//        currentImages.append(contentsOf: newImages)
+//    }
+//    
+//    func addImage() {
 //        
 //    }
-    
-    
-    func deleteBlocker(indexSet: IndexSet) {
-        currentBlockers.remove(atOffsets: indexSet)
-    }
-    
-    func moveBlocker(indices: IndexSet, newOffset: Int) {
-        currentBlockers.move(fromOffsets: indices, toOffset: newOffset)
-    }
-    
-}
+//}
 
-class NewBlockerViewModel: ObservableObject {
+
+//class BlockerViewModel: ObservableObject {
+//
+//    @Published var currentBlockers : [BlockerModel] = []
+//
+//    init() {
+//        getBlocker()
+//    }
+//
+//    func getBlocker() {
+//        let newBlockers: [BlockerModel] = [
+//            BlockerModel(name: "식비", image: "eat-blocker", budget: 600000, period: .weekly, resetDate: DateComponents(weekday:1), spent: 300000, startDate: nil, endDate: nil, histories: []),
+//            BlockerModel(name: "쇼핑", image: "shop-blocker", budget: 400000, period: nil, resetDate: nil, spent: nil, startDate: Date(), endDate: Date(), histories: [])
+//        ]
+//
+//        currentBlockers.append(contentsOf: newBlockers)
+//
+//    }
+//
+////    func addBlocker() {
+////
+////    }
+//
+//
+//    func deleteBlocker(indexSet: IndexSet) {
+//        currentBlockers.remove(atOffsets: indexSet)
+//    }
+//
+//    func moveBlocker(indices: IndexSet, newOffset: Int) {
+//        currentBlockers.move(fromOffsets: indices, toOffset: newOffset)
+//    }
+//
+//}
+
+class NewBlockerCoreDataViewModel: ObservableObject {
     
-    @Published var blocker: BlockerModel
+    @Published var blocker: BlockerCoreDataModel
     
     init() {
-        self.blocker = BlockerModel(name: "", image: "", budget: 0, histories: [])
+        self.blocker = BlockerCoreDataModel(name: "", image: "", imageEntity: ImageCoreDataViewModel().currentImages[0] , budget: 0, histories: [])
         //self.blocker = BlockerModel(name: "eating", image: "eat-blocker", budget: 200000, histories: [])
     }
 }

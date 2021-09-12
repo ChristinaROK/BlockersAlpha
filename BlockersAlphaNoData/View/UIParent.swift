@@ -9,8 +9,9 @@ import SwiftUI
 
 struct UIParent: View {
     
-    @EnvironmentObject var blockerViewModel : BlockerViewModel
-    @EnvironmentObject var imageViewModel : ImageViewModel
+    @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
+    @EnvironmentObject var imageViewModel : ImageCoreDataViewModel
+    @EnvironmentObject var newBlockerModel : NewBlockerCoreDataViewModel
     
     var body: some View {
         TabView {
@@ -20,6 +21,7 @@ struct UIParent: View {
             }
             .environmentObject(blockerViewModel)
             .environmentObject(imageViewModel)
+            .environmentObject(newBlockerModel)
             .tabItem {
                 Image(systemName: "house")
                 Text("MAIN")
@@ -51,7 +53,8 @@ struct UIParent: View {
 struct UIParent_Previews: PreviewProvider {
     static var previews: some View {
         UIParent()
-            .environmentObject(BlockerViewModel())
-            .environmentObject(ImageViewModel())
+            .environmentObject(BlockerCoreDataViewModel())
+            .environmentObject(ImageCoreDataViewModel())
+            .environmentObject(NewBlockerCoreDataViewModel())
     }
 }

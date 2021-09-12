@@ -9,8 +9,8 @@ import SwiftUI
 
 struct UICreateImageCopy: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
-    @EnvironmentObject var imageViewModel: ImageViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
+    @EnvironmentObject var imageViewModel: ImageCoreDataViewModel
     @State var curIndex: Int = -1
     
     private let displayNum : Int = 3
@@ -36,10 +36,11 @@ struct UICreateImageCopy: View {
                                 let currentIndex = 3*index+i
                                 if currentIndex < imageViewModel.currentImages.count {
                                     Button(action: {
-                                        blockerModel.blocker.image = imageViewModel.currentImages[currentIndex].image
+                                        blockerModel.blocker.image = imageViewModel.currentImages[currentIndex].name
+                                        blockerModel.blocker.imageEntity = imageViewModel.currentImages[currentIndex]
                                         self.curIndex = currentIndex
                                     }, label : {
-                                        CustomAssetsImage(imageName: imageViewModel.currentImages[currentIndex].image, width: 100, height: 80, corner: 0)
+                                        CustomAssetsImage(imageName: imageViewModel.currentImages[currentIndex].name, width: 100, height: 80, corner: 0)
                                             .padding(5)
                                             .border(currentIndex == self.curIndex ? Color.blockerOrange : Color.peripheralOlive, width: 5)
                                     })
@@ -77,8 +78,8 @@ struct UICreateImageCopy: View {
 //TODO: 블로커 카드가 horizontal하게 움직이는 애니메이션 추가
 struct UICreateImage: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
-    @EnvironmentObject var imageViewModel: ImageViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
+    @EnvironmentObject var imageViewModel: ImageCoreDataViewModel
     
     var body: some View {
         
@@ -98,9 +99,10 @@ struct UICreateImage: View {
                     HStack {
                         ForEach(imageViewModel.currentImages) { image in
                             Button(action: {
-                                blockerModel.blocker.image = image.image
+                                blockerModel.blocker.image = image.name
+                                blockerModel.blocker.imageEntity = image
                             }, label: {
-                                CustomAssetsImage(imageName: image.image, width: 210, height: 180, corner: 0)
+                                CustomAssetsImage(imageName: image.name, width: 210, height: 180, corner: 0)
                                     .clipShape(RoundedRectangle(cornerRadius: 30))
                                     .padding(.horizontal, 60)
                                     .shadow(radius: 15)
@@ -133,7 +135,7 @@ struct UICreateImage: View {
 
 struct UICreateName: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
     @State var blockerName: String = "" // 왜 didset이 안먹을까?
     
     var body: some View {
@@ -171,7 +173,7 @@ struct UICreateName: View {
 // TODO: customized keyboard 개발 (원 단위 수 자동 생성)
 struct UICreateBudget: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
     @State var blockerAmount = ""
     
     
@@ -208,7 +210,7 @@ struct UICreateBudget: View {
 
 struct UICreateType: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
     
     @State private var isClicked: Bool = false
     @State private var isOneTime: Bool = true
@@ -313,7 +315,7 @@ struct UICreateType: View {
 
 struct UICreateDate: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
     @State var selectedWeekday = CustomWeekdays.일요일
     @State var selectedDate = "1 일"
     @State var selectedMonth = "1 월"
@@ -446,6 +448,7 @@ struct UICreateDate: View {
                             .labelsHidden()
                             .datePickerStyle(WheelDatePickerStyle())
                             .padding(20)
+                            .environment(\.locale, Locale.init(identifier: "kr_KR")) // TODO: hard coding 없애기
                     
     
                     NavigationButton(destination: AnyView(UICreateEndDate()))
@@ -475,9 +478,9 @@ struct UICreateDate: View {
 
 struct UICreateSpent: View {
     
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var blockerViewModel: BlockerViewModel
+    @EnvironmentObject var blockerViewModel: BlockerCoreDataViewModel
     @State var spent = ""
     
     var body: some View {
@@ -501,13 +504,18 @@ struct UICreateSpent: View {
                 
                 Button(action: {
                     blockerModel.blocker.spent = spent
-                    blockerViewModel.currentBlockers.append(blockerModel.blocker)
-                    // Initialize ViewModel
-                    blockerModel.blocker = BlockerModel(name: "", image: "", budget: 0, histories: [])
+                    blockerViewModel.addBlockerEntity(blocker: blockerModel.blocker)
+                    
+                    // Initialize NewBlockerCoreDataViewModel
+                    blockerModel.blocker = BlockerCoreDataModel(name: "",
+                                                                image: "",
+                                                                imageEntity:ImageCoreDataViewModel().currentImages[0],
+                                                                budget: 0, histories: [])
 
                     DispatchQueue.main.async {
                         self.presentationMode.wrappedValue.dismiss()
                     }
+                    
                 }, label: {
                     CustomText(text: "예산 생성", size: 25, weight: .bold, design: .default, color: .white)
                         .frame(width: 120, height: 30, alignment: .center)
@@ -524,8 +532,8 @@ struct UICreateSpent: View {
 
 
 struct UICreateEndDate: View {
-    @EnvironmentObject var blockerModel: NewBlockerViewModel
-    @EnvironmentObject var blockerViewModel: BlockerViewModel
+    @EnvironmentObject var blockerModel: NewBlockerCoreDataViewModel
+    @EnvironmentObject var blockerViewModel: BlockerCoreDataViewModel
     @Environment(\.presentationMode) var presentationMode
     @State var selectedEndDate: Date = Date()
     
@@ -555,11 +563,17 @@ struct UICreateEndDate: View {
                     })
             
             Button(action: {
-                blockerViewModel.currentBlockers.append(blockerModel.blocker)
+                blockerViewModel.addBlockerEntity(blocker: blockerModel.blocker)
+                
                 // Initialize ViewModel
-                blockerModel.blocker = BlockerModel(name: "", image: "", budget: 0, histories: [])
+                blockerModel.blocker = BlockerCoreDataModel(name: "",
+                                                            image: "",
+                                                            imageEntity:ImageCoreDataViewModel().currentImages[0],
+                                                            budget: 0, histories: [])
+                
                 DispatchQueue.main.async {
                     self.presentationMode.wrappedValue.dismiss()}
+                
             }, label: {
                 CustomText(text: "예산 생성", size: 25, weight: .bold, design: .default, color: .white)
                     .frame(width: 120, height: 30, alignment: .center)
@@ -568,6 +582,7 @@ struct UICreateEndDate: View {
                     .cornerRadius(10)
             })
         }
+        .environment(\.locale, Locale.init(identifier: "kr_KR")) // TODO: hard coding 없애기
         .offset(y: -20)
     }
 }
@@ -643,7 +658,7 @@ struct UIAddBlocker_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             
-            //UICreateImageCopy() // version2
+            UICreateImageCopy() // version2
             
             //UICreateImage() // version1
             
@@ -657,12 +672,12 @@ struct UIAddBlocker_Previews: PreviewProvider {
             
             // UICreateSpent()
             
-            UICreateEndDate()
+            //UICreateEndDate()
             
         }
-        .environmentObject(ImageViewModel())
-        .environmentObject(BlockerViewModel())
-        .environmentObject(NewBlockerViewModel())
+        .environmentObject(ImageCoreDataViewModel())
+        .environmentObject(BlockerCoreDataViewModel())
+        .environmentObject(NewBlockerCoreDataViewModel())
         
     }
 }

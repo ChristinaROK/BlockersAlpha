@@ -20,8 +20,10 @@ struct UIMain: View {
     @State var showingDeleteAlert = false
     @State var indexSet: IndexSet = []
     
-    @EnvironmentObject var blockerViewModel : BlockerViewModel
-    @EnvironmentObject var imageViewModel : ImageViewModel
+    @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
+    @EnvironmentObject var imageViewModel : ImageCoreDataViewModel
+    @EnvironmentObject var newBlockerModel : NewBlockerCoreDataViewModel
+    
     
     var body: some View {
         
@@ -39,19 +41,20 @@ struct UIMain: View {
                     ForEach(blockerViewModel.currentBlockers) { blocker in
                         NavigationDetail(isToday: $istoday, blocker: blocker)
                     }
-                    .onMove(perform: blockerViewModel.moveBlocker)
-                    .onDelete { indexSet in
-                        self.indexSet = indexSet
-                        showingDeleteAlert = true
-                    }
-                    .alert(isPresented: $showingDeleteAlert, content: {
-                        Alert(title: Text("블로커 삭제"),
-                              message: Text("블로커를 삭제하면 기존 데이터가 모두 삭제됩니다."),
-                              primaryButton: .destructive(Text("삭제"), action: {
-                                blockerViewModel.deleteBlocker(indexSet: self.indexSet)
-                              }),
-                              secondaryButton: .cancel(Text("취소")))
-                    })
+//                    .onMove(perform: blockerViewModel.moveBlocker)
+//                    .onDelete { indexSet in
+//                        self.indexSet = indexSet
+//                        showingDeleteAlert = true
+//                    }
+//                    .alert(isPresented: $showingDeleteAlert, content: {
+//                        Alert(title: Text("블로커 삭제"),
+//                              message: Text("블로커를 삭제하면 기존 데이터가 모두 삭제됩니다."),
+//                              primaryButton: .destructive(Text("삭제"), action: {
+//                                blockerViewModel.deleteBlocker(indexSet: self.indexSet)
+//                              }),
+//                              secondaryButton: .cancel(Text("취소")))
+//                    })
+
                     
                     //                        .onLongPressGesture {
                     //                            withAnimation {
@@ -107,7 +110,7 @@ struct BackgroundColor: View {
 struct NavigationDetail: View {
     
     @Binding var isToday: Bool
-    @State var blocker: BlockerModel
+    @State var blocker: BlockerEntity
     
     var body: some View {
         
@@ -117,7 +120,7 @@ struct NavigationDetail: View {
                 destination: UIDetail(blocker: blocker),
                 label: {
                     HStack (spacing: 5) {
-                        CustomAssetsImage(imageName: blocker.image,
+                        CustomAssetsImage(imageName: blocker.image.name,
                                           width: 110,
                                           height: 80,
                                           corner: 0)
@@ -192,7 +195,7 @@ struct NavigationDetail: View {
 //            Text("\(blocker.currentPercentage)")
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.green.opacity(0.3))
-                .frame(width: 300*CGFloat(blocker.currentPercentage), height: 100)
+                .frame(width: 300*CGFloat(blocker.currentBudgetPerBudget), height: 100)
                 
         }
 
@@ -237,7 +240,7 @@ struct SheetConfig: View {
 struct SheetDeposit: View {
     
     @State var showingDepositSheet: Bool
-    var blockerViewModel : BlockerViewModel
+    var blockerViewModel : BlockerCoreDataViewModel
     
     var body: some View {
         VStack {
@@ -264,8 +267,8 @@ struct UIMain_Previews: PreviewProvider {
         NavigationView {
             UIMain()
         }
-        .environmentObject(BlockerViewModel())
-        .environmentObject(ImageViewModel())
+        .environmentObject(BlockerCoreDataViewModel())
+        
         
     }
 }

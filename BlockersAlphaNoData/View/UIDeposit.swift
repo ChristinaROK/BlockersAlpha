@@ -10,7 +10,7 @@ import SwiftUI
 struct UIDeposit: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var blockerViewModel : BlockerViewModel
+    @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
     
     let stateOptions: [String] = [
         "수입", "지출"
@@ -48,7 +48,7 @@ struct UIDeposit: View {
                         .padding()
                         
                         CustomAssetsImage(imageName:
-                                            blockerViewModel.currentBlockers[currentIndex].image, width: 200, height: 150, corner: 0)
+                                            blockerViewModel.currentBlockers[currentIndex].image.name, width: 200, height: 150, corner: 0)
                         
                         Button(action: {
                             currentIndex = rightClick(curIndex: currentIndex, len: blockerViewModel.currentBlockers.count)
@@ -131,6 +131,6 @@ struct UIDeposit: View {
 struct UIDeposit_Previews: PreviewProvider {
     static var previews: some View {
         UIDeposit()
-            .environmentObject(BlockerViewModel())
+            .environmentObject(BlockerCoreDataViewModel())
     }
 }

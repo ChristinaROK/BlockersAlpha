@@ -9,9 +9,9 @@ import SwiftUI
 
 struct UItest: View {
     
-    @EnvironmentObject var blockerViewModel : BlockerViewModel
+    @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
     
-    @EnvironmentObject var imageViewModel : ImageViewModel
+    @EnvironmentObject var imageViewModel : ImageCoreDataViewModel
     
     var body: some View {
         
@@ -20,11 +20,11 @@ struct UItest: View {
             ForEach(blockerViewModel.currentBlockers) { blocker in
                 VStack {
                     Text("Name: \(blocker.name)")
-                    Image(blocker.image)
+                 
                     Text("Budget: \(blocker.budget.currencyRepresentation)")
-                    Text("Period: \(blocker.period?.rawValue ?? "")")
+                    Text("Period: \(blocker.period ?? "")")
 //                    Text("ResetDate: \(Calendar.current.date(from: blocker.resetDate ?? DateComponents(day:1)) ?? Date())")
-                    Text("Spent: \(blocker.spent?.currencyRepresentation ?? "")")
+                    Text("Spent: \(blocker.spent.currencyRepresentation)")
                     Text("current Amount: \(blocker.currentBudget.currencyRepresentation)")
 //
 //                    if let startDate = blocker.startDate {
@@ -91,8 +91,8 @@ struct UItest_Previews: PreviewProvider {
         NavigationView {
             UItest()
         }
-        .environmentObject(BlockerViewModel())
-        .environmentObject(ImageViewModel())
+        .environmentObject(BlockerCoreDataViewModel())
+        .environmentObject(ImageCoreDataViewModel())
 //        Tempt()
     }
 }
