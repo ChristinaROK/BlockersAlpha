@@ -11,6 +11,7 @@ struct UIDeposit: View {
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
+    @EnvironmentObject var historyViewModel : HistoryCoreDataViewModel
     
     let stateOptions: [String] = [
         "수입", "지출"
@@ -58,12 +59,12 @@ struct UIDeposit: View {
                         .padding()
                         
                     }
-                    .padding(.vertical, 100)
+                    .padding(.vertical, 70)
                     
                     
                     Form {
                         Section {
-                            // TODO: picker 선택값 적용을 위해 .onChange modifier 사용할 것
+                            
                             Picker(selection: $currentState,
                                    label: Text("Picker"),
                                    content: {
@@ -83,26 +84,78 @@ struct UIDeposit: View {
                             TextField("memo", text: $memo)
                             
                         }
-                        
-                        // TODO: issave=true 일 때 값을 CoreData에 보내도록하는 함수 추가
-                        Section {
-                            Button {
-                                isSave.toggle()
-                            } label: {
-                                CustomText(text: "Save", size: 15, weight: .semibold, design: .default, color: Color.blue)
-                            }
-                        }
                     }
+                        
+                    HStack(spacing:0) {
+                        
+                        Button {
+                            
+                            // 1. historyEntity 추가 (blocker.history 도 업데이트)
+                            historyViewModel.addHistoryEntity(
+                                blocker: blockerViewModel.currentBlockers[currentIndex],
+                                state: currentState,
+                                amount: amount,
+                                date: date,
+                                memo: memo
+                            )
+                            
+                            // 2. currentBlockers 업데이트
+                            //blockerViewModel.save()
+                            
+                            // 3. msg 보내기
+                            
+                            
+                        } label: {
+                            CustomText(text: "기록 추가", size: 25, weight: .semibold, design: .default, color: Color.white)
+                                .padding()
+                                .frame(height:80)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
+                                .cornerRadius(0)
+                        }
+                        
+                        Button {
+                            
+                            // 1. historyEntity 추가 (blocker.history 도 업데이트)
+                            historyViewModel.addHistoryEntity(
+                                blocker: blockerViewModel.currentBlockers[currentIndex],
+                                state: currentState,
+                                amount: amount,
+                                date: date,
+                                memo: memo
+                            )
+                            
+                            // 2. currentBlockers 업데이트
+                            //blockerViewModel.save()
+                            
+                            // 3. 창 닫기
+                            presentationMode.wrappedValue.dismiss()
+                            
+                        } label: {
+                            CustomText(text: "완료", size: 25, weight: .semibold, design: .default, color: Color.white)
+                                .padding()
+                                .frame(height:80)
+                                .frame(maxWidth: .infinity)
+                                //.frame(width: 200, height: 100, alignment: .center)
+                                .background(Color.blue)
+                                .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
+                                .cornerRadius(0)
+                        }
+                        
+                    }
+                    .padding()
+                    
                 }
                 else {
                     CustomText(text: "⚠️ 예산 블록을 먼저 만들어주세요", size: 20, weight: .bold, design: .default, color: .black)
                 }
             }
-            .navigationBarItems(trailing:
+            .navigationBarItems(leading:
                                     Button {
                                         presentationMode.wrappedValue.dismiss()
                                     } label: {
-                                        CustomSFImage(imageName: "xmark.circle", width: 25, height: 25, corner: 0)
+                                        CustomSFImage(imageName: "arrow.backward", width: 25, height: 22, corner: 0)
                                     }
                                 
             )
@@ -132,5 +185,6 @@ struct UIDeposit_Previews: PreviewProvider {
     static var previews: some View {
         UIDeposit()
             .environmentObject(BlockerCoreDataViewModel())
+            .environmentObject(HistoryCoreDataViewModel())
     }
 }

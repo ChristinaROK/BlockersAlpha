@@ -18,6 +18,7 @@ struct BlockersAlphaNoDataApp: App {
             //.navigationViewStyle(StackNavigationViewStyle())
             .environmentObject(BlockerCoreDataViewModel())
             .environmentObject(ImageCoreDataViewModel())
+            .environmentObject(HistoryCoreDataViewModel())
             .environmentObject(NewBlockerCoreDataViewModel())
             
 //            Test2()

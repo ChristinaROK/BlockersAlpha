@@ -22,6 +22,7 @@ struct UIMain: View {
     
     @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
     @EnvironmentObject var imageViewModel : ImageCoreDataViewModel
+    @EnvironmentObject var historyViewModel : HistoryCoreDataViewModel
     @EnvironmentObject var newBlockerModel : NewBlockerCoreDataViewModel
     
     
@@ -33,9 +34,9 @@ struct UIMain: View {
             
             VStack (spacing:10) {
                 
-                CustomText(text: "\(Date().formatDate()) 🗓 오늘도 부자에 한 걸음!", size: 20, weight: .light, design: .rounded, color: .fontOlive)
+                CustomText(text: "\(Date().formatDate()) 🗓 오늘도 부자에 한 걸음!", size: 20, weight: .regular, design: .rounded, color: Color("greenGrey"))
                     .padding(10)
-                    .background(Color.backgroundOlive)
+                    .background(Color("NoliveLight"))
                 
                 List {
                     ForEach(blockerViewModel.currentBlockers) { blocker in
@@ -73,17 +74,17 @@ struct UIMain: View {
             
             .offset(y:-50)
             
-            SheetDeposit(showingDepositSheet: showingDepositSheet, blockerViewModel: blockerViewModel)
+            SheetDeposit(showingDepositSheet: showingDepositSheet, blockerViewModel: blockerViewModel, historyViewModel: historyViewModel)
         }
         .navigationBarItems(leading:
                                 HStack{
-                                    CustomText(text: "Today",
-                                               size: 17,
-                                               weight: .bold,
-                                               design: .default,
-                                               color: .blue)
+//                                    CustomText(text: "Today",
+//                                               size: 17,
+//                                               weight: .bold,
+//                                               design: .default,
+//                                               color: .blue)
                                     
-                                    Toggle("today", isOn: $istoday)
+                                    Toggle("TODAY", isOn: $istoday)
                                         .labelsHidden()
                                 }
                                 .padding(.vertical)
@@ -130,7 +131,7 @@ struct NavigationDetail: View {
                                    size: 20,
                                    weight: .semibold,
                                    design: .rounded,
-                                   color: .fontOlive)
+                                   color: Color("greenGrey"))
                             .lineLimit(1)
                             .padding(5)
                         
@@ -145,7 +146,7 @@ struct NavigationDetail: View {
                                                size: 13,
                                                weight: .semibold,
                                                design: .rounded,
-                                               color: .fontOlive)
+                                               color: Color("greenGrey"))
                                     
                                 }
                                 
@@ -155,7 +156,7 @@ struct NavigationDetail: View {
                                                size: 13,
                                                weight: .semibold,
                                                design: .rounded,
-                                               color: .fontOlive)
+                                               color: Color("greenGrey"))
                                 }
                                 
                             } else {
@@ -166,7 +167,7 @@ struct NavigationDetail: View {
                                                size: 13,
                                                weight: .semibold,
                                                design: .rounded,
-                                               color: .fontOlive)
+                                               color: Color("greenGrey"))
                                 }
                                 
                                 
@@ -176,7 +177,7 @@ struct NavigationDetail: View {
                                                size: 13,
                                                weight: .semibold,
                                                design: .rounded,
-                                               color: .fontOlive)
+                                               color: Color("greenGrey"))
                                 }
                                 
                             }
@@ -188,13 +189,13 @@ struct NavigationDetail: View {
                     .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                     //.background(Color.red.opacity(0.5))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.peripheralOlive, lineWidth: 2))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color("Ngreen"), lineWidth: 2))
                 }
             )
             
 //            Text("\(blocker.currentPercentage)")
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.green.opacity(0.3))
+                .fill(Color("Ngreen").opacity(0.3))
                 .frame(width: 300*CGFloat(blocker.currentBudgetPerBudget), height: 100)
                 
         }
@@ -207,10 +208,10 @@ struct NavigationAdd: View {
         NavigationLink(
             destination: UICreateImageCopy(),
             label: {
-                CustomSFImage(imageName: "person.crop.circle.badge.plus", renderMode: .template, width: 61, height: 52, color: .blockerOrange)
+                CustomSFImage(imageName: "person.crop.circle.badge.plus", renderMode: .template, width: 61, height: 52, color: Color("Nolive"))
                     .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.peripheralOlive, lineWidth: 2))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color("Ngreen"), lineWidth: 2))
             }
         )
     }
@@ -241,6 +242,7 @@ struct SheetDeposit: View {
     
     @State var showingDepositSheet: Bool
     var blockerViewModel : BlockerCoreDataViewModel
+    var historyViewModel : HistoryCoreDataViewModel
     
     var body: some View {
         VStack {
@@ -248,14 +250,15 @@ struct SheetDeposit: View {
             
             Button{showingDepositSheet.toggle()}
                 label: {
-                    CustomSFImage(imageName: "plus.circle.fill", renderMode: .template, width: 80, height: 80, corner: 0, color: Color.lightAvocado)
+                    CustomSFImage(imageName: "plus.circle.fill", renderMode: .template, width: 80, height: 80, corner: 0, color: Color("Ngreen"))
                         .cornerRadius(38.5)
-                        .shadow(color: Color.peripheralOlive, radius: 8, x: 3, y: 3)
+                        .shadow(color: Color("NgreenLight"), radius: 8, x: 3, y: 3)
                         .padding()
                 }
                 .sheet(isPresented: $showingDepositSheet, content: {
                     UIDeposit()
                         .environmentObject(blockerViewModel)
+                        .environmentObject(historyViewModel)
                     
                 })
         }
@@ -268,6 +271,7 @@ struct UIMain_Previews: PreviewProvider {
             UIMain()
         }
         .environmentObject(BlockerCoreDataViewModel())
+        .environmentObject(HistoryCoreDataViewModel())
         
         
     }

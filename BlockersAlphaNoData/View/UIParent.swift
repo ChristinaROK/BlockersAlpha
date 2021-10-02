@@ -11,6 +11,7 @@ struct UIParent: View {
     
     @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
     @EnvironmentObject var imageViewModel : ImageCoreDataViewModel
+    @EnvironmentObject var historyViewModel : HistoryCoreDataViewModel
     @EnvironmentObject var newBlockerModel : NewBlockerCoreDataViewModel
     
     var body: some View {
@@ -21,6 +22,7 @@ struct UIParent: View {
             }
             .environmentObject(blockerViewModel)
             .environmentObject(imageViewModel)
+            .environmentObject(historyViewModel)
             .environmentObject(newBlockerModel)
             .tabItem {
                 Image(systemName: "house")
@@ -55,6 +57,7 @@ struct UIParent_Previews: PreviewProvider {
         UIParent()
             .environmentObject(BlockerCoreDataViewModel())
             .environmentObject(ImageCoreDataViewModel())
+            .environmentObject(HistoryCoreDataViewModel())
             .environmentObject(NewBlockerCoreDataViewModel())
     }
 }

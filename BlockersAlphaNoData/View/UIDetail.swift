@@ -20,7 +20,7 @@ struct UIDetail: View {
                 .navigationBarTitle(blocker.name, displayMode: .inline)
                 .tag(0)
             
-            UIDailyStats()
+            UIDailyStats(blocker: blocker)
                 .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
                 .navigationBarTitle(blocker.name, displayMode: .inline)
                 .tag(1)

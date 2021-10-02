@@ -159,6 +159,56 @@ class ImageCoreDataViewModel: ObservableObject {
     }
 }
 
+class HistoryCoreDataViewModel: ObservableObject {
+    
+    let manager = CoreDataManager.instance
+    @Published var currentHistories: [HistoryEntity] = []
+    
+    init() {
+        getHistoryEntity()
+    }
+    
+    func getHistoryEntity() {
+        let request = NSFetchRequest<HistoryEntity>(entityName: "HistoryEntity")
+        
+        do {
+            currentHistories = try manager.context.fetch(request)
+            print("SUCESS fetching Core Data")
+        } catch let error {
+            print("Error fetching Core Data \(error)")
+        }
+    }
+    
+    func addHistoryEntity(blocker: BlockerEntity, state:String, amount:String, date:Date, memo:String?) {
+        
+        let newEntity = HistoryEntity(context: manager.context)
+        newEntity.blocker = blocker
+        newEntity.date = date
+        
+        if state == "수입" {
+            newEntity.earn = Float(amount) ?? 0
+            newEntity.spend = Float(0)
+        } else if state == "지출" {
+            newEntity.spend = Float(amount) ?? 0
+            newEntity.earn = Float(0)
+        }
+        
+        newEntity.notes = memo ?? nil
+        
+        save()
+        
+    }
+    
+    func save() {
+        currentHistories.removeAll()
+        
+        self.manager.save() // CoreDate에 저장
+        self.getHistoryEntity()
+    }
+    
+    
+}
+
 //class ImageViewModel: ObservableObject {
 //    
 //    @Published var currentImages : [BlockerImageModel] = []
@@ -226,3 +276,4 @@ class NewBlockerCoreDataViewModel: ObservableObject {
         //self.blocker = BlockerModel(name: "eating", image: "eat-blocker", budget: 200000, histories: [])
     }
 }
+
