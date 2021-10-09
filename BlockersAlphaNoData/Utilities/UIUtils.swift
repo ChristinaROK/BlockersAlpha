@@ -18,7 +18,7 @@ struct CustomAssetsImage: View {
     var body: some View {
         Image(imageName)
             .resizable()
-            .aspectRatio(contentMode: .fill)
+//            .aspectRatio(contentMode: .fill)
             .frame(width: width, height: height)
             .cornerRadius(corner!)
             .scaledToFit()
@@ -39,7 +39,7 @@ struct CustomSFImage: View {
             .renderingMode(renderMode)
             .resizable()
             .foregroundColor(color)
-            .aspectRatio(contentMode: .fill)
+            //.aspectRatio(contentMode: .fill)
             .frame(width: width, height: height)
             .cornerRadius(corner)
             .scaledToFit()

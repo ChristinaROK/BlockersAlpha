@@ -117,6 +117,11 @@ struct NavigationDetail: View {
         
         ZStack(alignment: .leading) {
             
+            // background Color
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color("Ngreen"))
+                .frame(width: 300*CGFloat(blocker.currentBudgetPerBudget), height: 120) // [TODO] change color conditionally
+            
             NavigationLink(
                 destination: UIDetail(blocker: blocker),
                 label: {
@@ -126,6 +131,8 @@ struct NavigationDetail: View {
                                           height: 80,
                                           corner: 0)
                             .padding(5)
+                            .background(Color("NblueLight")) // blocker padding
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         
                         CustomText(text: blocker.name,
                                    size: 20,
@@ -186,17 +193,14 @@ struct NavigationDetail: View {
                         
                         
                     }
-                    .frame(minWidth: 0, idealWidth: 100, maxWidth: .infinity, minHeight: 0, idealHeight: 100, maxHeight: .infinity, alignment: .center)
-                    //.background(Color.red.opacity(0.5))
+                    .padding() // added
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color("Ngreen"), lineWidth: 2))
+                    .frame(maxWidth: .infinity)
                 }
             )
             
-//            Text("\(blocker.currentPercentage)")
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color("Ngreen").opacity(0.3))
-                .frame(width: 300*CGFloat(blocker.currentBudgetPerBudget), height: 100)
+
                 
         }
 
