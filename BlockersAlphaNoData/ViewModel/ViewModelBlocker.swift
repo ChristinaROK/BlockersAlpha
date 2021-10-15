@@ -124,7 +124,7 @@ class ImageCoreDataViewModel: ObservableObject {
     }
     
     func addDefaultImage() {
-        let defaultImageNames = ["eat-blocker", "cafe-blocker", "shop-blocker", "workout-blocker"]
+        let defaultImageNames = ["eat-blocker", "cafe-blocker", "shop-blocker", "workout-blocker", "drinking-blocker"]
         
         if currentImages.count == 0 {
             

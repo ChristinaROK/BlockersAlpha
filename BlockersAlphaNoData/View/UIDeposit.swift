@@ -48,8 +48,11 @@ struct UIDeposit: View {
                         })
                         .padding()
                         
-                        CustomAssetsImage(imageName:
-                                            blockerViewModel.currentBlockers[currentIndex].image.name, width: 200, height: 150, corner: 0)
+                        VStack {
+                            CustomAssetsImage(imageName:
+                                                blockerViewModel.currentBlockers[currentIndex].image.name, width: 200, height: 150, corner: 0)
+                            CustomText(text: "\(blockerViewModel.currentBlockers[currentIndex].name)", size: 25, weight: .bold, design: .default, color: Color.black)
+                        }
                         
                         Button(action: {
                             currentIndex = rightClick(curIndex: currentIndex, len: blockerViewModel.currentBlockers.count)
@@ -63,7 +66,7 @@ struct UIDeposit: View {
                     
                     
                     Form {
-                        Section {
+                        Section { 
                             
                             Picker(selection: $currentState,
                                    label: Text("Picker"),
@@ -99,21 +102,32 @@ struct UIDeposit: View {
                                 memo: memo
                             )
                             
+                            isSave.toggle()
+                            
                             // 2. currentBlockers 업데이트
                             //blockerViewModel.save()
                             
-                            // 3. msg 보내기
-                            
-                            
                         } label: {
-                            CustomText(text: "기록 추가", size: 25, weight: .semibold, design: .default, color: Color.white)
+                            CustomText(text: "추가 등록", size: 25, weight: .semibold, design: .default, color: Color.white)
                                 .padding()
                                 .frame(height:80)
                                 .frame(maxWidth: .infinity)
-                                .background(Color.blue)
+                                .background(Color("Nolive"))
                                 .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
                                 .cornerRadius(0)
                         }
+//                        .alert(Text("저장"), isPresented: $isSave, actions: {
+//                            <#code#>
+//                        }, message: {
+//                            Button(role: .destructive) {
+//                                <#code#>
+//                            } label: {
+//                                <#code#>
+//                            }
+//
+//                        })
+                        .disabled(amount.isEmpty)
+                        
                         
                         Button {
                             
@@ -138,10 +152,11 @@ struct UIDeposit: View {
                                 .frame(height:80)
                                 .frame(maxWidth: .infinity)
                                 //.frame(width: 200, height: 100, alignment: .center)
-                                .background(Color.blue)
+                                .background(Color.green)
                                 .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
                                 .cornerRadius(0)
                         }
+                        .disabled(amount.isEmpty)
                         
                     }
                     .padding()

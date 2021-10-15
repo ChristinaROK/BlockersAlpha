@@ -113,6 +113,7 @@ struct NavigationDetail: View {
     @Binding var isToday: Bool
     @State var blocker: BlockerEntity
     
+    
     var body: some View {
         
         ZStack(alignment: .leading) {
