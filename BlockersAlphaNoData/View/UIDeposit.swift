@@ -46,7 +46,7 @@ struct UIDeposit: View {
                         }, label: {
                             CustomSFImage(imageName: "arrowtriangle.backward.fill", width: 20, height: 20)
                         })
-                        .padding()
+                            .padding()
                         
                         VStack {
                             CustomAssetsImage(imageName:
@@ -59,23 +59,23 @@ struct UIDeposit: View {
                         }, label: {
                             CustomSFImage(imageName: "arrowtriangle.forward.fill", width: 20, height: 20)
                         })
-                        .padding()
+                            .padding()
                         
                     }
                     .padding(.vertical, 70)
                     
                     
                     Form {
-                        Section { 
+                        Section {
                             
                             Picker(selection: $currentState,
                                    label: Text("Picker"),
                                    content: {
-                                    ForEach(stateOptions.indices) {
-                                        index in Text(stateOptions[index])
-                                            .tag(stateOptions[index])
-                                    }
-                                   })
+                                ForEach(stateOptions.indices) {
+                                    index in Text(stateOptions[index])
+                                        .tag(stateOptions[index])
+                                }
+                            })
                                 .pickerStyle(SegmentedPickerStyle())
                             
                             // TODO: customized number keyboard로 바꿀 것 (직접 구현!!!)
@@ -88,45 +88,87 @@ struct UIDeposit: View {
                             
                         }
                     }
-                        
+                    
                     HStack(spacing:0) {
                         
-                        Button {
-                            
-                            // 1. historyEntity 추가 (blocker.history 도 업데이트)
-                            historyViewModel.addHistoryEntity(
-                                blocker: blockerViewModel.currentBlockers[currentIndex],
-                                state: currentState,
-                                amount: amount,
-                                date: date,
-                                memo: memo
+                        if #available(iOS 15, *) {
+                            Button {
+                                // 1. historyEntity 추가 (blocker.history 도 업데이트)
+                                historyViewModel.addHistoryEntity(
+                                    blocker: blockerViewModel.currentBlockers[currentIndex],
+                                    state: currentState,
+                                    amount: amount,
+                                    date: date,
+                                    memo: memo
+                                )
+                                
+                                isSave.toggle()
+                                
+                                // 2. currentBlockers 업데이트
+                                //blockerViewModel.save()
+                                
+                            } label: {
+                                CustomText(text: "추가 등록", size: 25, weight: .semibold, design: .default, color: Color.white)
+                                    .padding()
+                                    .frame(height:80)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color("Nolive"))
+                                    .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
+                                    .cornerRadius(0)
+                            }
+                            .alert("현재 입력한 예산 기록은 저장됩니다. 예산 기록을 추가로 등록하시겠습니까?", isPresented: $isSave,
+                                   actions: {
+                                Button("확인", role: .cancel, action: {
+                                    // 초기화
+                                    amount = ""
+                                    date = Date()
+                                    memo = ""
+                                })
+                            },
+                                   message: {}
                             )
-                            
-                            isSave.toggle()
-                            
-                            // 2. currentBlockers 업데이트
-                            //blockerViewModel.save()
-                            
-                        } label: {
-                            CustomText(text: "추가 등록", size: 25, weight: .semibold, design: .default, color: Color.white)
-                                .padding()
-                                .frame(height:80)
-                                .frame(maxWidth: .infinity)
-                                .background(Color("Nolive"))
-                                .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
-                                .cornerRadius(0)
+                            .disabled(amount.isEmpty)
                         }
-//                        .alert(Text("저장"), isPresented: $isSave, actions: {
-//                            <#code#>
-//                        }, message: {
-//                            Button(role: .destructive) {
-//                                <#code#>
-//                            } label: {
-//                                <#code#>
-//                            }
-//
-//                        })
-                        .disabled(amount.isEmpty)
+                        else {
+                            Button {
+                                // 1. historyEntity 추가 (blocker.history 도 업데이트)
+                                historyViewModel.addHistoryEntity(
+                                    blocker: blockerViewModel.currentBlockers[currentIndex],
+                                    state: currentState,
+                                    amount: amount,
+                                    date: date,
+                                    memo: memo
+                                )
+                                
+                                isSave.toggle()
+                                
+                                // 2. currentBlockers 업데이트
+                                //blockerViewModel.save()
+                                
+                            } label: {
+                                CustomText(text: "추가 등록", size: 25, weight: .semibold, design: .default, color: Color.white)
+                                    .padding()
+                                    .frame(height:80)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color("Nolive"))
+                                    .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
+                                    .cornerRadius(0)
+                            }
+                            .alert(isPresented:$isSave) {
+                                Alert(title: Text(""),
+                                      message: Text("현재 입력한 예산 기록은 저장됩니다. 예산 기록을 추가로 등록하시겠습니까?"),
+                                      dismissButton: .default(Text("확인"),
+                                                              action: {
+                                    // 초기화
+                                    amount = ""
+                                    date = Date()
+                                    memo = ""
+                                }                            )
+                                )
+                            }
+                            .disabled(amount.isEmpty)
+                        }
+                        
                         
                         
                         Button {
@@ -151,7 +193,7 @@ struct UIDeposit: View {
                                 .padding()
                                 .frame(height:80)
                                 .frame(maxWidth: .infinity)
-                                //.frame(width: 200, height: 100, alignment: .center)
+                            //.frame(width: 200, height: 100, alignment: .center)
                                 .background(Color.green)
                                 .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
                                 .cornerRadius(0)
@@ -168,10 +210,10 @@ struct UIDeposit: View {
             }
             .navigationBarItems(leading:
                                     Button {
-                                        presentationMode.wrappedValue.dismiss()
-                                    } label: {
-                                        CustomSFImage(imageName: "arrow.backward", width: 25, height: 22, corner: 0)
-                                    }
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                CustomSFImage(imageName: "arrow.backward", width: 25, height: 22, corner: 0)
+            }
                                 
             )
             .navigationBarTitle("예산 기록", displayMode: .inline)
