@@ -52,6 +52,112 @@ extension BlockerEntity {
         }
     }
     
+    var periodStartDate: Date { // desc: [반복 예산] 예산 시작일
+        get {
+            
+            let calendar = self.customCalendar
+            let todayMidnight = calendar.date(bySettingHour: 23, // endDate 계산하는 기준 날짜를 오늘밤 자정으로 설정
+                                              minute: 59,
+                                              second: 59,
+                                              of: Date())!
+            
+            if self.period == "weekly" {
+                if self.resetWeekday != 0 {
+                    return calendar.nextDate(after: todayMidnight,
+                                             matching: DateComponents(hour: 0,
+                                                                      minute:0,
+                                                                      second:0,
+                                                                      weekday: Int(self.resetWeekday)),
+                                             matchingPolicy: .previousTimePreservingSmallerComponents,
+                                             direction: .backward)
+                    ?? Date()
+                } else {
+                    return Date()
+                }
+            } else if self.period == "monthly" {
+                if self.resetDay != 0 {
+                    return calendar.nextDate(after: todayMidnight,
+                                             matching: DateComponents(day:Int(self.resetDay),
+                                                                      hour: 0,
+                                                                       minute:0,
+                                                                       second:0),
+                                             matchingPolicy: .previousTimePreservingSmallerComponents,
+                                             direction: .backward)
+                    ?? Date()
+                } else {
+                    return Date()
+                }
+            } else if self.period == "yearly" {
+                if (self.resetMonth != 0) && (self.resetDay != 0) {
+                    return calendar.nextDate(after: todayMidnight,
+                                             matching: DateComponents(month: Int(self.resetMonth),
+                                                                      day: Int(self.resetDay),
+                                                                      hour: 0,
+                                                                       minute:0,
+                                                                       second:0),
+                                             matchingPolicy: .previousTimePreservingSmallerComponents,
+                                             direction: .backward)
+                    ?? Date()
+                } else {
+                    return Date()
+                }
+            } else {
+                return Date()
+            }
+        }
+    }
+    
+    var periodEndDate: Date { // desc: [반복 예산] 예산 종료일 -> spent & earned 갱신
+        get {
+            
+            let calendar = self.customCalendar
+            let todayMidnight = calendar.date(bySettingHour: 23, // endDate 계산하는 기준 날짜를 오늘밤 자정으로 설정
+                                              minute: 59,
+                                              second: 59,
+                                              of: Date())!
+            
+            if self.period == "weekly" {
+                if self.resetWeekday != 0 {
+                    return calendar.nextDate(after: todayMidnight,
+                                             matching: DateComponents(weekday: Int(self.resetWeekday)),
+                                             matchingPolicy: .previousTimePreservingSmallerComponents)
+                    ?? Date()
+                } else {
+                    return Date()
+                }
+            } else if self.period == "monthly" {
+                if self.resetDay != 0 {
+                    return calendar.nextDate(after: todayMidnight,
+                                             matching: DateComponents(day:Int(self.resetDay)),
+                                             matchingPolicy: .previousTimePreservingSmallerComponents)
+                    ?? Date()
+                } else {
+                    return Date()
+                }
+            } else if self.period == "yearly" {
+                if (self.resetMonth != 0) && (self.resetDay != 0) {
+                    return calendar.nextDate(after: todayMidnight,
+                                             matching: DateComponents(month: Int(self.resetMonth),
+                                                                      day: Int(self.resetDay)), matchingPolicy: .previousTimePreservingSmallerComponents)
+                    ?? Date()
+                } else {
+                    return Date()
+                }
+            } else {
+                return Date()
+            }
+        }
+    }
+    
+    var periodDayCnt: Int { // desc : 예산 기간 (days)
+        get {
+            
+            let calendar = self.customCalendar
+            let diff = calendar.dateComponents([.day], from: self.periodStartDate, to: self.periodEndDate)
+            return diff.day!
+        }
+    }
+    
     var dDay: Int { // desc : 예산 종료까지 남은 일자
         get {
 
@@ -59,69 +165,64 @@ extension BlockerEntity {
             let todayComponent = calendar.dateComponents([.year, .month, .day],
                                                          from: Date())
             
-            let todayFullSet = calendar.date(bySettingHour: 23,
-                                             minute: 59,
-                                             second: 59,
-                                             of: Date())! // D-0를 D-7로 만들기위해 시간 세팅
-            
-            var closestNextDate: Date?
             var output: Int?
             
             // 1. 주기성 예산
-            if let period = self.period {
-                if period == "weekly" {
-                    // 1-1. 일주일 주기 예산
-                    if self.resetWeekday != 0 {
-                        closestNextDate = calendar.nextDate(after: todayFullSet,
-                                                                matching: DateComponents(hour:23,
-                                                                            minute: 59,
-                                                                            second: 59,
-                                                                            weekday: Int(self.resetWeekday)),
-                                                                matchingPolicy: .previousTimePreservingSmallerComponents)
-                    }
-                } else if period == "monthly" {
-                    // 1-2. 월 주기 예산
-                    if self.resetDay != 0 {
-                        closestNextDate = calendar.nextDate(after: todayFullSet,
-                                                                matching: DateComponents(
-                                                                    day: Int(self.resetDay),
-                                                                    hour:23,
-                                                                    minute: 59,
-                                                                    second: 59
-                                                                    ),
-                                                                matchingPolicy: .previousTimePreservingSmallerComponents)
-                    }
-                } else if period == "yearly"{
-                    // 1-3. 년 주기 예산
-                    if (self.resetDay != 0) && (self.resetMonth != 0) {
-                        closestNextDate = calendar.nextDate(after: todayFullSet,
-                                                                matching: DateComponents(
-                                                                    month: Int(self.resetMonth),
-                                                                    day: Int(self.resetDay),
-                                                                    hour:23,
-                                                                    minute: 59,
-                                                                    second: 59
-                                                                    ),
-                                                                matchingPolicy: .previousTimePreservingSmallerComponents)
-                    }
-                    
-                }
+            if self.period != nil {
+//                if period == "weekly" {
+//                    // 1-1. 일주일 주기 예산
+//                    if self.resetWeekday != 0 {
+//                        closestNextDate = calendar.nextDate(after: todayFullSet,
+//                                                                matching: DateComponents(hour:23,
+//                                                                            minute: 59,
+//                                                                            second: 59,
+//                                                                            weekday: Int(self.resetWeekday)),
+//                                                                matchingPolicy: .previousTimePreservingSmallerComponents)
+//                    }
+//                } else if period == "monthly" {
+//                    // 1-2. 월 주기 예산
+//                    if self.resetDay != 0 {
+//                        closestNextDate = calendar.nextDate(after: todayFullSet,
+//                                                                matching: DateComponents(
+//                                                                    day: Int(self.resetDay),
+//                                                                    hour:23,
+//                                                                    minute: 59,
+//                                                                    second: 59
+//                                                                    ),
+//                                                                matchingPolicy: .previousTimePreservingSmallerComponents)
+//                    }
+//                } else if period == "yearly"{
+//                    // 1-3. 년 주기 예산
+//                    if (self.resetDay != 0) && (self.resetMonth != 0) {
+//                        closestNextDate = calendar.nextDate(after: todayFullSet,
+//                                                                matching: DateComponents(
+//                                                                    month: Int(self.resetMonth),
+//                                                                    day: Int(self.resetDay),
+//                                                                    hour:23,
+//                                                                    minute: 59,
+//                                                                    second: 59
+//                                                                    ),
+//                                                                matchingPolicy: .previousTimePreservingSmallerComponents)
+//                    }
+//
+//                }
                 
-                if let nextDate = closestNextDate {
-                    let nextDayComp = calendar.dateComponents([.year, .month, .day], from: nextDate)
-                    let offSet = calendar.dateComponents([.day],
-                                                         from: DateComponents(
-                                                            year:todayComponent.year,
-                                                            month: todayComponent.month,
-                                                            day: todayComponent.day
-                                                         ),
-                                                         to: DateComponents(
-                                                            year:nextDayComp.year,
-                                                          month:nextDayComp.month,
-                                                          day:nextDayComp.day)
-                    )
-                    output=offSet.day
-                }
+//                if let nextDate = self.periodEndDate {
+                
+                let nextDayComp = calendar.dateComponents([.year, .month, .day], from: self.periodEndDate)
+                let offSet = calendar.dateComponents([.day],
+                                                     from: DateComponents(
+                                                        year:todayComponent.year,
+                                                        month: todayComponent.month,
+                                                        day: todayComponent.day
+                                                     ),
+                                                     to: DateComponents(
+                                                        year:nextDayComp.year,
+                                                      month:nextDayComp.month,
+                                                      day:nextDayComp.day)
+                )
+                output=offSet.day
+//                }
             } else {
                 // 2. 일회성 예산
                 if let start = self.startDate, let end = self.endDate {
@@ -168,6 +269,12 @@ extension BlockerEntity {
             } else {
                 return self.currentBudget
             }
+        }
+    }
+    
+    var status: String { // desc : 전체 예산 상태. View에서 good이면 웃는 블로커 / bad면 화난 블로커를 보여줌
+        get {
+            return self.currentBudgetPerBudget >= Float((self.dDay - 1) / self.periodDayCnt) ? "good" : "bad"
         }
     }
     

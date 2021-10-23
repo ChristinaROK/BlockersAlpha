@@ -135,6 +135,8 @@ struct NavigationDetail: View {
                             .background(Color("NblueLight")) // blocker padding
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                         
+                        Text("\(blocker.status)")
+                        
                         CustomText(text: blocker.name,
                                    size: 20,
                                    weight: .semibold,
