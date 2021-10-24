@@ -45,7 +45,12 @@ struct UIDetailMain: View {
                 .ignoresSafeArea()
             
             VStack {
-                CustomAssetsImage(imageName: blocker.image.name, width: 350, height: 250, corner: 0)
+                
+                if blocker.status == "good" {
+                    CustomAssetsImage(imageName: blocker.image.name, width: 350, height: 250, corner: 0)
+                } else {
+                    CustomAssetsImage(imageName: "\(blocker.image.name)-neg", width: 350, height: 250, corner: 0)
+                }
                 
                 VStack {
                     

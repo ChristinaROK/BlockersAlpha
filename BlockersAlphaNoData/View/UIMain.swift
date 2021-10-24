@@ -127,16 +127,45 @@ struct NavigationDetail: View {
                 destination: UIDetail(blocker: blocker),
                 label: {
                     HStack (spacing: 5) {
-                        CustomAssetsImage(imageName: blocker.image.name,
-                                          width: 110,
-                                          height: 80,
-                                          corner: 0)
-                            .padding(5)
-                            .background(Color("NblueLight")) // blocker padding
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         
-                        Text("\(blocker.status)")
-                        
+                        if isToday {
+                            if blocker.todayStatus == "good" {
+                                CustomAssetsImage(imageName: blocker.image.name,
+                                                  width: 110,
+                                                  height: 80,
+                                                  corner: 0)
+                                    .padding(5)
+                                    .background(Color("NblueLight")) // blocker padding
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            } else {
+                                CustomAssetsImage(imageName: "\(blocker.image.name)-neg",
+                                                  width: 110,
+                                                  height: 80,
+                                                  corner: 0)
+                                    .padding(5)
+                                    .background(Color("NblueLight")) // blocker padding
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        } else {
+                            if blocker.status == "good" {
+                                CustomAssetsImage(imageName: blocker.image.name,
+                                                  width: 110,
+                                                  height: 80,
+                                                  corner: 0)
+                                    .padding(5)
+                                    .background(Color("NblueLight")) // blocker padding
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            } else {
+                                CustomAssetsImage(imageName: "\(blocker.image.name)-neg",
+                                                  width: 110,
+                                                  height: 80,
+                                                  corner: 0)
+                                    .padding(5)
+                                    .background(Color("NblueLight")) // blocker padding
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                            }
+                        }
+
                         CustomText(text: blocker.name,
                                    size: 20,
                                    weight: .semibold,

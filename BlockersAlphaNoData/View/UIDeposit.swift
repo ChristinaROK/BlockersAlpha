@@ -93,19 +93,8 @@ struct UIDeposit: View {
                         
                         if #available(iOS 15, *) {
                             Button {
-                                // 1. historyEntity 추가 (blocker.history 도 업데이트)
-                                historyViewModel.addHistoryEntity(
-                                    blocker: blockerViewModel.currentBlockers[currentIndex],
-                                    state: currentState,
-                                    amount: amount,
-                                    date: date,
-                                    memo: memo
-                                )
                                 
                                 isSave.toggle()
-                                
-                                // 2. currentBlockers 업데이트
-                                //blockerViewModel.save()
                                 
                             } label: {
                                 CustomText(text: "추가 등록", size: 25, weight: .semibold, design: .default, color: Color.white)
@@ -116,30 +105,34 @@ struct UIDeposit: View {
                                     .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
                                     .cornerRadius(0)
                             }
-                            .alert("현재 입력한 예산 기록은 저장됩니다. 예산 기록을 추가로 등록하시겠습니까?", isPresented: $isSave,
+                            .alert("예산 기록을 추가로 등록하시겠습니까? (현재 입력한 예산 기록은 저장됩니다.)", isPresented: $isSave,
                                    actions: {
-                                Button("확인", role: .cancel, action: {
-                                    // 초기화
+                                Button("네, 좋아요!", role: .cancel) { // role "cancel" ?? 
+                                    // 1. save
+                                    historyViewModel.addHistoryEntity(
+                                        blocker: blockerViewModel.currentBlockers[currentIndex],
+                                        state: currentState,
+                                        amount: amount,
+                                        date: date,
+                                        memo: memo
+                                    )
+                                    
+                                    // 2. 초기화
                                     amount = ""
                                     date = Date()
                                     memo = ""
+                                }
+                                
+                                Button("취소", role: .destructive, action: {
                                 })
                             },
-                                   message: {}
+                               message: {}
                             )
                             .disabled(amount.isEmpty)
                         }
                         else {
                             Button {
-                                // 1. historyEntity 추가 (blocker.history 도 업데이트)
-                                historyViewModel.addHistoryEntity(
-                                    blocker: blockerViewModel.currentBlockers[currentIndex],
-                                    state: currentState,
-                                    amount: amount,
-                                    date: date,
-                                    memo: memo
-                                )
-                                
+
                                 isSave.toggle()
                                 
                                 // 2. currentBlockers 업데이트
@@ -155,16 +148,23 @@ struct UIDeposit: View {
                                     .cornerRadius(0)
                             }
                             .alert(isPresented:$isSave) {
-                                Alert(title: Text(""),
-                                      message: Text("현재 입력한 예산 기록은 저장됩니다. 예산 기록을 추가로 등록하시겠습니까?"),
-                                      dismissButton: .default(Text("확인"),
+                                Alert(title: Text("예산 기록을 추가로 등록하시겠습니까? (현재 입력한 예산 기록은 저장됩니다.)"),
+                                      primaryButton: .default(Text("네, 좋아요!"),
                                                               action: {
-                                    // 초기화
+                                    historyViewModel.addHistoryEntity(
+                                        blocker: blockerViewModel.currentBlockers[currentIndex],
+                                        state: currentState,
+                                        amount: amount,
+                                        date: date,
+                                        memo: memo
+                                    )
+                                    
                                     amount = ""
                                     date = Date()
                                     memo = ""
-                                }                            )
-                                )
+                                    
+                                }),
+                                      secondaryButton: .destructive(Text("취소")))
                             }
                             .disabled(amount.isEmpty)
                         }

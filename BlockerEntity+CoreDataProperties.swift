@@ -33,7 +33,7 @@ extension BlockerEntity {
     // TODO: histories predicate로 spend & earn 가져오기
     var currentBudget: Float { // desc : 기간 내 남은 예산
         get {
-            return budget + earned - spent
+            return self.budget + self.earned - spent + self.periodEarn - self.periodSpend
         }
     }
     
@@ -49,6 +49,15 @@ extension BlockerEntity {
             calendar.locale = Locale.init(identifier: "ko_KR") //TODO: hard coding 제거
             calendar.timeZone = TimeZone.init(identifier: "Asia/Seoul")! //TODO: hard coding 제거
             return calendar
+        }
+    }
+    
+    var todayComponent: DateComponents { // desc : Helping Property
+        get {
+            let calendar = customCalendar
+            let todayComponent = calendar.dateComponents([.year, .month, .day],
+                                                         from: Date())
+            return todayComponent
         }
     }
     
@@ -161,9 +170,8 @@ extension BlockerEntity {
     var dDay: Int { // desc : 예산 종료까지 남은 일자
         get {
 
-            let calendar = customCalendar
-            let todayComponent = calendar.dateComponents([.year, .month, .day],
-                                                         from: Date())
+            let calendar = self.customCalendar
+            let todayComponent = self.todayComponent
             
             var output: Int?
             
@@ -274,9 +282,77 @@ extension BlockerEntity {
     
     var status: String { // desc : 전체 예산 상태. View에서 good이면 웃는 블로커 / bad면 화난 블로커를 보여줌
         get {
-            return self.currentBudgetPerBudget >= Float((self.dDay - 1) / self.periodDayCnt) ? "good" : "bad"
+            return self.currentBudgetPerBudget >= (Float(self.dDay - 1) / Float(self.periodDayCnt)) ? "good" : "bad"
         }
     }
+    
+    var periodHistoryArray: Array<HistoryEntity> {
+        get {
+            var periodArray: Array<HistoryEntity> = []
+            
+            for history in Array(self.histories as? Set<HistoryEntity> ?? []) {
+                if (history.date >= self.periodStartDate) && (history.date < self.periodEndDate) {
+                    periodArray.append(history)
+                }
+            }
+            return periodArray
+        }
+    }
+    
+    var periodSpend: Float {
+        get {
+            var total: Float = 0
+            
+            for history in self.periodHistoryArray {
+                if history.spend > 0 {
+                    total+=history.spend
+                }
+            }
+            return total
+        }
+    }
+
+    var periodEarn: Float {
+        get {
+            var total: Float = 0
+            
+            for history in self.periodHistoryArray {
+                if history.earn > 0 {
+                    total+=history.earn
+                }
+            }
+            return total
+        }
+    }
+    
+    var todayNetSpend: Float {
+        get {
+            let calendar = self.customCalendar
+            let todayComponent = self.todayComponent
+            var todaySpend: Float = 0
+            var todayEarn: Float = 0
+            
+            for history in self.periodHistoryArray {
+                if calendar.dateComponents([.year,.month,.day], from: history.date) == todayComponent {
+                    if history.spend > 0 {
+                        todaySpend += history.spend
+                    }
+                    if history.earn > 0 {
+                        todayEarn += history.earn
+                    }
+                }
+            }
+            
+            return (todaySpend - todayEarn) > 0 ? (todaySpend - todayEarn) : 0
+        }
+    }
+    
+    var todayStatus: String {
+        get {
+            return (self.todayNetSpend > 0) && (self.todayNetSpend > self.todayBudget) ? "bad" : "good"
+        }
+    }
+
     
     
     
