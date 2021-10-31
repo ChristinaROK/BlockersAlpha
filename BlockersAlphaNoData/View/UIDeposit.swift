@@ -49,8 +49,14 @@ struct UIDeposit: View {
                             .padding()
                         
                         VStack {
-                            CustomAssetsImage(imageName:
-                                                blockerViewModel.currentBlockers[currentIndex].image.name, width: 200, height: 150, corner: 0)
+                            if blockerViewModel.currentBlockers[currentIndex].status == "good" {
+                                CustomAssetsImage(imageName:
+                                                    blockerViewModel.currentBlockers[currentIndex].image.name, width: 200, height: 150, corner: 0)
+                            } else {
+                                CustomAssetsImage(imageName:
+                                                    "\(blockerViewModel.currentBlockers[currentIndex].image.name)-neg", width: 200, height: 150, corner: 0)
+                            }
+                            
                             CustomText(text: "\(blockerViewModel.currentBlockers[currentIndex].name)", size: 25, weight: .bold, design: .default, color: Color.black)
                         }
                         
@@ -80,6 +86,7 @@ struct UIDeposit: View {
                             
                             // TODO: customized number keyboard로 바꿀 것 (직접 구현!!!)
                             TextField("amount", text: $amount)
+                                
                             
                             // TODO: scrolling calendar로 바꿀 것
                             DatePicker("date", selection: $date, displayedComponents: .date)
@@ -128,7 +135,7 @@ struct UIDeposit: View {
                             },
                                message: {}
                             )
-                            .disabled(amount.isEmpty)
+                            //.disabled(amount.isEmpty)
                         }
                         else {
                             Button {
@@ -166,7 +173,7 @@ struct UIDeposit: View {
                                 }),
                                       secondaryButton: .destructive(Text("취소")))
                             }
-                            .disabled(amount.isEmpty)
+                            //.disabled(amount.isEmpty)
                         }
                         
                         
@@ -198,7 +205,7 @@ struct UIDeposit: View {
                                 .overlay(Rectangle().stroke(Color.white, lineWidth: 2))
                                 .cornerRadius(0)
                         }
-                        .disabled(amount.isEmpty)
+                        //.disabled(amount.isEmpty)
                         
                     }
                     .padding()
@@ -208,16 +215,19 @@ struct UIDeposit: View {
                     CustomText(text: "⚠️ 예산 블록을 먼저 만들어주세요", size: 20, weight: .bold, design: .default, color: .black)
                 }
             }
-            .navigationBarItems(leading:
-                                    Button {
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                CustomSFImage(imageName: "arrow.backward", width: 25, height: 22, corner: 0)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        CustomSFImage(imageName: "arrow.backward", width: 25, height: 22, corner: 0)
+                    }
+
+                }
             }
-                                
-            )
             .navigationBarTitle("예산 기록", displayMode: .inline)
         }
+        
     }
     
     func rightClick(curIndex:Int, len:Int) -> Int {

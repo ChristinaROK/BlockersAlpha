@@ -16,12 +16,20 @@ struct UIDetail: View {
         TabView(selection: $currentIndex) {
             
             UIDetailMain(blocker: blocker)
-                .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
+                .toolbar(content: {
+                    ToolbarItemGroup(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                        CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
+                    }
+                })
                 .navigationBarTitle(blocker.name, displayMode: .inline)
                 .tag(0)
             
             UIDailyStats(blocker: blocker)
-                .navigationBarItems(trailing: CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30))
+                .toolbar(content: {
+                    ToolbarItemGroup(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                        CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
+                    }
+                })
                 .navigationBarTitle(blocker.name, displayMode: .inline)
                 .tag(1)
             

@@ -42,20 +42,20 @@ struct UIMain: View {
                     ForEach(blockerViewModel.currentBlockers) { blocker in
                         NavigationDetail(isToday: $istoday, blocker: blocker)
                     }
-//                    .onMove(perform: blockerViewModel.moveBlocker)
-//                    .onDelete { indexSet in
-//                        self.indexSet = indexSet
-//                        showingDeleteAlert = true
-//                    }
-//                    .alert(isPresented: $showingDeleteAlert, content: {
-//                        Alert(title: Text("블로커 삭제"),
-//                              message: Text("블로커를 삭제하면 기존 데이터가 모두 삭제됩니다."),
-//                              primaryButton: .destructive(Text("삭제"), action: {
-//                                blockerViewModel.deleteBlocker(indexSet: self.indexSet)
-//                              }),
-//                              secondaryButton: .cancel(Text("취소")))
-//                    })
-
+                    //                    .onMove(perform: blockerViewModel.moveBlocker)
+                    //                    .onDelete { indexSet in
+                    //                        self.indexSet = indexSet
+                    //                        showingDeleteAlert = true
+                    //                    }
+                    //                    .alert(isPresented: $showingDeleteAlert, content: {
+                    //                        Alert(title: Text("블로커 삭제"),
+                    //                              message: Text("블로커를 삭제하면 기존 데이터가 모두 삭제됩니다."),
+                    //                              primaryButton: .destructive(Text("삭제"), action: {
+                    //                                blockerViewModel.deleteBlocker(indexSet: self.indexSet)
+                    //                              }),
+                    //                              secondaryButton: .cancel(Text("취소")))
+                    //                    })
+                    
                     
                     //                        .onLongPressGesture {
                     //                            withAnimation {
@@ -76,21 +76,14 @@ struct UIMain: View {
             
             SheetDeposit(showingDepositSheet: showingDepositSheet, blockerViewModel: blockerViewModel, historyViewModel: historyViewModel)
         }
-        .navigationBarItems(leading:
-                                HStack{
-//                                    CustomText(text: "Today",
-//                                               size: 17,
-//                                               weight: .bold,
-//                                               design: .default,
-//                                               color: .blue)
-                                    
-                                    Toggle("TODAY", isOn: $istoday)
-                                        .labelsHidden()
-                                }
-                                .padding(.vertical)
-                            ,
-                            trailing: EditButton())
-        
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarLeading, content: {
+                Toggle("TODAY", isOn: $istoday)
+                    .toggleStyle(SwitchToggleStyle(tint: Color("NblueLight")))
+            })
+            // [TODO] navigationBarTrailing 위치에 EditButton() 둘지 말지 결정
+        }
+        )
     }
 }
 
@@ -165,7 +158,7 @@ struct NavigationDetail: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             }
                         }
-
+                        
                         CustomText(text: blocker.name,
                                    size: 20,
                                    weight: .semibold,
@@ -232,10 +225,10 @@ struct NavigationDetail: View {
                 }
             )
             
-
-                
+            
+            
         }
-
+        
     }
 }
 
@@ -285,18 +278,18 @@ struct SheetDeposit: View {
             Spacer()
             
             Button{showingDepositSheet.toggle()}
-                label: {
-                    CustomSFImage(imageName: "plus.circle.fill", renderMode: .template, width: 80, height: 80, corner: 0, color: Color("Ngreen"))
-                        .cornerRadius(38.5)
-                        .shadow(color: Color("NgreenLight"), radius: 8, x: 3, y: 3)
-                        .padding()
-                }
-                .sheet(isPresented: $showingDepositSheet, content: {
-                    UIDeposit()
-                        .environmentObject(blockerViewModel)
-                        .environmentObject(historyViewModel)
-                    
-                })
+        label: {
+            CustomSFImage(imageName: "plus.circle.fill", renderMode: .template, width: 80, height: 80, corner: 0, color: Color("Ngreen"))
+                .cornerRadius(38.5)
+                .shadow(color: Color("NgreenLight"), radius: 8, x: 3, y: 3)
+                .padding()
+        }
+        .sheet(isPresented: $showingDepositSheet, content: {
+            UIDeposit()
+                .environmentObject(blockerViewModel)
+                .environmentObject(historyViewModel)
+            
+        })
         }
     }
 }
