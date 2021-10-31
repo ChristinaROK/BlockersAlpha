@@ -112,9 +112,15 @@ struct NavigationDetail: View {
         ZStack(alignment: .leading) {
             
             // background Color
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color("Ngreen"))
-                .frame(width: 300*CGFloat(blocker.currentBudgetPerBudget), height: 120) // [TODO] change color conditionally
+            if isToday {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color("Ngreen"))
+                    .frame(width: 300*CGFloat(blocker.todayBudgetPerBudget>0 ? blocker.todayBudgetPerBudget : 0), height: 120) // [TODO] change color conditionally
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color("Ngreen"))
+                    .frame(width: 300*CGFloat(blocker.currentBudgetPerBudget>0 ? blocker.currentBudgetPerBudget : 0), height: 120) // [TODO] change color conditionally
+            }
             
             NavigationLink(
                 destination: UIDetail(blocker: blocker),

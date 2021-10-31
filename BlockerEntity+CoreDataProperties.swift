@@ -325,31 +325,34 @@ extension BlockerEntity {
         }
     }
     
-    var todayNetSpend: Float {
+    var todaySpend: Float {
         get {
             let calendar = self.customCalendar
             let todayComponent = self.todayComponent
-            var todaySpend: Float = 0
-            var todayEarn: Float = 0
+            var total: Float = 0
             
             for history in self.periodHistoryArray {
                 if calendar.dateComponents([.year,.month,.day], from: history.date) == todayComponent {
                     if history.spend > 0 {
-                        todaySpend += history.spend
+                        total += history.spend
                     }
-                    if history.earn > 0 {
-                        todayEarn += history.earn
-                    }
+                    
                 }
             }
             
-            return (todaySpend - todayEarn) > 0 ? (todaySpend - todayEarn) : 0
+            return total
         }
     }
     
     var todayStatus: String {
         get {
-            return (self.todayNetSpend > 0) && (self.todayNetSpend > self.todayBudget) ? "bad" : "good"
+            return self.todaySpend > self.todayBudget ? "bad" : "good"
+        }
+    }
+    
+    var todayBudgetPerBudget: Float { // desc : 전체 예산에서 남은 예산이 차지하는 비율 (=HP)
+        get {
+            return (self.todayBudget - self.todaySpend) / self.todayBudget
         }
     }
 

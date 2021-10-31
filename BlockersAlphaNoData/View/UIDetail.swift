@@ -89,7 +89,7 @@ struct UIDetailMain: View {
                         // 2. HP 색상
                         RoundedRectangle(cornerRadius: 5)
                             .fill(Color.red)
-                            .frame(width: 350*CGFloat(blocker.currentBudgetPerBudget), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
+                            .frame(width: 350*CGFloat(blocker.currentBudgetPerBudget > 0 ? blocker.currentBudgetPerBudget : 0), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
                         
                         // 3. 텍스트
                         CustomText(text: "\(Int(blocker.currentBudgetPerBudget*100)) %", size: 15, weight: .bold, design: .default, color: .white)
