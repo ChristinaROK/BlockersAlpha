@@ -270,13 +270,9 @@ extension BlockerEntity {
         }
     }
     
-    var todayBudget: Float { // desc: 오늘 사용 가능한(남은) 예산 (temp: 예산이 음수인 경우는 그대로 출력)
+    var todayBudget: Float { // desc: 오늘자 총 예산 (temp: 예산이 음수인 경우는 그대로 출력)
         get {
-            if self.currentBudget >= 0 {
-                return self.currentBudget / Float(self.dDay == 0 ? 1 : self.dDay)
-            } else {
-                return self.currentBudget
-            }
+            return (self.currentBudget - self.todayEarn + self.todaySpend) / Float(dDay)
         }
     }
     
@@ -344,15 +340,40 @@ extension BlockerEntity {
         }
     }
     
+    var todayEarn: Float {
+        get {
+            let calendar = self.customCalendar
+            let todayComponent = self.todayComponent
+            var total: Float = 0
+            
+            for history in self.periodHistoryArray {
+                if calendar.dateComponents([.year,.month,.day], from: history.date) == todayComponent {
+                    if history.earn > 0 {
+                        total += history.earn
+                    }
+                    
+                }
+            }
+            
+            return total
+        }
+    }
+    
+    var todayCurrentBudget: Float {
+        get {
+            return self.todayBudget + self.todayEarn - self.todaySpend
+        }
+    }
+    
     var todayStatus: String {
         get {
             return self.todaySpend > self.todayBudget ? "bad" : "good"
         }
     }
     
-    var todayBudgetPerBudget: Float { // desc : 전체 예산에서 남은 예산이 차지하는 비율 (=HP)
+    var todayCurrentBudgetPerTodayBudget: Float { // desc : 전체 예산에서 남은 예산이 차지하는 비율 (=HP)
         get {
-            return (self.todayBudget - self.todaySpend) / self.todayBudget
+            return self.todayCurrentBudget / self.todayBudget
         }
     }
 

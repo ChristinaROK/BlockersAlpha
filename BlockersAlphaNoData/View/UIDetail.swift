@@ -54,11 +54,20 @@ struct UIDetailMain: View {
             
             VStack {
                 
-                if blocker.status == "good" {
-                    CustomAssetsImage(imageName: blocker.image.name, width: 350, height: 250, corner: 0)
+                if isToday {
+                    if blocker.todayStatus == "good" {
+                        CustomAssetsImage(imageName: blocker.image.name, width: 350, height: 250, corner: 0)
+                    } else {
+                        CustomAssetsImage(imageName: "\(blocker.image.name)-neg", width: 350, height: 250, corner: 0)
+                    }
                 } else {
-                    CustomAssetsImage(imageName: "\(blocker.image.name)-neg", width: 350, height: 250, corner: 0)
+                    if blocker.status == "good" {
+                        CustomAssetsImage(imageName: blocker.image.name, width: 350, height: 250, corner: 0)
+                    } else {
+                        CustomAssetsImage(imageName: "\(blocker.image.name)-neg", width: 350, height: 250, corner: 0)
+                    }
                 }
+                
                 
                 VStack {
                     
@@ -86,19 +95,28 @@ struct UIDetailMain: View {
                             .stroke(lineWidth: 2)
                             .frame(width: 350, height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
                         
-                        // 2. HP 색상
-                        RoundedRectangle(cornerRadius: 5)
-                            .fill(Color.red)
-                            .frame(width: 350*CGFloat(blocker.currentBudgetPerBudget > 0 ? blocker.currentBudgetPerBudget : 0), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
+                        if isToday {
+                            // 2. HP 색상
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(Color.red)
+                                .frame(width: 350*CGFloat(blocker.todayCurrentBudgetPerTodayBudget > 0 ? blocker.todayCurrentBudgetPerTodayBudget : 0), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
+                            
+                            // 3. 텍스트
+                            CustomText(text: "\(Int(blocker.todayCurrentBudgetPerTodayBudget*100)) %", size: 15, weight: .bold, design: .default, color: .white)
+                                .padding(.horizontal)
+                        } else {
+                            // 2. HP 색상
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(Color.red)
+                                .frame(width: 350*CGFloat(blocker.currentBudgetPerBudget > 0 ? blocker.currentBudgetPerBudget : 0), height: 30) // TODO: size 절대값으로 넣은 것을 제거해야함
+                            
+                            // 3. 텍스트
+                            CustomText(text: "\(Int(blocker.currentBudgetPerBudget*100)) %", size: 15, weight: .bold, design: .default, color: .white)
+                                .padding(.horizontal)
+                        }
                         
-                        // 3. 텍스트
-                        CustomText(text: "\(Int(blocker.currentBudgetPerBudget*100)) %", size: 15, weight: .bold, design: .default, color: .white)
-                            .padding(.horizontal)
                     }
                     .padding()
-                    
-                    
-                    
                     
                 }
                 
@@ -110,10 +128,9 @@ struct UIDetailMain: View {
                     }
                     
                     if isToday {
-                        // TODO: 해당 variable model 생성한 후 적용하기
-                        DetailShowView(explainText: "오늘 지출", infoText: IntOrFloat.float(-999))
+                        DetailShowView(explainText: "오늘 지출", infoText: IntOrFloat.float(blocker.todaySpend))
                     } else {
-                        DetailShowView(explainText: "현재까지 지출", infoText: IntOrFloat.float(blocker.spent))
+                        DetailShowView(explainText: "현재까지 지출", infoText: IntOrFloat.float(blocker.periodSpend))
                     }
                     
                     DetailShowView(explainText: "예산 만료일까지 남은 기간", infoText: IntOrFloat.int(blocker.dDay))

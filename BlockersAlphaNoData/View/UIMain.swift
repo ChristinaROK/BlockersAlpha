@@ -115,7 +115,7 @@ struct NavigationDetail: View {
             if isToday {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color("Ngreen"))
-                    .frame(width: 300*CGFloat(blocker.todayBudgetPerBudget>0 ? blocker.todayBudgetPerBudget : 0), height: 120) // [TODO] change color conditionally
+                    .frame(width: 300*CGFloat(blocker.todayCurrentBudgetPerTodayBudget>0 ? blocker.todayCurrentBudgetPerTodayBudget : 0), height: 120) // [TODO] change color conditionally
             } else {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color("Ngreen"))
@@ -180,7 +180,7 @@ struct NavigationDetail: View {
                                 
                                 HStack { // 오른쪽 정렬
                                     Spacer()
-                                    CustomText(text: "\(blocker.todayBudget.currencyRepresentation) 남음",
+                                    CustomText(text: "\(blocker.todayCurrentBudget.currencyRepresentation) 남음",
                                                size: 13,
                                                weight: .semibold,
                                                design: .rounded,
