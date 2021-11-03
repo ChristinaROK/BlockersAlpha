@@ -171,3 +171,15 @@ struct DetailShowView: View {
 }
 
 
+//struct UIDetail_Previews: PreviewProvider {
+//
+//    static var previews: some View {
+//        NavigationView {
+//            UIDetail(blocker: <#T##BlockerEntity#>)
+//
+//        }
+//        .environmentObject(ImageCoreDataViewModel())
+//        .environmentObject(BlockerCoreDataViewModel())
+//
+//    }
+//}
