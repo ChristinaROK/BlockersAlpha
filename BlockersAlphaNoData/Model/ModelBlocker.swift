@@ -141,6 +141,15 @@ let weekdays2int: [String:Int] = ["일요일" : 1,
                               "목요일" : 5,
                               "금요일" : 6,
                               "토요일" : 7]
+let int2weekdays: [Int:String] = [
+    1: "일요일",
+    2: "월요일",
+    3: "화요일",
+    4:"수요일",
+    5:"목요일",
+    6:"금요일",
+    7:"토요일"
+]
 
 //var days2int1: [String:Int] = ["1 일" : 1, "말 일" : 31]
 //var days2int2: [String:Int] = Dictionary(uniqueKeysWithValues: zip((2...31).map { "\($0) 일" }, 2...31))
@@ -149,6 +158,17 @@ let weekdays2int: [String:Int] = ["일요일" : 1,
 let days2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customDates, (1...31)))
 
 let month2int: [String:Int] = Dictionary(uniqueKeysWithValues: zip(customMonth, (1...12)))
+
+let period2kor: [String:String] = ["weekly" : "주간",
+                                   "monthly" : "월간",
+                                   "yearly" : "연간",
+                                   "temp" : "일회성"
+                                    ]
+
+enum CustomPeriod: String, CaseIterable, Identifiable {
+    case 주간, 월간, 연간, 일회성
+    var id: String { self.rawValue }
+}
 
 
 /*
