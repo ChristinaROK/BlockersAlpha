@@ -80,6 +80,12 @@ class BlockerCoreDataViewModel: ObservableObject {
         save()
     }
     
+    func updateBlockerEntity(blocker: BlockerEntity, name: String) {
+        blocker.name = name
+        
+        save()
+    }
+    
     func deleteBlockerEntity(index: Int) { // TODO: input parameter를 IndexSet으로 변환
         
         let rmBlocker = currentBlockers[index]

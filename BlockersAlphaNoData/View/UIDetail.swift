@@ -9,7 +9,9 @@ import SwiftUI
 
 struct UIDetail: View {
     
+    @EnvironmentObject var blockerViewModel : BlockerCoreDataViewModel
     var blocker: BlockerEntity
+    @State private var isShowingSheet = false
     @State private var currentIndex = 0
     
     var body: some View {
@@ -18,18 +20,36 @@ struct UIDetail: View {
             UIDetailMain(blocker: blocker)
                 .toolbar(content: {
                     ToolbarItemGroup(placement: ToolbarItemPlacement.navigationBarTrailing) {
-                        CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
+                        Button {
+                            isShowingSheet.toggle()
+                        } label: {
+                            CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
+                        }
+                        .sheet(isPresented: $isShowingSheet) {
+                            // dismiss closure
+                        } content: {
+                            UIEditBlocker(blocker: blocker)
+                                .environmentObject(blockerViewModel)
+                        }
+
+                        
+
+//                        NavigationLink {
+//                            UIEditBlocker(blocker: blocker)
+//                        } label: {
+//                            CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
+//                        }
                     }
                 })
                 .navigationBarTitle(blocker.name, displayMode: .inline)
                 .tag(0)
             
             UIDailyStats(blocker: blocker)
-                .toolbar(content: {
-                    ToolbarItemGroup(placement: ToolbarItemPlacement.navigationBarTrailing) {
-                        CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
-                    }
-                })
+//                .toolbar(content: {
+//                    ToolbarItemGroup(placement: ToolbarItemPlacement.navigationBarTrailing) {
+//                        CustomSFImage(imageName: "square.and.pencil", width: 30, height: 30)
+//                    }
+//                })
                 .navigationBarTitle(blocker.name, displayMode: .inline)
                 .tag(1)
             
